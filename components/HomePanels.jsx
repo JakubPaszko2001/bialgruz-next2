@@ -46,7 +46,7 @@ function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, 
         }}
       />
 
-      <div className="relative z-[2] flex max-w-[380px] flex-col pt-2 md:self-center md:pt-0">
+      <div className="relative z-[2] flex max-w-[380px] flex-col pt-2 md:pt-0">
         <h2 className="mb-7 font-display font-black uppercase leading-[0.88] tracking-[-1px]">
           <span className="block text-[clamp(40px,9vw,80px)] text-white">{title1}</span>
           <span className="block text-[clamp(40px,9vw,80px)] text-brand-yellow">{title2}</span>
@@ -74,15 +74,27 @@ function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, 
           <ArrowIcon />
         </Link>
 
-        <div className={`mx-auto my-auto block w-[65%] max-w-[240px] md:pointer-events-none md:absolute md:my-0 md:-z-10 md:w-auto md:max-w-none ${imgClass}`}>
+        {/* Mobile: obrazek pod CTA, wyśrodkowany w wolnej przestrzeni */}
+        <div className="mx-auto my-auto block w-[65%] max-w-[240px] md:hidden">
           <Image
             src={img}
             alt={imgAlt}
             width={600}
             height={800}
-            className="w-full drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105"
+            className="w-full drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)]"
           />
         </div>
+      </div>
+
+      {/* Desktop: obrazek w prawej przestrzeni panelu */}
+      <div className={`pointer-events-none absolute z-[1] hidden md:block ${imgClass}`}>
+        <Image
+          src={img}
+          alt={imgAlt}
+          width={600}
+          height={800}
+          className="w-full drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105"
+        />
       </div>
     </motion.div>
   );
@@ -126,7 +138,7 @@ export default function HomePanels() {
         href="/toalety-przenosne"
         img="/toaleta-bialgruz.png"
         imgAlt="Toaleta przenośna Białgruz"
-        imgClass="md:right-[-10px] md:top-1/2 md:w-[42%] md:-translate-y-1/2"
+        imgClass="right-[-10px] top-1/2 w-[42%] -translate-y-1/2"
       />
 
       <Panel
@@ -158,7 +170,7 @@ export default function HomePanels() {
         href="/kontenery"
         img="/kontener-bialgruz.png"
         imgAlt="Kontener na gruz Białgruz"
-        imgClass="md:right-[-20px] md:bottom-[15%] md:w-[56%]"
+        imgClass="right-[-20px] bottom-[15%] w-[56%]"
       />
     </div>
   );
