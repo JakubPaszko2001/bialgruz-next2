@@ -463,16 +463,32 @@ export default function OrderForm({ mode = "kontenery" }) {
 
     const table = TABLE_BY_MODE[mode] || TABLE_BY_MODE.kontenery;
     const prefix = PREFIX_BY_MODE[mode] || PREFIX_BY_MODE.kontenery;
+
+    // Otwieramy pustą kartę od razu (w geście kliknięcia), żeby popup blocker nie zablokował
+    const signWin = isToilet ? window.open("", "_blank") : null;
+
     setSubmitting(true);
     setSubmitError("");
     try {
       const numerZlecenia = await generateOrderNumber(table, prefix);
-      const { error } = await supabase.from(table).insert([{ ...payload, numerZlecenia }]);
+      const { data: inserted, error } = await supabase
+        .from(table)
+        .insert([{ ...payload, numerZlecenia }])
+        .select("id")
+        .single();
       if (error) throw error;
       setOrderNumber(numerZlecenia);
       setSubmitted(true);
+
+      // Strona podpisu umowy w nowej karcie (tylko toalety)
+      if (signWin && inserted?.id) {
+        signWin.location.href = `/umowa/toaleta/${inserted.id}`;
+      } else if (signWin) {
+        signWin.close();
+      }
     } catch (err) {
       console.error("Błąd zapisu zamówienia:", err);
+      signWin?.close();
       const detail = err?.message || err?.details || err?.hint || "";
       setSubmitError(
         `Nie udało się wysłać zamówienia. Spróbuj ponownie lub zadzwoń do nas.${detail ? ` (${detail})` : ""}`

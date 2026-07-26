@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown, FaFilePdf, FaFileContract, FaSignOutAlt } from "react-icons/fa";
-import { downloadUmowaPdf } from "./umowaPdf";
+import { downloadUmowaPdf, orderToUmowaData } from "./umowaPdf";
 
 /* ── Style tokens (spójne z formularzem zamówień) ── */
 const inputCls =
@@ -213,45 +213,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
 
   // Umowa PDF wypełniona danymi zamówienia (ten sam szablon co w formularzu)
   const handleDownloadUmowa = async (order) => {
-    const plDate = (v) => (v ? new Date(v).toLocaleDateString("pl-PL") : "");
-    const ru = order.rodzajuslugi || "";
-    const typ = /umywalk/i.test(ru) ? "Z umywalką" : /standard/i.test(ru) ? "Standardowa" : /pakiet/i.test(ru) ? "wg pakietu" : "";
-    const serw = ru.match(/(\d+)\s*serwis/i);
-    const equip = (() => {
-      const part = (order.message || "").split(/Wyposażenie:/i)[1];
-      if (!part) return "Brak";
-      return (
-        part
-          .split("\n")
-          .map((s) => s.replace(/^[•\s]+/, "").trim())
-          .filter(Boolean)
-          .join(", ") || "Brak"
-      );
-    })();
-    const addr = order.koordynaty
-      ? order.koordynaty
-      : [order.address, `${order.postcode || ""} ${order.city || ""}`.trim()].filter(Boolean).join(", ");
-
-    const data = {
-      data_awarcia: plDate(order.dataUtworzenia) || new Date().toLocaleDateString("pl-PL"),
-      nr_umowy: order.numerZlecenia || "",
-      zleceniodawca_nazwa: (order.nip || "").trim() || [order.name, order.forname].filter(Boolean).join(" "),
-      zleceniodawca_nip: order.nip || "",
-      zleceniodawca_adres: addr,
-      zleceniodawca_tel: order.phone || "",
-      zleceniodawca_email: order.email || "",
-      lokalizajca: addr,
-      ilosc_kabin: order.ilosc != null ? String(order.ilosc) : "",
-      typ_kabiny: typ,
-      wyposazenie: equip,
-      liczba_serwisow: serw ? serw[1] : "",
-      data_podstawienia: plDate(order.dataDostawy),
-      data_zakonczenia: "",
-      cena_jednostkowa: "",
-      cena_laczna: order.szacowany || "",
-    };
-
-    await downloadUmowaPdf(data, `umowa_${order.numerZlecenia || order.id}.pdf`);
+    await downloadUmowaPdf(orderToUmowaData(order), `umowa_${order.numerZlecenia || order.id}.pdf`);
   };
 
   const fmtCell = (order, field) => {

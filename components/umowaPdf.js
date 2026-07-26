@@ -1,3 +1,50 @@
+const plDate = (v) => (v ? new Date(v).toLocaleDateString("pl-PL") : "");
+
+// Mapuje rekord zamówienia z bazy na dane szablonu umowy
+export function orderToUmowaData(order) {
+  const ru = order.rodzajuslugi || "";
+  const typ = /umywalk/i.test(ru) ? "Z umywalką" : /standard/i.test(ru) ? "Standardowa" : /pakiet/i.test(ru) ? "wg pakietu" : "";
+  const serw = ru.match(/(\d+)\s*serwis/i);
+  const equip = (() => {
+    const part = (order.message || "").split(/Wyposażenie:/i)[1];
+    if (!part) return "Brak";
+    return (
+      part
+        .split("\n")
+        .map((s) => s.replace(/^[•\s]+/, "").trim())
+        .filter(Boolean)
+        .join(", ") || "Brak"
+    );
+  })();
+  const addr = order.koordynaty
+    ? order.koordynaty
+    : [order.address, `${order.postcode || ""} ${order.city || ""}`.trim()].filter(Boolean).join(", ");
+  return {
+    data_awarcia: plDate(order.dataUtworzenia),
+    nr_umowy: order.numerZlecenia || "",
+    zleceniodawca_nazwa: (order.nip || "").trim() || [order.name, order.forname].filter(Boolean).join(" "),
+    zleceniodawca_nip: order.nip || "",
+    zleceniodawca_adres: addr,
+    zleceniodawca_tel: order.phone || "",
+    zleceniodawca_email: order.email || "",
+    lokalizajca: addr,
+    ilosc_kabin: order.ilosc != null ? String(order.ilosc) : "",
+    typ_kabiny: typ,
+    wyposazenie: equip,
+    liczba_serwisow: serw ? serw[1] : "",
+    data_podstawienia: plDate(order.dataDostawy),
+    data_zakonczenia: "",
+    cena_jednostkowa: "",
+    cena_laczna: order.szacowany || "",
+  };
+}
+
+// Zwraca wypełniony HTML szablonu (do podglądu w iframe)
+export async function buildUmowaHtml(data) {
+  const raw = await (await fetch("/Umowa.html")).text();
+  return raw.replace(/\{\{(\w+)\}\}/g, (_, k) => (data[k] != null ? data[k] : ""));
+}
+
 // Wypełnia szablon /Umowa.html danymi i generuje PDF przez jsPDF (jak w panelu — z fontem DejaVu,
 // polskie znaki OK, tekst zaznaczalny). Bez html2canvas (to dawało pustą stronę).
 export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf") {
@@ -103,6 +150,8 @@ export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf") {
       const half = maxW / 2;
       doc.setFontSize(10);
       doc.setTextColor(52, 73, 94);
+      // Podpis zamawiającego (jeśli podano) nad linią
+      if (data._signature) doc.text(data._signature, margin + half, y - 4);
       doc.text("__________________________", margin, y);
       doc.text("__________________________", margin + half, y);
       y += 16;
