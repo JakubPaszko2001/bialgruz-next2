@@ -19,6 +19,8 @@ export function orderToUmowaData(order) {
   const addr = order.koordynaty
     ? order.koordynaty
     : [order.address, `${order.postcode || ""} ${order.city || ""}`.trim()].filter(Boolean).join(", ");
+  // Podpis + data/godzina z pola message (zapisane przy podpisaniu)
+  const sig = (order.message || "").match(/Podpisano elektronicznie przez:\s*(.+?)(?:\s+—\s+(.+))?\s*$/m);
   return {
     data_awarcia: plDate(order.dataUtworzenia),
     nr_umowy: order.numerZlecenia || "",
@@ -36,6 +38,8 @@ export function orderToUmowaData(order) {
     data_zakonczenia: "",
     cena_jednostkowa: "",
     cena_laczna: order.szacowany || "",
+    _signature: sig ? sig[1].trim() : "",
+    _signedAt: sig && sig[2] ? sig[2].trim() : "",
   };
 }
 
@@ -145,18 +149,26 @@ export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf") {
       continue;
     }
     if (tag === "TABLE" && c.includes("signatures")) {
-      ensure(70);
+      ensure(80);
       y += 34;
       const half = maxW / 2;
       doc.setFontSize(10);
       doc.setTextColor(52, 73, 94);
-      // Podpis zamawiającego (jeśli podano) nad linią
+      // Podpisy nad liniami: po lewej stały podpis firmy, po prawej podpis zamawiającego
+      doc.text("Jarosław Czerniawski", margin, y - 4);
       if (data._signature) doc.text(data._signature, margin + half, y - 4);
       doc.text("__________________________", margin, y);
       doc.text("__________________________", margin + half, y);
       y += 16;
       doc.text("Zleceniobiorca", margin + 50, y);
       doc.text("Zleceniodawca", margin + half + 50, y);
+      // Data i godzina podpisu po stronie zamawiającego
+      if (data._signedAt) {
+        y += 14;
+        doc.setFontSize(8.5);
+        doc.setTextColor(90, 90, 90);
+        doc.text(`Podpisano: ${data._signedAt}`, margin + half, y);
+      }
       y += 20;
       continue;
     }

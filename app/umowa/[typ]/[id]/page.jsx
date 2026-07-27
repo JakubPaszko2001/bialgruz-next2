@@ -46,9 +46,13 @@ export default function UmowaSignPage() {
     setError("");
     setSubmitting(true);
     try {
-      await downloadUmowaPdf({ ...data, _signature: name.trim() }, `umowa_${order.numerZlecenia || id}.pdf`);
-      // Zapis podpisu do zamówienia
-      const message = `${order.message ? order.message + "\n" : ""}Podpisano elektronicznie przez: ${name.trim()}`;
+      const signedAt = new Date().toLocaleString("pl-PL");
+      await downloadUmowaPdf(
+        { ...data, _signature: name.trim(), _signedAt: signedAt },
+        `umowa_${order.numerZlecenia || id}.pdf`
+      );
+      // Zapis podpisu (imię + data/godzina) do zamówienia
+      const message = `${order.message ? order.message + "\n" : ""}Podpisano elektronicznie przez: ${name.trim()} — ${signedAt}`;
       await supabase.from(table).update({ message }).eq("id", id);
       setDone(true);
     } catch (err) {

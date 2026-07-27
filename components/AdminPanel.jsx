@@ -369,7 +369,16 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
                   ))}
                 </div>
               </div>
-              <div className="flex shrink-0 justify-end gap-3 border-t border-[#2a2b30] px-5 py-4">
+              <div className="flex shrink-0 flex-wrap items-center justify-end gap-3 border-t border-[#2a2b30] px-5 py-4">
+                {showUmowa && (
+                  <button
+                    onClick={() => handleDownloadUmowa(editOrder)}
+                    className="mr-auto rounded-full border border-[#2a2b30] px-5 py-2.5 font-display text-[13px] font-bold uppercase text-[#f0ede8] transition-all hover:border-gold hover:text-gold"
+                    title="Pobierz PDF z aktualnie wpisanymi danymi (bez zapisu)"
+                  >
+                    ⬇ Zaktualizowana umowa (PDF)
+                  </button>
+                )}
                 <button onClick={() => setIsModalOpen(false)} className="rounded-full border border-[#2a2b30] px-6 py-2.5 font-display text-[14px] font-bold uppercase text-[#7a7a82] transition-all hover:border-gold hover:text-gold">Anuluj</button>
                 <button onClick={handleSave} className="rounded-full bg-gold px-7 py-2.5 font-display text-[14px] font-bold uppercase text-[#0f1012] transition-all hover:brightness-110">Zapisz</button>
               </div>
