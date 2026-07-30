@@ -54,12 +54,12 @@ export default function HomePage() {
       <div className="flex min-h-screen flex-col pt-16">
         <HomePanels />
 
-        <div id="o-firmie" className="grid grid-cols-2 border-t border-white/10 bg-ink-950 md:grid-cols-4">
+        <div id="o-firmie" className="hidden border-t border-white/10 bg-ink-950 sm:grid sm:grid-cols-2 lg:grid-cols-4">
           {bottomItems.map((item, i) => (
             <Reveal
               key={item.title}
               delay={i * 0.08}
-              className="flex items-center gap-4 border-r border-white/10 px-6 py-6 last:border-r-0 sm:px-8 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r"
+              className="flex items-center gap-4 border-b border-white/10 px-6 py-6 last:border-b-0 sm:px-8 lg:border-b-0 lg:border-r lg:last:border-r-0"
             >
               <span className="shrink-0 text-brand-yellow">{item.icon}</span>
               <span>

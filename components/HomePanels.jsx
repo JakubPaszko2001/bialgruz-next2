@@ -30,7 +30,7 @@ function Feature({ icon, label }) {
 function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, imgAlt, imgClass, index }) {
   return (
     <motion.div
-      className="bg-diagonal group relative grid min-h-[calc(100svh-64px)] grid-rows-[1fr_auto] overflow-hidden p-6 sm:p-[52px] md:min-h-0"
+      className="bg-diagonal group relative grid min-h-[calc(100svh-64px)] grid-rows-[1fr_auto] overflow-hidden p-6 sm:p-[52px] lg:min-h-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -46,13 +46,13 @@ function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, 
         }}
       />
 
-      <div className="relative z-[2] flex max-w-[380px] flex-col pt-2 md:pt-0">
+      <div className="relative z-[2] mx-auto flex max-w-[380px] flex-col items-center pt-2 text-center lg:mx-0 lg:items-start lg:pt-0 lg:text-left">
         <h2 className="mb-7 font-display font-black uppercase leading-[0.88] tracking-[-1px]">
           <span className="block text-[clamp(40px,9vw,80px)] text-white">{title1}</span>
           <span className="block text-[clamp(40px,9vw,80px)] text-brand-yellow">{title2}</span>
         </h2>
 
-        <div className="mb-6 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap justify-center gap-2 lg:justify-start">
           {chips.map((c) => (
             <Chip key={c}>{c}</Chip>
           ))}
@@ -75,7 +75,7 @@ function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, 
         </Link>
 
         {/* Mobile: obrazek pod CTA, wyśrodkowany w wolnej przestrzeni */}
-        <div className="mx-auto my-auto block w-[65%] max-w-[240px] md:hidden">
+        <div className="mx-auto my-auto block w-[65%] max-w-[240px] lg:hidden">
           <Image
             src={img}
             alt={imgAlt}
@@ -87,7 +87,7 @@ function Panel({ eyebrowless, title1, title2, chips, features, desc, href, img, 
       </div>
 
       {/* Desktop: obrazek w prawej przestrzeni panelu */}
-      <div className={`pointer-events-none absolute z-[1] hidden md:block ${imgClass}`}>
+      <div className={`pointer-events-none absolute z-[1] hidden lg:block ${imgClass}`}>
         <Image
           src={img}
           alt={imgAlt}
@@ -108,7 +108,7 @@ const shieldIcon = (
 
 export default function HomePanels() {
   return (
-    <div className="grid flex-1 grid-cols-1 md:grid-cols-2">
+    <div className="grid flex-1 grid-cols-1 lg:grid-cols-2">
       <Panel
         index={0}
         title1="Toalety"
