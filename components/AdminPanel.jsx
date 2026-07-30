@@ -30,7 +30,7 @@ const TOILET_FIELDS = [
 export const ADMIN_FIELD_SETS = { container: CONTAINER_FIELDS, toilet: TOILET_FIELDS };
 
 const labelFor = (field) => ({
-  name: "Imię", forname: "Nazwisko", phone: "Telefon", email: "E-mail", nip: "NIP",
+  name: "Imię", forname: "Nazwisko", phone: "Telefon", email: "E-mail", nip: "NIP / PESEL",
   rodzajuslugi: "Rodzaj usługi", rodzajodpadu: "Rodzaj odpadu", ilosc: "Ilość", address: "Adres",
   postcode: "Kod pocztowy", city: "Miasto", koordynaty: "Koordynaty", message: "Wiadomość",
   platnosc: "Płatność", szacowany: "Szacowany koszt", dataDostawy: "Data dostawy",
@@ -123,14 +123,14 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
     const searched = !term && !termDigits
       ? orders
       : orders.filter((order) => {
-          const haystack =
-            searchableFields.map((f) => normalize(order?.[f])).join(" ") + " " + digitsOnly(order?.phone);
-          const parts = term.split(/\s+/).filter(Boolean);
-          const textMatch = term ? haystack.includes(term) : false;
-          const allPartsMatch = parts.length ? parts.every((p) => haystack.includes(p)) : false;
-          const phoneMatch = termDigits ? haystack.includes(termDigits) : false;
-          return (term ? textMatch || allPartsMatch : false) || (termDigits ? phoneMatch : false);
-        });
+        const haystack =
+          searchableFields.map((f) => normalize(order?.[f])).join(" ") + " " + digitsOnly(order?.phone);
+        const parts = term.split(/\s+/).filter(Boolean);
+        const textMatch = term ? haystack.includes(term) : false;
+        const allPartsMatch = parts.length ? parts.every((p) => haystack.includes(p)) : false;
+        const phoneMatch = termDigits ? haystack.includes(termDigits) : false;
+        return (term ? textMatch || allPartsMatch : false) || (termDigits ? phoneMatch : false);
+      });
     return searched.filter((order) =>
       viewArchive ? normalize(order?.Status) === "zrealizowane" : normalize(order?.Status) !== "zrealizowane"
     );
@@ -235,9 +235,8 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setViewArchive((v) => !v)}
-            className={`rounded-full border px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.3px] transition-all ${
-              viewArchive ? "border-gold bg-gold text-[#0f1012]" : "border-[#2a2b30] text-gold hover:border-gold"
-            }`}
+            className={`rounded-full border px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.3px] transition-all ${viewArchive ? "border-gold bg-gold text-[#0f1012]" : "border-[#2a2b30] text-gold hover:border-gold"
+              }`}
           >
             {viewArchive ? "Pokaż aktywne" : "Archiwum"}
           </button>
@@ -256,7 +255,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Szukaj: imię, nazwisko, telefon, e-mail, NIP, adres, miasto, nr zlecenia…"
+          placeholder="Szukaj: imię, nazwisko, telefon, e-mail, NIP / PESEL, adres, miasto, nr zlecenia…"
           className={inputCls}
         />
         {searchTerm && (
@@ -297,9 +296,8 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
                 {allFields.map((field) => (
                   <td
                     key={field}
-                    className={`px-3 py-2.5 align-top font-light text-[#d6d3ce] ${
-                      field === "message" ? "min-w-[240px] max-w-[320px] whitespace-pre-line" : "whitespace-nowrap"
-                    }`}
+                    className={`px-3 py-2.5 align-top font-light text-[#d6d3ce] ${field === "message" ? "min-w-[240px] max-w-[320px] whitespace-pre-line" : "whitespace-nowrap"
+                      }`}
                   >
                     {fmtCell(order, field)}
                   </td>

@@ -30,6 +30,7 @@ const SERVICES = {
     wasteBySize: {
       "5m3": [
         { key: "gruz", label: "Gruz", price: "390 zł", base: 390, sub: "brutto, VAT 8%" },
+        { key: "gruz_ceramika", label: "Gruz z ceramiką", price: "800 zł", base: 800, sub: "brutto, VAT 8%" },
         { key: "zmieszane", label: "Zmieszane", price: "1190 zł", base: 1190, sub: "brutto, VAT 8%" },
       ],
       "7m3": [{ key: "zmieszane", label: "Zmieszane", price: "1390 zł", base: 1390, sub: "brutto, VAT 8%" }],
@@ -486,6 +487,30 @@ export default function OrderForm({ mode = "kontenery" }) {
       } else if (signWin) {
         signWin.close();
       }
+
+      // Płatność online (PayU) — przekierowanie do bramki
+      if (paymentMethod === "online" && estimatedPrice != null) {
+        const res = await fetch("/api/payu", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: estimatedPrice,
+            description: `Zamówienie ${numerZlecenia} — BIALGRUZ`,
+            email: fields.email.trim(),
+            phone: fields.phone.trim(),
+            firstName: firstName || fields.name.trim(),
+            lastName: rest.join(" "),
+            orderRef: numerZlecenia,
+            continueUrl: `${window.location.origin}/?platnosc=ok`,
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (json.redirectUri) {
+          window.location.href = json.redirectUri;
+          return;
+        }
+        setSubmitError("Nie udało się uruchomić płatności online. Zamówienie zapisano — skontaktujemy się w sprawie płatności.");
+      }
     } catch (err) {
       console.error("Błąd zapisu zamówienia:", err);
       signWin?.close();
@@ -786,8 +811,8 @@ export default function OrderForm({ mode = "kontenery" }) {
                 <Field label="E-mail">
                   <input className={inputCls} type="email" placeholder="jan@firma.pl" value={fields.email} onChange={(e) => setField("email", e.target.value)} />
                 </Field>
-                <Field label="Firma (opcjonalnie)">
-                  <input className={inputCls} placeholder="Nazwa firmy / NIP" value={fields.company} onChange={(e) => setField("company", e.target.value)} />
+                <Field label="NIP / PESEL">
+                  <input className={inputCls} placeholder="1234567890" value={fields.company} onChange={(e) => setField("company", e.target.value)} />
                 </Field>
 
                 <hr className={dividerCls} />
@@ -880,10 +905,10 @@ export default function OrderForm({ mode = "kontenery" }) {
                           key={p.key}
                           onClick={() => { setPaymentMethod(p.key); setErrors((er) => ({ ...er, platnosc: false })); }}
                           className={`flex-1 min-w-[130px] rounded-xl border px-5 py-3.5 text-left font-display text-[14px] font-bold uppercase tracking-[0.3px] transition-all ${errors.platnosc
-                              ? "border-[#f04a4a]"
-                              : paymentMethod === p.key
-                                ? "border-gold bg-[rgba(245,200,66,0.06)] text-gold"
-                                : "border-[#2a2b30] text-[#7a7a82] hover:border-gold-dark"
+                            ? "border-[#f04a4a]"
+                            : paymentMethod === p.key
+                              ? "border-gold bg-[rgba(245,200,66,0.06)] text-gold"
+                              : "border-[#2a2b30] text-[#7a7a82] hover:border-gold-dark"
                             }`}
                         >
                           {p.label}

@@ -39,9 +39,8 @@ export default function Locations() {
                     type="button"
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
-                    className={`text-left font-display text-[clamp(34px,6vw,68px)] font-black uppercase leading-[1.02] tracking-[-1px] transition-colors duration-300 ${
-                      isActive ? "text-brand-yellow" : "text-white/25 hover:text-white/60"
-                    }`}
+                    className={`text-left font-display text-[clamp(34px,6vw,68px)] font-black uppercase leading-[1.02] tracking-[-1px] transition-colors duration-300 ${isActive ? "text-brand-yellow" : "text-white/25 hover:text-white/60"
+                      }`}
                   >
                     {loc.name}
                   </button>
@@ -50,7 +49,7 @@ export default function Locations() {
             })}
           </ul>
           <p className="mt-8 max-w-[420px] text-[15px] leading-[1.65] text-[#cccccc]">
-            Działamy w Białymstoku i okolicznych miejscowościach — podstawiamy i odbieramy w całym regionie.
+            Oferujemy usługi także w miejscowościach takich jak: Łomża, Augustów, Bielsk Podlaski, Grajewo, Zambrów, Hajnówka, Łapy, Siemiatycze, Kolno, Mońki, Wysokie Mazowieckie, Choroszcz, Dąbrowa Białostocka, Ciechanowiec, Supraśl, Brańsk, Szczuczyn, Michałowo, Knyszyn, Zabłudów, Czyżew, Krynki, Nowogród, Lipsk
           </p>
         </div>
 
