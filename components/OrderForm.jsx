@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import LegalModal from "./LegalModal";
-import Regulamin from "@/Components2/Regulamin";
-import RegulaminUslug from "@/Components2/RegulaminUslug";
+import Regulamin from "@/components/Regulamin";
+import RegulaminUslug from "@/components/RegulaminUslug";
 import Rodo from "./Rodo";
 import { downloadUmowaPdf } from "./umowaPdf";
 
@@ -148,14 +148,14 @@ const PACKAGES = [
     label: "Pakiet Remont Gruz",
     base: 999,
     save: 438,
-    items: ["Kontener 5m³", "Toaleta przenośna na 3 miesiące (2 serwisy/mies.)"],
+    items: ["Kontener 5m³ (czysty gruz)", "Toaleta przenośna na 3 miesiące (2 serwisy/mies.)"],
   },
   {
     key: "pkgStandard",
     label: "Pakiet Budowa Standard",
     base: 1890,
     save: 696,
-    items: ["Kontener 5m³", "Toaleta przenośna na 4 miesiące (2 serwisy/mies.)"],
+    items: ["Kontener 5m³ (gruz zmieszany)", "Toaleta przenośna na 4 miesiące (2 serwisy/mies.)"],
   },
   {
     key: "pkgMax",
@@ -163,7 +163,7 @@ const PACKAGES = [
     base: 2790,
     save: 1115,
     items: [
-      "Kontener 7m³",
+      "Kontener 7m³ (gruz zmieszany)",
       "Toaleta przenośna na 5 miesięcy (4 serwisy/mies.)",
       "GRATIS: Big Bag 1m³ na czysty gruz",
     ],
@@ -253,7 +253,7 @@ export default function OrderForm({ mode = "kontenery" }) {
     return () => clearTimeout(t);
   }, [submitted]);
   const [fields, setFields] = useState({
-    name: "", phone: "", email: "", company: "", address: "", postcode: "", city: "", date: "", quantity: "1", notes: "",
+    name: "", phone: "", email: "", company: "", address: "", postcode: "", city: "", date: "", dateEnd: "", quantity: "1", notes: "",
   });
 
   const svc = currentType ? services[currentType] : null;
@@ -389,9 +389,10 @@ export default function OrderForm({ mode = "kontenery" }) {
   async function submit() {
     const errs = {};
     if (!currentType) errs.service = true;
-    ["name", "phone", "date"].forEach((k) => {
+    ["name", "phone", "company", "date", "dateEnd"].forEach((k) => {
       if (!fields[k].trim()) errs[k] = true;
     });
+    if (fields.date && fields.dateEnd && fields.dateEnd < fields.date) errs.dateEnd = true;
     if (useCoords) {
       if (!parseCoordinates(coordsInput)) errs.coords = true;
     } else {
@@ -462,6 +463,16 @@ export default function OrderForm({ mode = "kontenery" }) {
       Status: "Do realizacji",
     };
 
+    // Toalety: data odbioru (do) + data serwisu = data dostawy + 14 dni
+    if (isToilet) {
+      if (fields.dateEnd) payload.dataOdbioru = fields.dateEnd;
+      if (fields.date) {
+        const d = new Date(fields.date);
+        d.setDate(d.getDate() + 14);
+        payload.dataSerwisu = d.toISOString().split("T")[0];
+      }
+    }
+
     const table = TABLE_BY_MODE[mode] || TABLE_BY_MODE.kontenery;
     const prefix = PREFIX_BY_MODE[mode] || PREFIX_BY_MODE.kontenery;
 
@@ -524,7 +535,7 @@ export default function OrderForm({ mode = "kontenery" }) {
   }
 
   function reset() {
-    setFields({ name: "", phone: "", email: "", company: "", address: "", postcode: "", city: "", date: "", quantity: "1", notes: "" });
+    setFields({ name: "", phone: "", email: "", company: "", address: "", postcode: "", city: "", date: "", dateEnd: "", quantity: "1", notes: "" });
     setCurrentType(null);
     setSelectedSize(null);
     setSelectedWaste(null);
@@ -557,11 +568,12 @@ export default function OrderForm({ mode = "kontenery" }) {
       name: "Jan Kowalski",
       phone: "+48 500 000 000",
       email: "jan@example.pl",
-      company: "",
+      company: "1234567890",
       address: "ul. Testowa 1",
       postcode: "15-100",
       city: "Białystok",
       date: today,
+      dateEnd: today,
       quantity: "1",
       notes: "Zamówienie testowe",
     });
@@ -600,7 +612,7 @@ export default function OrderForm({ mode = "kontenery" }) {
         wyposazenie: equip,
         liczba_serwisow: meta.serwisy ? String(meta.serwisy) : "",
         data_podstawienia: plDate(start),
-        data_zakonczenia: plDate(computeEndDate(start, meta)),
+        data_zakonczenia: fields.dateEnd ? plDate(new Date(fields.dateEnd)) : plDate(computeEndDate(start, meta)),
         cena_jednostkowa: String(jednostkowa),
         cena_laczna: String(laczna),
       };
@@ -811,7 +823,7 @@ export default function OrderForm({ mode = "kontenery" }) {
                 <Field label="E-mail">
                   <input className={inputCls} type="email" placeholder="jan@firma.pl" value={fields.email} onChange={(e) => setField("email", e.target.value)} />
                 </Field>
-                <Field label="NIP / PESEL">
+                <Field label="NIP / PESEL *" error={errors.company}>
                   <input className={inputCls} placeholder="1234567890" value={fields.company} onChange={(e) => setField("company", e.target.value)} />
                 </Field>
 
@@ -854,9 +866,19 @@ export default function OrderForm({ mode = "kontenery" }) {
                     />
                   </Field>
                 )}
-                <Field label="Preferowana data dostawy *" error={errors.date}>
-                  <input className={inputCls} type="date" min={today} value={fields.date} onChange={(e) => setField("date", e.target.value)} />
-                </Field>
+                <div className="col-span-full flex flex-col gap-2">
+                  <label className={labelCls}>Preferowany termin (od – do) *</label>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <div className={errors.date ? "[&_input]:border-[#f04a4a]" : ""}>
+                      <span className="mb-1 block text-[11px] text-[#7a7a82]">Data dostawy (od)</span>
+                      <input className={inputCls} type="date" min={today} value={fields.date} onChange={(e) => { setField("date", e.target.value); clearEstimate(); }} />
+                    </div>
+                    <div className={errors.dateEnd ? "[&_input]:border-[#f04a4a]" : ""}>
+                      <span className="mb-1 block text-[11px] text-[#7a7a82]">Data odbioru (do)</span>
+                      <input className={inputCls} type="date" min={fields.date || today} value={fields.dateEnd} onChange={(e) => setField("dateEnd", e.target.value)} />
+                    </div>
+                  </div>
+                </div>
 
                 {needsPrice && (
                   <div className="col-span-full flex flex-col gap-3 rounded-xl border border-[#2a2b30] bg-[#0f1012] p-5">

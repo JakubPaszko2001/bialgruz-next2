@@ -35,7 +35,7 @@ export function orderToUmowaData(order) {
     wyposazenie: equip,
     liczba_serwisow: serw ? serw[1] : "",
     data_podstawienia: plDate(order.dataDostawy),
-    data_zakonczenia: "",
+    data_zakonczenia: plDate(order.dataOdbioru),
     cena_jednostkowa: "",
     cena_laczna: order.szacowany || "",
     _signature: sig ? sig[1].trim() : "",

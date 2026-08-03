@@ -23,8 +23,8 @@ const TOILET_FIELDS = [
   "name", "forname", "phone", "email", "nip",
   "rodzajuslugi", "ilosc", "address", "postcode", "city",
   "koordynaty",
-  "message", "platnosc", "szacowany", "dataDostawy",
-  "numerZlecenia", "Status", "dataUtworzenia",
+  "message", "platnosc", "szacowany", "dataDostawy", "dataOdbioru", "dataSerwisu",
+  "numerToalety", "numerZlecenia", "Status", "dataUtworzenia",
 ];
 
 export const ADMIN_FIELD_SETS = { container: CONTAINER_FIELDS, toilet: TOILET_FIELDS };
@@ -33,8 +33,8 @@ const labelFor = (field) => ({
   name: "Imię", forname: "Nazwisko", phone: "Telefon", email: "E-mail", nip: "NIP / PESEL",
   rodzajuslugi: "Rodzaj usługi", rodzajodpadu: "Rodzaj odpadu", ilosc: "Ilość", address: "Adres",
   postcode: "Kod pocztowy", city: "Miasto", koordynaty: "Koordynaty", message: "Wiadomość",
-  platnosc: "Płatność", szacowany: "Szacowany koszt", dataDostawy: "Data dostawy",
-  numerKontenera: "Numer kontenera", numerZlecenia: "Numer zlecenia", Status: "Status",
+  platnosc: "Płatność", szacowany: "Szacowany koszt", dataDostawy: "Data dostawy", dataOdbioru: "Data odbioru", dataSerwisu: "Data serwisu",
+  numerKontenera: "Numer kontenera", numerToalety: "Numer toalety", numerZlecenia: "Numer zlecenia", Status: "Status",
   dataUtworzenia: "Data utworzenia",
 }[field] || field);
 
@@ -139,7 +139,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
   const sortedOrders = useMemo(() => {
     if (!sortBy) return filteredOrders;
     const collator = new Intl.Collator("pl", { numeric: true, sensitivity: "base" });
-    const dateFields = new Set(["dataUtworzenia", "dataDostawy"]);
+    const dateFields = new Set(["dataUtworzenia", "dataDostawy", "dataOdbioru", "dataSerwisu"]);
     const arr = [...filteredOrders];
     arr.sort((a, b) => {
       const av = a?.[sortBy], bv = b?.[sortBy];
@@ -193,7 +193,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
     const keys = [...allFields, ...Object.keys(order || {}).filter((k) => k !== "id" && !allFields.includes(k))];
     const rows = keys.map((f) => {
       let v = order?.[f];
-      if ((f === "dataUtworzenia" || f === "dataDostawy") && v) v = new Date(v).toLocaleDateString("pl-PL");
+      if ((f === "dataUtworzenia" || f === "dataDostawy" || f === "dataOdbioru" || f === "dataSerwisu") && v) v = new Date(v).toLocaleDateString("pl-PL");
       return [labelFor(f), v == null ? "" : String(v)];
     });
 
@@ -217,7 +217,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
   };
 
   const fmtCell = (order, field) => {
-    if ((field === "dataUtworzenia" || field === "dataDostawy") && order[field])
+    if ((field === "dataUtworzenia" || field === "dataDostawy" || field === "dataOdbioru" || field === "dataSerwisu") && order[field])
       return new Date(order[field]).toLocaleDateString("pl-PL");
     return order[field] ?? "";
   };
@@ -358,8 +358,8 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
                           <option value="karta">Karta</option>
                           <option value="przelew">Przelew</option>
                         </select>
-                      ) : field === "dataDostawy" ? (
-                        <input type="date" value={editOrder?.dataDostawy ? String(editOrder.dataDostawy).slice(0, 10) : ""} onChange={(e) => setEditOrder({ ...editOrder, dataDostawy: e.target.value })} className={inputCls} />
+                      ) : field === "dataDostawy" || field === "dataOdbioru" || field === "dataSerwisu" ? (
+                        <input type="date" value={editOrder?.[field] ? String(editOrder[field]).slice(0, 10) : ""} onChange={(e) => setEditOrder({ ...editOrder, [field]: e.target.value })} className={inputCls} />
                       ) : (
                         <input type="text" value={editOrder?.[field] || ""} onChange={(e) => setEditOrder({ ...editOrder, [field]: e.target.value })} className={inputCls} />
                       )}
