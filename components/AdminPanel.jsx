@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown, FaFilePdf, FaFileContract, FaSignOutAlt } from "react-icons/fa";
-import { downloadUmowaPdf, orderToUmowaData } from "./umowaPdf";
+import { downloadUmowaPdf, UMOWA_TYPES } from "./umowaPdf";
 
 /* ── Style tokens (spójne z formularzem zamówień) ── */
 const inputCls =
@@ -14,7 +14,7 @@ const CONTAINER_FIELDS = [
   "name", "forname", "phone", "email", "nip",
   "rodzajuslugi", "rodzajodpadu", "ilosc", "address", "postcode", "city",
   "koordynaty",
-  "message", "platnosc", "szacowany", "dataDostawy",
+  "message", "platnosc", "szacowany", "dataDostawy", "dataOdbioru",
   "numerKontenera", "numerZlecenia", "Status", "dataUtworzenia",
 ];
 
@@ -45,7 +45,7 @@ const searchableFields = [
   "rodzajuslugi", "rodzajodpadu", "message", "platnosc", "Status",
 ];
 
-export default function AdminPanel({ onLogout, table = "Zamówienia", title = "Panel zamówień", fields = CONTAINER_FIELDS, showUmowa = false }) {
+export default function AdminPanel({ onLogout, table = "Zamówienia", title = "Panel zamówień", fields = CONTAINER_FIELDS, showUmowa = false, umowaTyp = "toaleta" }) {
   const allFields = fields;
   const [orders, setOrders] = useState([]);
   const [editOrder, setEditOrder] = useState(null);
@@ -186,34 +186,51 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
       console.error("Nie udało się załadować fontu PDF:", e);
     }
 
-    doc.setFontSize(16);
-    doc.text(`Karta zlecenia ${order?.numerZlecenia || ""}`.trim(), 40, 40);
+    // Nagłówek firmowy
+    doc.setFontSize(18);
+    doc.setTextColor(26, 37, 47);
+    doc.text("BIALGRUZ — Karta zlecenia", 40, 46);
+    doc.setFontSize(11);
+    doc.setTextColor(120, 120, 120);
+    const nr = order?.numerZlecenia ? `Nr zlecenia: ${order.numerZlecenia}` : "";
+    const utw = order?.dataUtworzenia ? `Data: ${new Date(order.dataUtworzenia).toLocaleDateString("pl-PL")}` : "";
+    doc.text([nr, utw].filter(Boolean).join("      "), 40, 64);
 
-    // Wypisz wszystkie pola obecne w rekordzie (pełny zestaw + ewentualne dodatkowe klucze)
-    const keys = [...allFields, ...Object.keys(order || {}).filter((k) => k !== "id" && !allFields.includes(k))];
-    const rows = keys.map((f) => {
-      let v = order?.[f];
-      if ((f === "dataUtworzenia" || f === "dataDostawy" || f === "dataOdbioru" || f === "dataSerwisu") && v) v = new Date(v).toLocaleDateString("pl-PL");
-      return [labelFor(f), v == null ? "" : String(v)];
-    });
+    const dateSet = new Set(["dataUtworzenia", "dataDostawy", "dataOdbioru", "dataSerwisu"]);
+    const skip = new Set(["id", "numerZlecenia", "dataUtworzenia"]); // w nagłówku
+    const fmt = (f, v) => {
+      if (v == null || String(v).trim() === "") return "—";
+      if (dateSet.has(f)) return new Date(v).toLocaleDateString("pl-PL");
+      return String(v);
+    };
+
+    // Wszystkie pola: pełny zestaw panelu + dodatkowe kolumny z rekordu
+    const keys = [
+      ...allFields.filter((k) => !skip.has(k)),
+      ...Object.keys(order || {}).filter((k) => !skip.has(k) && !allFields.includes(k)),
+    ];
+    const rows = keys.map((f) => [labelFor(f), fmt(f, order?.[f])]);
 
     autoTable(doc, {
-      startY: 64,
+      startY: 84,
       head: [["Pole", "Wartość"]],
       body: rows,
-      styles: { font: "DejaVu", fontStyle: "normal", fontSize: 10, cellPadding: 6, valign: "middle", overflow: "linebreak" },
-      headStyles: { font: "DejaVu", fontStyle: "normal", fillColor: [245, 200, 66], textColor: 0, halign: "left" },
-      columnStyles: { 0: { cellWidth: 170 }, 1: { cellWidth: "auto" } },
+      styles: { font: "DejaVu", fontStyle: "normal", fontSize: 10, cellPadding: 7, valign: "top", overflow: "linebreak", textColor: [44, 62, 80] },
+      headStyles: { font: "DejaVu", fontStyle: "normal", fillColor: [245, 200, 66], textColor: 0, halign: "left", fontSize: 11 },
+      alternateRowStyles: { fillColor: [248, 249, 250] },
+      columnStyles: { 0: { cellWidth: 180, fontStyle: "normal", textColor: [26, 37, 47] }, 1: { cellWidth: "auto" } },
       theme: "grid",
-      tableLineColor: [245, 200, 66],
+      tableLineColor: [225, 225, 225],
       tableLineWidth: 0.5,
+      margin: { left: 40, right: 40 },
     });
     doc.save(`zlecenie_${order?.numerZlecenia || order?.id || "pdf"}.pdf`);
   };
 
   // Umowa PDF wypełniona danymi zamówienia (ten sam szablon co w formularzu)
   const handleDownloadUmowa = async (order) => {
-    await downloadUmowaPdf(orderToUmowaData(order), `umowa_${order.numerZlecenia || order.id}.pdf`);
+    const cfg = UMOWA_TYPES[umowaTyp] || UMOWA_TYPES.toaleta;
+    await downloadUmowaPdf(cfg.map(order), `umowa_${order.numerZlecenia || order.id}.pdf`, cfg.template);
   };
 
   const fmtCell = (order, field) => {

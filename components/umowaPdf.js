@@ -43,16 +43,47 @@ export function orderToUmowaData(order) {
   };
 }
 
+// Mapuje rekord zamówienia kontenerowego na dane szablonu umowy kontenerowej
+export function orderToUmowaDataKontener(order) {
+  const addr = order.koordynaty
+    ? order.koordynaty
+    : [order.address, `${order.postcode || ""} ${order.city || ""}`.trim()].filter(Boolean).join(", ");
+  const sig = (order.message || "").match(/Podpisano elektronicznie przez:\s*(.+?)(?:\s+—\s+(.+))?\s*$/m);
+  return {
+    data_awarcia: plDate(order.dataUtworzenia),
+    nr_umowy: order.numerZlecenia || "",
+    zleceniodawca_nazwa: (order.nip || "").trim() || [order.name, order.forname].filter(Boolean).join(" "),
+    zleceniodawca_nip: order.nip || "",
+    zleceniodawca_adres: addr,
+    zleceniodawca_tel: order.phone || "",
+    zleceniodawca_email: order.email || "",
+    lokalizacja: addr,
+    pojemnosc: order.rodzajuslugi || "",
+    rodzaj_odpadu: order.rodzajodpadu || "",
+    ilosc: order.ilosc != null ? String(order.ilosc) : "",
+    data_podstawienia: plDate(order.dataDostawy),
+    data_odbioru: plDate(order.dataOdbioru),
+    cena_laczna: order.szacowany || "",
+    _signature: sig ? sig[1].trim() : "",
+    _signedAt: sig && sig[2] ? sig[2].trim() : "",
+  };
+}
+
+// Konfiguracja per typ umowy
+export const UMOWA_TYPES = {
+  toaleta: { template: "/Umowa.html", table: "ToaletyZamowienia", map: orderToUmowaData },
+  kontener: { template: "/UmowaKontener.html", table: "Zamówienia", map: orderToUmowaDataKontener },
+};
+
 // Zwraca wypełniony HTML szablonu (do podglądu w iframe)
-export async function buildUmowaHtml(data) {
-  const raw = await (await fetch("/Umowa.html")).text();
+export async function buildUmowaHtml(data, template = "/Umowa.html") {
+  const raw = await (await fetch(template)).text();
   return raw.replace(/\{\{(\w+)\}\}/g, (_, k) => (data[k] != null ? data[k] : ""));
 }
 
-// Wypełnia szablon /Umowa.html danymi i generuje PDF przez jsPDF (jak w panelu — z fontem DejaVu,
-// polskie znaki OK, tekst zaznaczalny). Bez html2canvas (to dawało pustą stronę).
-export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf") {
-  const raw = await (await fetch("/Umowa.html")).text();
+// Wypełnia szablon danymi i generuje PDF przez jsPDF (font DejaVu — polskie znaki OK, tekst zaznaczalny).
+export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf", template = "/Umowa.html") {
+  const raw = await (await fetch(template)).text();
   const filled = raw.replace(/\{\{(\w+)\}\}/g, (_, k) => (data[k] != null ? data[k] : ""));
   const parsed = new DOMParser().parseFromString(filled, "text/html");
   const container = parsed.querySelector(".page-container") || parsed.body;

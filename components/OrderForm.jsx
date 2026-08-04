@@ -75,17 +75,25 @@ const PAYMENT_METHODS = [
   { key: "gotówka", label: "Gotówką" },
 ];
 
-// Kolejny numer zlecenia: kontenery = BIALxxxx, toalety = TOAxxxx
+// Kolejny numer zlecenia: kontenery = BIALxxxx, toalety = TOAxxxx.
+// Liczymy maksymalny numer ze WSZYSTKICH rekordów danego prefiksu (odporne na puste/NULL i sort tekstowy).
 async function generateOrderNumber(table, prefix) {
+  // Najwyższy numer jest zawsze wśród najnowszych zleceń — bierzemy 1000 ostatnich po id
+  // (Supabase i tak zwraca max 1000 wierszy na zapytanie).
   const { data, error } = await supabase
     .from(table)
-    .select("numerZlecenia, id")
+    .select("numerZlecenia")
+    .ilike("numerZlecenia", `${prefix}%`)
     .order("id", { ascending: false })
-    .limit(1);
-  if (error || !data?.length || !data[0]?.numerZlecenia) return `${prefix}0001`;
-  const match = data[0].numerZlecenia.match(new RegExp(`${prefix}(\\d+)`));
-  const next = match ? parseInt(match[1], 10) + 1 : 1;
-  return `${prefix}${next.toString().padStart(4, "0")}`;
+    .limit(1000);
+  if (error || !data?.length) return `${prefix}0001`;
+  const re = new RegExp(`^${prefix}(\\d+)$`);
+  let max = 0;
+  for (const row of data) {
+    const m = (row.numerZlecenia || "").match(re);
+    if (m) max = Math.max(max, parseInt(m[1], 10));
+  }
+  return `${prefix}${(max + 1).toString().padStart(4, "0")}`;
 }
 
 const TOILET_SERVICES = {
@@ -463,21 +471,20 @@ export default function OrderForm({ mode = "kontenery" }) {
       Status: "Do realizacji",
     };
 
-    // Toalety: data odbioru (do) + data serwisu = data dostawy + 14 dni
-    if (isToilet) {
-      if (fields.dateEnd) payload.dataOdbioru = fields.dateEnd;
-      if (fields.date) {
-        const d = new Date(fields.date);
-        d.setDate(d.getDate() + 14);
-        payload.dataSerwisu = d.toISOString().split("T")[0];
-      }
+    // Data odbioru (do) — dla obu tabel
+    if (fields.dateEnd) payload.dataOdbioru = fields.dateEnd;
+    // Data serwisu = data dostawy + 14 dni — tylko toalety
+    if (isToilet && fields.date) {
+      const d = new Date(fields.date);
+      d.setDate(d.getDate() + 14);
+      payload.dataSerwisu = d.toISOString().split("T")[0];
     }
 
     const table = TABLE_BY_MODE[mode] || TABLE_BY_MODE.kontenery;
     const prefix = PREFIX_BY_MODE[mode] || PREFIX_BY_MODE.kontenery;
 
     // Otwieramy pustą kartę od razu (w geście kliknięcia), żeby popup blocker nie zablokował
-    const signWin = isToilet ? window.open("", "_blank") : null;
+    const signWin = window.open("", "_blank");
 
     setSubmitting(true);
     setSubmitError("");
@@ -492,9 +499,9 @@ export default function OrderForm({ mode = "kontenery" }) {
       setOrderNumber(numerZlecenia);
       setSubmitted(true);
 
-      // Strona podpisu umowy w nowej karcie (tylko toalety)
+      // Strona podpisu umowy w nowej karcie (kontenery i toalety)
       if (signWin && inserted?.id) {
-        signWin.location.href = `/umowa/toaleta/${inserted.id}`;
+        signWin.location.href = `/umowa/${isToilet ? "toaleta" : "kontener"}/${inserted.id}`;
       } else if (signWin) {
         signWin.close();
       }
@@ -598,7 +605,7 @@ export default function OrderForm({ mode = "kontenery" }) {
       const jednostkowa = svc?.isPackage ? svc.base : (svc?.base ?? 0) + unitAddonsTotal;
       const laczna = estimatedPrice != null ? estimatedPrice : jednostkowa * qty + orderAddonsTotal;
 
-      const data = {
+      const wspolne = {
         data_awarcia: plDate(new Date()),
         nr_umowy: "",
         zleceniodawca_nazwa: fields.company.trim() || fields.name.trim(),
@@ -606,18 +613,36 @@ export default function OrderForm({ mode = "kontenery" }) {
         zleceniodawca_adres: addr,
         zleceniodawca_tel: fields.phone.trim(),
         zleceniodawca_email: fields.email.trim(),
-        lokalizajca: addr,
-        ilosc_kabin: String(qty),
-        typ_kabiny: typeLabel,
-        wyposazenie: equip,
-        liczba_serwisow: meta.serwisy ? String(meta.serwisy) : "",
         data_podstawienia: plDate(start),
-        data_zakonczenia: fields.dateEnd ? plDate(new Date(fields.dateEnd)) : plDate(computeEndDate(start, meta)),
-        cena_jednostkowa: String(jednostkowa),
         cena_laczna: String(laczna),
       };
+      const dataOdbioru = fields.dateEnd ? plDate(new Date(fields.dateEnd)) : plDate(computeEndDate(start, meta));
 
-      await downloadUmowaPdf(data, "umowa-BIALGRUZ.pdf");
+      if (isToilet) {
+        const data = {
+          ...wspolne,
+          lokalizajca: addr,
+          ilosc_kabin: String(qty),
+          typ_kabiny: typeLabel,
+          wyposazenie: equip,
+          liczba_serwisow: meta.serwisy ? String(meta.serwisy) : "",
+          data_zakonczenia: dataOdbioru,
+          cena_jednostkowa: String(jednostkowa),
+        };
+        await downloadUmowaPdf(data, "umowa-BIALGRUZ.pdf", "/Umowa.html");
+      } else {
+        const serviceLabel = svc?.isPackage ? svc.label : serviceList.find((s) => s.key === currentType)?.label || "";
+        const sizeLabel = selectedSize ? svc.sizes?.find((s) => s.key === selectedSize)?.label : "";
+        const data = {
+          ...wspolne,
+          lokalizacja: addr,
+          pojemnosc: svc?.sizes ? `${serviceLabel} ${sizeLabel}`.trim() : serviceLabel,
+          rodzaj_odpadu: wasteOptions?.find((w) => w.key === selectedWaste)?.label || "",
+          ilosc: String(qty),
+          data_odbioru: dataOdbioru,
+        };
+        await downloadUmowaPdf(data, "umowa-BIALGRUZ.pdf", "/UmowaKontener.html");
+      }
     } catch (err) {
       console.error("Błąd generowania umowy:", err);
       setSubmitError("Nie udało się wygenerować umowy PDF.");
@@ -1001,16 +1026,14 @@ export default function OrderForm({ mode = "kontenery" }) {
                   >
                     ⬇ Wzór oświadczenia o odstąpieniu (PDF)
                   </a>
-                  {isToilet && (
-                    <button
-                      type="button"
-                      onClick={downloadUmowa}
-                      disabled={umowaLoading}
-                      className="inline-flex items-center gap-2 rounded-full border border-[#2a2b30] px-5 py-3 font-display text-[13px] font-bold uppercase tracking-[0.3px] text-[#f0ede8] transition-all hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {umowaLoading ? "Generowanie…" : "⬇ Pobierz umowę (PDF)"}
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={downloadUmowa}
+                    disabled={umowaLoading}
+                    className="inline-flex items-center gap-2 rounded-full border border-[#2a2b30] px-5 py-3 font-display text-[13px] font-bold uppercase tracking-[0.3px] text-[#f0ede8] transition-all hover:border-gold hover:text-gold disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {umowaLoading ? "Generowanie…" : "⬇ Pobierz umowę (PDF)"}
+                  </button>
                 </div>
                 <button
                   onClick={submit}

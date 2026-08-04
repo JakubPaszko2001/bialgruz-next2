@@ -74,7 +74,7 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-ink-black px-4 py-10 sm:px-8">
-      <AdminPanel onLogout={handleLogout} />
+      <AdminPanel onLogout={handleLogout} showUmowa umowaTyp="kontener" />
     </div>
   );
 }

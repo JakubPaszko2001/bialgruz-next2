@@ -3,13 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/components/supabaseClient";
-import { orderToUmowaData, buildUmowaHtml, downloadUmowaPdf } from "@/components/umowaPdf";
-
-const TABLE_BY_TYP = { toaleta: "ToaletyZamowienia", kontener: "Zamówienia" };
+import { UMOWA_TYPES, buildUmowaHtml, downloadUmowaPdf } from "@/components/umowaPdf";
 
 export default function UmowaSignPage() {
   const { typ, id } = useParams();
-  const table = TABLE_BY_TYP[typ] || TABLE_BY_TYP.toaleta;
+  const cfg = UMOWA_TYPES[typ] || UMOWA_TYPES.toaleta;
+  const table = cfg.table;
 
   const [order, setOrder] = useState(null);
   const [html, setHtml] = useState("");
@@ -30,7 +29,7 @@ export default function UmowaSignPage() {
       }
       setOrder(data);
       try {
-        setHtml(await buildUmowaHtml(orderToUmowaData(data)));
+        setHtml(await buildUmowaHtml(cfg.map(data), cfg.template));
       } catch {
         setError("Nie udało się wczytać treści umowy.");
       }
@@ -38,7 +37,7 @@ export default function UmowaSignPage() {
     })();
   }, [table, id]);
 
-  const data = useMemo(() => (order ? orderToUmowaData(order) : null), [order]);
+  const data = useMemo(() => (order ? cfg.map(order) : null), [order, cfg]);
 
   async function handleSubmit() {
     if (!name.trim()) return setError("Wpisz imię i nazwisko osoby podpisującej.");
@@ -49,7 +48,8 @@ export default function UmowaSignPage() {
       const signedAt = new Date().toLocaleString("pl-PL");
       await downloadUmowaPdf(
         { ...data, _signature: name.trim(), _signedAt: signedAt },
-        `umowa_${order.numerZlecenia || id}.pdf`
+        `umowa_${order.numerZlecenia || id}.pdf`,
+        cfg.template
       );
       // Zapis podpisu (imię + data/godzina) do zamówienia
       const message = `${order.message ? order.message + "\n" : ""}Podpisano elektronicznie przez: ${name.trim()} — ${signedAt}`;
