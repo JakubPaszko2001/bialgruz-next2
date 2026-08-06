@@ -24,7 +24,7 @@ export function orderToUmowaData(order) {
   return {
     data_awarcia: plDate(order.dataUtworzenia),
     nr_umowy: order.numerZlecenia || "",
-    zleceniodawca_nazwa: (order.nip || "").trim() || [order.name, order.forname].filter(Boolean).join(" "),
+    zleceniodawca_nazwa: [order.name, order.forname].filter(Boolean).join(" ") || (order.nip || "").trim(),
     zleceniodawca_nip: order.nip || "",
     zleceniodawca_adres: addr,
     zleceniodawca_tel: order.phone || "",
@@ -52,7 +52,7 @@ export function orderToUmowaDataKontener(order) {
   return {
     data_awarcia: plDate(order.dataUtworzenia),
     nr_umowy: order.numerZlecenia || "",
-    zleceniodawca_nazwa: (order.nip || "").trim() || [order.name, order.forname].filter(Boolean).join(" "),
+    zleceniodawca_nazwa: [order.name, order.forname].filter(Boolean).join(" ") || (order.nip || "").trim(),
     zleceniodawca_nip: order.nip || "",
     zleceniodawca_adres: addr,
     zleceniodawca_tel: order.phone || "",

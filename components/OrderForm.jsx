@@ -608,7 +608,7 @@ export default function OrderForm({ mode = "kontenery" }) {
       const wspolne = {
         data_awarcia: plDate(new Date()),
         nr_umowy: "",
-        zleceniodawca_nazwa: fields.company.trim() || fields.name.trim(),
+        zleceniodawca_nazwa: fields.name.trim(),
         zleceniodawca_nip: fields.company.trim(),
         zleceniodawca_adres: addr,
         zleceniodawca_tel: fields.phone.trim(),
