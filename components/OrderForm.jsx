@@ -397,10 +397,13 @@ export default function OrderForm({ mode = "kontenery" }) {
   async function submit() {
     const errs = {};
     if (!currentType) errs.service = true;
-    ["name", "phone", "company", "date", "dateEnd"].forEach((k) => {
+    ["name", "phone", "company", "date"].forEach((k) => {
       if (!fields[k].trim()) errs[k] = true;
     });
-    if (fields.date && fields.dateEnd && fields.dateEnd < fields.date) errs.dateEnd = true;
+    if (isToilet) {
+      if (!fields.dateEnd.trim()) errs.dateEnd = true;
+      else if (fields.date && fields.dateEnd < fields.date) errs.dateEnd = true;
+    }
     if (useCoords) {
       if (!parseCoordinates(coordsInput)) errs.coords = true;
     } else {
@@ -471,13 +474,14 @@ export default function OrderForm({ mode = "kontenery" }) {
       Status: "Do realizacji",
     };
 
-    // Data odbioru (do) — dla obu tabel
-    if (fields.dateEnd) payload.dataOdbioru = fields.dateEnd;
-    // Data serwisu = data dostawy + 14 dni — tylko toalety
-    if (isToilet && fields.date) {
-      const d = new Date(fields.date);
-      d.setDate(d.getDate() + 14);
-      payload.dataSerwisu = d.toISOString().split("T")[0];
+    // Data odbioru (do) i data serwisu — tylko toalety
+    if (isToilet) {
+      if (fields.dateEnd) payload.dataOdbioru = fields.dateEnd;
+      if (fields.date) {
+        const d = new Date(fields.date);
+        d.setDate(d.getDate() + 14);
+        payload.dataSerwisu = d.toISOString().split("T")[0];
+      }
     }
 
     const table = TABLE_BY_MODE[mode] || TABLE_BY_MODE.kontenery;
@@ -616,7 +620,7 @@ export default function OrderForm({ mode = "kontenery" }) {
         data_podstawienia: plDate(start),
         cena_laczna: String(laczna),
       };
-      const dataOdbioru = fields.dateEnd ? plDate(new Date(fields.dateEnd)) : plDate(computeEndDate(start, meta));
+      const dataOdbioru = fields.dateEnd ? plDate(new Date(fields.dateEnd)) : "";
 
       if (isToilet) {
         const data = {
@@ -892,16 +896,18 @@ export default function OrderForm({ mode = "kontenery" }) {
                   </Field>
                 )}
                 <div className="col-span-full flex flex-col gap-2">
-                  <label className={labelCls}>Preferowany termin (od – do) *</label>
-                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <label className={labelCls}>{isToilet ? "Preferowany termin (od – do) *" : "Preferowana data dostawy *"}</label>
+                  <div className={`grid grid-cols-1 gap-3 ${isToilet ? "sm:grid-cols-2" : ""}`}>
                     <div className={errors.date ? "[&_input]:border-[#f04a4a]" : ""}>
-                      <span className="mb-1 block text-[11px] text-[#7a7a82]">Data dostawy (od)</span>
+                      {isToilet && <span className="mb-1 block text-[11px] text-[#7a7a82]">Data dostawy (od)</span>}
                       <input className={inputCls} type="date" min={today} value={fields.date} onChange={(e) => { setField("date", e.target.value); clearEstimate(); }} />
                     </div>
-                    <div className={errors.dateEnd ? "[&_input]:border-[#f04a4a]" : ""}>
-                      <span className="mb-1 block text-[11px] text-[#7a7a82]">Data odbioru (do)</span>
-                      <input className={inputCls} type="date" min={fields.date || today} value={fields.dateEnd} onChange={(e) => setField("dateEnd", e.target.value)} />
-                    </div>
+                    {isToilet && (
+                      <div className={errors.dateEnd ? "[&_input]:border-[#f04a4a]" : ""}>
+                        <span className="mb-1 block text-[11px] text-[#7a7a82]">Data odbioru (do)</span>
+                        <input className={inputCls} type="date" min={fields.date || today} value={fields.dateEnd} onChange={(e) => setField("dateEnd", e.target.value)} />
+                      </div>
+                    )}
                   </div>
                 </div>
 
