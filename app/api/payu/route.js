@@ -2,7 +2,7 @@
 const POS_ID = process.env.PAYU_POS_ID || "4428509";
 const CLIENT_ID = process.env.PAYU_CLIENT_ID || "4428509";
 const CLIENT_SECRET = process.env.PAYU_CLIENT_SECRET || "c7cec8c9181603d1e4c958065917b325";
-const BASE = process.env.PAYU_BASE || "https://secure.snd.payu.com"; // sandbox; produkcja: https://secure.payu.com
+const BASE = process.env.PAYU_BASE || "https://secure.payu.com"; // produkcja; sandbox: https://secure.snd.payu.com
 
 async function getToken() {
   const res = await fetch(`${BASE}/pl/standard/user/oauth/authorize`, {
