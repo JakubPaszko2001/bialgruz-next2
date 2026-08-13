@@ -682,13 +682,13 @@ export default function OrderForm({ mode = "kontenery" }) {
                   Wybierz usługę i wypełnij dane — wycenę zobaczysz od razu na stronie.
                 </p>
               </div>
-              <button
+              {/* <button
                 type="button"
                 onClick={fillTest}
                 className="shrink-0 rounded-full border border-[#2a2b30] px-4 py-2 font-display text-[12px] font-bold uppercase tracking-[0.5px] text-[#7a7a82] transition-all hover:border-gold hover:text-gold"
               >
                 Test
-              </button>
+              </button> */}
             </div>
 
             <div className="rounded-2xl border border-[#2a2b30] bg-[#18191d] p-6 sm:p-10">
