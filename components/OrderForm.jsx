@@ -619,6 +619,8 @@ export default function OrderForm({ mode = "kontenery" }) {
         zleceniodawca_email: fields.email.trim(),
         data_podstawienia: plDate(start),
         cena_laczna: String(laczna),
+        forma_platnosci:
+          paymentMethod === "online" ? "Płatność online (PayU)" : paymentMethod === "gotówka" ? "Gotówką" : "—",
       };
       const dataOdbioru = fields.dateEnd ? plDate(new Date(fields.dateEnd)) : "";
 
@@ -673,22 +675,13 @@ export default function OrderForm({ mode = "kontenery" }) {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="mb-9 flex items-start justify-between gap-4">
-              <div>
-                <h2 className="font-display text-[26px] font-extrabold tracking-[-0.5px] text-gold">
-                  {svc ? svc.title : "Zamów online"}
-                </h2>
-                <p className="mt-1 text-[14px] text-[#7a7a82]">
-                  Wybierz usługę i wypełnij dane — wycenę zobaczysz od razu na stronie.
-                </p>
-              </div>
-              {/* <button
-                type="button"
-                onClick={fillTest}
-                className="shrink-0 rounded-full border border-[#2a2b30] px-4 py-2 font-display text-[12px] font-bold uppercase tracking-[0.5px] text-[#7a7a82] transition-all hover:border-gold hover:text-gold"
-              >
-                Test
-              </button> */}
+            <div className="mb-9">
+              <h2 className="font-display text-[26px] font-extrabold tracking-[-0.5px] text-gold">
+                {svc ? svc.title : "Zamów online"}
+              </h2>
+              <p className="mt-1 text-[14px] text-[#7a7a82]">
+                Wybierz usługę i wypełnij dane — wycenę zobaczysz od razu na stronie.
+              </p>
             </div>
 
             <div className="rounded-2xl border border-[#2a2b30] bg-[#18191d] p-6 sm:p-10">

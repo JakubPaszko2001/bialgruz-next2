@@ -1,4 +1,6 @@
 const plDate = (v) => (v ? new Date(v).toLocaleDateString("pl-PL") : "");
+const platnoscLabel = (v) =>
+  ({ online: "Płatność online (PayU)", "gotówka": "Gotówką", gotowka: "Gotówką" }[v] || v || "—");
 
 // Mapuje rekord zamówienia z bazy na dane szablonu umowy
 export function orderToUmowaData(order) {
@@ -36,6 +38,7 @@ export function orderToUmowaData(order) {
     liczba_serwisow: serw ? serw[1] : "",
     data_podstawienia: plDate(order.dataDostawy),
     data_zakonczenia: plDate(order.dataOdbioru),
+    forma_platnosci: platnoscLabel(order.platnosc),
     cena_jednostkowa: "",
     cena_laczna: order.szacowany || "",
     _signature: sig ? sig[1].trim() : "",
@@ -64,6 +67,7 @@ export function orderToUmowaDataKontener(order) {
     data_podstawienia: plDate(order.dataDostawy),
     data_odbioru: plDate(order.dataOdbioru),
     cena_laczna: order.szacowany || "",
+    forma_platnosci: platnoscLabel(order.platnosc),
     _signature: sig ? sig[1].trim() : "",
     _signedAt: sig && sig[2] ? sig[2].trim() : "",
   };
