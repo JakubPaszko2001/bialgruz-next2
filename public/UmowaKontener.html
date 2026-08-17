@@ -1,28 +1,130 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
   <meta charset="UTF-8" />
   <title>Umowa najmu kontenera - BIALGRUZ</title>
   <style>
-    @page { size: A4; margin: 15mm; }
-    body { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 10.5pt; line-height: 1.4; color: #2c3e50; margin: 0; padding: 0; background: #f4f6f8; }
-    .page-container { max-width: 950px; margin: 20px auto; background: #fff; padding: 45px 40px; box-shadow: 0 4px 15px rgba(0,0,0,.05); border-radius: 6px; }
-    .header-container { text-align: center; margin-bottom: 25px; border-bottom: 2px solid #34495e; padding-bottom: 15px; }
-    h1 { font-size: 15pt; margin: 0 0 5px; color: #1a252f; text-transform: uppercase; letter-spacing: .5px; }
-    .subtitle { font-size: 10pt; color: #7f8c8d; font-weight: 500; }
-    .date-container { margin-bottom: 20px; text-align: right; font-size: 10pt; }
-    .party-card { background: #f8f9fa; border: 1px solid #e9ecef; border-left: 4px solid #34495e; padding: 12px 15px; margin-bottom: 12px; border-radius: 4px; }
-    .party-card strong { color: #1a252f; }
-    .section-title { font-size: 11pt; font-weight: bold; margin: 22px 0 8px; color: #1a252f; text-transform: uppercase; border-bottom: 1px solid #eef2f7; padding-bottom: 3px; }
-    p { margin: 0 0 8px; text-align: justify; }
-    ul { margin: 5px 0 12px; padding-left: 20px; }
-    li { margin-bottom: 5px; text-align: justify; }
-    .note { font-size: 9pt; color: #555; margin: 4px 0 8px; font-style: italic; }
-    .signatures-table { width: 100%; border-collapse: collapse; margin-top: 40px; page-break-inside: avoid; }
-    .signatures-table td { width: 50%; text-align: center; vertical-align: top; padding: 0 20px; }
-    .signature-line { border-top: 1px solid #7f8c8d; padding-top: 8px; font-size: 10pt; color: #34495e; font-weight: bold; }
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.4;
+      color: #2c3e50;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+    }
+
+    .page-container {
+      max-width: 950px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 45px 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+      border-radius: 6px;
+    }
+
+    .header-container {
+      text-align: center;
+      margin-bottom: 25px;
+      border-bottom: 2px solid #34495e;
+      padding-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 15pt;
+      margin: 0 0 5px;
+      color: #1a252f;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .subtitle {
+      font-size: 10pt;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+
+    .date-container {
+      margin-bottom: 20px;
+      text-align: right;
+      font-size: 10pt;
+    }
+
+    .party-card {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      border-left: 4px solid #34495e;
+      padding: 12px 15px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+
+    .party-card strong {
+      color: #1a252f;
+    }
+
+    .section-title {
+      font-size: 11pt;
+      font-weight: bold;
+      margin: 22px 0 8px;
+      color: #1a252f;
+      text-transform: uppercase;
+      border-bottom: 1px solid #eef2f7;
+      padding-bottom: 3px;
+    }
+
+    p {
+      margin: 0 0 8px;
+      text-align: justify;
+    }
+
+    ul {
+      margin: 5px 0 12px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+
+    .note {
+      font-size: 9pt;
+      color: #555;
+      margin: 4px 0 8px;
+      font-style: italic;
+    }
+
+    .signatures-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+      page-break-inside: avoid;
+    }
+
+    .signatures-table td {
+      width: 50%;
+      text-align: center;
+      vertical-align: top;
+      padding: 0 20px;
+    }
+
+    .signature-line {
+      border-top: 1px solid #7f8c8d;
+      padding-top: 8px;
+      font-size: 10pt;
+      color: #34495e;
+      font-weight: bold;
+    }
   </style>
 </head>
+
 <body>
   <div class="page-container">
     <div class="header-container">
@@ -54,7 +156,8 @@
     </div>
 
     <div class="section-title">§ 1. Przedmiot Umowy</div>
-    <p>Zleceniobiorca zobowiązuje się do podstawienia, wynajmu, odbioru oraz wywozu i legalnej utylizacji odpadów przy użyciu kontenera / big-baga.</p>
+    <p>Zleceniobiorca zobowiązuje się do podstawienia, wynajmu, odbioru oraz wywozu i legalnej utylizacji odpadów przy
+      użyciu kontenera / big-baga.</p>
     <ul>
       <li><strong>Adres podstawienia:</strong> {{lokalizacja}}</li>
       <li><strong>Pojemność / rodzaj:</strong> {{pojemnosc}}</li>
@@ -64,33 +167,42 @@
       <li><strong>Data odbioru:</strong> {{data_odbioru}}</li>
       <li><strong>Wynagrodzenie brutto*:</strong> {{cena_laczna}} zł</li>
     </ul>
-    <p class="note">* Cena obejmuje podstawienie, wynajem, odbiór oraz utylizację odpadów do 4 ton. Przekroczenie masy lub umieszczenie odpadów niezgodnych z deklaracją może skutkować dodatkową opłatą wg cennika.</p>
+    <p class="note">* Cena obejmuje podstawienie, wynajem, odbiór oraz utylizację odpadów do 4 ton. Przekroczenie masy
+      lub umieszczenie odpadów niezgodnych z deklaracją może skutkować dodatkową opłatą wg cennika.</p>
 
     <div class="section-title">§ 2. Wynagrodzenie i płatności</div>
     <p>1. Zleceniodawca zobowiązuje się do zapłaty wynagrodzenia zgodnie z Umową.</p>
-    <p>2. Termin płatności wynosi 7 dni od dnia wystawienia faktury, o ile Strony nie ustaliły inaczej.</p>
+    <p>2. Termin płatności wynosi 3 dni od dnia wystawienia faktury, o ile Strony nie ustaliły inaczej.</p>
     <p>3. W przypadku zaległości płatniczych Zleceniobiorca może wstrzymać wykonywanie usług lub odebrać kontener.</p>
 
     <div class="section-title">§ 3. Obowiązki Zleceniodawcy</div>
     <p>1. Zleceniodawca zapewnia swobodny i bezpieczny dojazd oraz miejsce podstawienia kontenera.</p>
     <p>2. Zleceniodawca umieszcza w kontenerze wyłącznie odpady zgodne z zadeklarowanym rodzajem.</p>
-    <p>3. Zabrania się umieszczania odpadów niebezpiecznych (m.in. azbest, opony, elektroodpady, chemikalia, odpady płynne) bez odrębnych ustaleń.</p>
+    <p>3. Zabrania się umieszczania odpadów niebezpiecznych (m.in. azbest, opony, elektroodpady, chemikalia, odpady
+      płynne) bez odrębnych ustaleń.</p>
     <p>4. Zleceniodawca nie przekracza dopuszczalnej masy załadunku kontenera.</p>
 
     <div class="section-title">§ 4. Odpowiedzialność</div>
-    <p>1. Zleceniodawca ponosi odpowiedzialność za uszkodzenie, zniszczenie, utratę lub kradzież kontenera wynikające z jego działania lub zaniechania.</p>
-    <p>2. W przypadku umieszczenia odpadów niedozwolonych Zleceniodawca pokrywa koszty ich utylizacji oraz ewentualne kary.</p>
+    <p>1. Zleceniodawca ponosi odpowiedzialność za uszkodzenie, zniszczenie, utratę lub kradzież kontenera wynikające z
+      jego działania lub zaniechania.</p>
+    <p>2. W przypadku umieszczenia odpadów niedozwolonych Zleceniodawca pokrywa koszty ich utylizacji oraz ewentualne
+      kary.</p>
 
     <div class="section-title">§ 5. Siła wyższa</div>
-    <p>Zleceniobiorca nie ponosi odpowiedzialności za opóźnienia lub brak możliwości wykonania Umowy z przyczyn od niego niezależnych, w szczególności siły wyższej, warunków atmosferycznych, awarii sprzętu lub utrudnień drogowych.</p>
+    <p>Zleceniobiorca nie ponosi odpowiedzialności za opóźnienia lub brak możliwości wykonania Umowy z przyczyn od niego
+      niezależnych, w szczególności siły wyższej, warunków atmosferycznych, awarii sprzętu lub utrudnień drogowych.</p>
 
     <div class="section-title">§ 6. Prawo odstąpienia od umowy</div>
     <p class="note">(dotyczy wyłącznie Konsumentów i Przedsiębiorców na prawach konsumenta)</p>
-    <p>1. Konsument oraz Przedsiębiorca na prawach konsumenta mogą odstąpić od Umowy zawartej na odległość lub poza lokalem przedsiębiorstwa w terminie 14 dni od dnia jej zawarcia, bez podawania przyczyny.</p>
-    <p>2. Prawo odstąpienia nie przysługuje, jeżeli usługa została w pełni wykonana za wyraźną i uprzednią zgodą Konsumenta, poinformowanego o utracie tego prawa po spełnieniu świadczenia.</p>
+    <p>1. Konsument oraz Przedsiębiorca na prawach konsumenta mogą odstąpić od Umowy zawartej na odległość lub poza
+      lokalem przedsiębiorstwa w terminie 14 dni od dnia jej zawarcia, bez podawania przyczyny.</p>
+    <p>2. Prawo odstąpienia nie przysługuje, jeżeli usługa została w pełni wykonana za wyraźną i uprzednią zgodą
+      Konsumenta, poinformowanego o utracie tego prawa po spełnieniu świadczenia.</p>
 
     <div class="section-title">§ 7. Dane osobowe</div>
-    <p>Administratorem danych osobowych jest BIALGRUZ sp. z o.o. Szczegółowe informacje znajdują się w klauzuli informacyjnej na stronie <a href="https://bialgruz.pl" target="_blank" style="color:#2980b9;text-decoration:none;">https://bialgruz.pl</a>.</p>
+    <p>Administratorem danych osobowych jest BIALGRUZ sp. z o.o. Szczegółowe informacje znajdują się w klauzuli
+      informacyjnej na stronie <a href="https://bialgruz.pl" target="_blank"
+        style="color:#2980b9;text-decoration:none;">https://bialgruz.pl</a>.</p>
 
     <div class="section-title">§ 8. Postanowienia końcowe</div>
     <p>1. W sprawach nieuregulowanych Umową stosuje się przepisy powszechnie obowiązujące.</p>
@@ -98,10 +210,15 @@
 
     <table class="signatures-table">
       <tr>
-        <td><div class="signature-line">Zleceniobiorca</div></td>
-        <td><div class="signature-line">Zleceniodawca</div></td>
+        <td>
+          <div class="signature-line">Zleceniobiorca</div>
+        </td>
+        <td>
+          <div class="signature-line">Zleceniodawca</div>
+        </td>
       </tr>
     </table>
   </div>
 </body>
+
 </html>
