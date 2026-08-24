@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "./supabaseClient";
 import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown, FaFilePdf, FaFileContract, FaSignOutAlt } from "react-icons/fa";
-import { downloadUmowaPdf, UMOWA_TYPES } from "./umowaPdf";
+import { downloadUmowaPdf, UMOWA_TYPES, generateLinkToken, linkExpiryDate } from "./umowaPdf";
 
 /* ── Style tokens (spójne z formularzem zamówień) ── */
 const inputCls =
@@ -107,7 +107,7 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
 
   /* ── Helpery ── */
   const normalize = (val) =>
-    (val ?? "").toString().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
+    (val ?? "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   const digitsOnly = (val) => (val ?? "").toString().replace(/\D/g, "");
   const isValidDate = (d) => d instanceof Date && !isNaN(d.valueOf());
   const toDateMaybe = (v) => { if (!v) return null; const d = new Date(v); return isValidDate(d) ? d : null; };
@@ -231,6 +231,42 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
   const handleDownloadUmowa = async (order) => {
     const cfg = UMOWA_TYPES[umowaTyp] || UMOWA_TYPES.toaleta;
     await downloadUmowaPdf(cfg.map(order), `umowa_${order.numerZlecenia || order.id}.pdf`, cfg.template);
+  };
+
+  // Pełny, tymczasowy link do umowy (z losowym tokenem)
+  const umowaLink = (order) => {
+    if (!order?.link_token) return null;
+    return `${window.location.origin}/umowa/${umowaTyp}/${order.link_token}`;
+  };
+
+  // Kopiowanie linku do schowka
+  const copyUmowaLink = async (order) => {
+    const link = umowaLink(order);
+    if (!link) return;
+    try {
+      await navigator.clipboard.writeText(link);
+      alert("Link do umowy skopiowano do schowka.");
+    } catch {
+      alert("Nie udało się skopiować linku.");
+    }
+  };
+
+  // Regeneracja bezpiecznego linku: nowy token + odnowiona data ważności (1 h)
+  const regenerateLink = async () => {
+    if (!editOrder?.id) return;
+    const link_token = generateLinkToken();
+    const link_expires_at = linkExpiryDate();
+    const { error } = await supabase
+      .from(table)
+      .update({ link_token, link_expires_at })
+      .eq("id", editOrder.id);
+    if (!error) {
+      setEditOrder({ ...editOrder, link_token, link_expires_at });
+      fetchOrders();
+    } else {
+      console.error("Błąd regenerowania linku:", error.message);
+      alert("Nie udało się wygenerować nowego linku.");
+    }
   };
 
   const fmtCell = (order, field) => {
@@ -383,6 +419,48 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
                     </div>
                   ))}
                 </div>
+
+                {showUmowa && (
+                  <div className="mt-6 rounded-xl border border-[#2a2b30] bg-[#0f1012] p-5">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="text-[12px] font-medium uppercase tracking-[0.7px] text-[#7a7a82]">
+                        Tymczasowy link do umowy (dla klienta)
+                      </span>
+                      <span className="text-[11px] text-[#7a7a82]">wygasa po 1 h</span>
+                    </div>
+                    {umowaLink(editOrder) ? (
+                      <>
+                        <input
+                          readOnly
+                          value={umowaLink(editOrder) || ""}
+                          onFocus={(e) => e.target.select()}
+                          className="w-full rounded-lg border border-[#2a2b30] bg-[#18191d] px-3 py-2.5 font-mono text-[12px] text-[#d6d3ce] outline-none focus:border-gold"
+                        />
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <button
+                            onClick={() => copyUmowaLink(editOrder)}
+                            className="rounded-full border border-[#2a2b30] px-4 py-2 font-display text-[12px] font-bold uppercase text-gold transition-all hover:border-gold"
+                          >
+                            Kopiuj link
+                          </button>
+                          <button
+                            onClick={regenerateLink}
+                            className="rounded-full border border-[#2a2b30] px-4 py-2 font-display text-[12px] font-bold uppercase text-[#f0ede8] transition-all hover:border-gold hover:text-gold"
+                          >
+                            Wygeneruj nowy link
+                          </button>
+                        </div>
+                        <p className="mt-2 text-[11px] text-[#7a7a82]">
+                          Po wygaśnięciu klient zobaczy komunikat, że link jest nieaktualny. Nowy link możesz wysłać ponownie klientowi.
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-[13px] text-[#7a7a82]">
+                        Ten rekord nie ma jeszcze bezpiecznego linku. Kliknij „Wygeneruj nowy link”, aby utworzyć tymczasowe łącze do umowy.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
               <div className="flex shrink-0 flex-wrap items-center justify-end gap-3 border-t border-[#2a2b30] px-5 py-4">
                 {showUmowa && (

@@ -7,7 +7,7 @@ import LegalModal from "./LegalModal";
 import Regulamin from "@/components/Regulamin";
 import RegulaminUslug from "@/components/RegulaminUslug";
 import Rodo from "./Rodo";
-import { downloadUmowaPdf } from "./umowaPdf";
+import { downloadUmowaPdf, generateLinkToken, linkExpiryDate } from "./umowaPdf";
 
 /* ── Pricing data ── */
 const SERVICES = {
@@ -472,6 +472,9 @@ export default function OrderForm({ mode = "kontenery" }) {
       szacowany: individualQuote ? "Wycena indywidualna" : estimatedPrice != null ? estimatedPrice.toString() : null,
       dataDostawy: fields.date || null,
       Status: "Do realizacji",
+      // Secure temporary agreement link: random token + 1h expiry
+      link_token: generateLinkToken(),
+      link_expires_at: linkExpiryDate(),
     };
 
     // Data odbioru (do) i data serwisu — tylko toalety
@@ -504,8 +507,10 @@ export default function OrderForm({ mode = "kontenery" }) {
       setSubmitted(true);
 
       // Strona podpisu umowy w nowej karcie (kontenery i toalety)
+      // Uzyjemy losowego tokenu (payload.link_token), a nie surowego ID - bezpieczne i tymczasowe.
       if (signWin && inserted?.id) {
-        signWin.location.href = `/umowa/${isToilet ? "toaleta" : "kontener"}/${inserted.id}`;
+        const token = payload.link_token;
+        signWin.location.href = `/umowa/${isToilet ? "toaleta" : "kontener"}/${token}`;
       } else if (signWin) {
         signWin.close();
       }

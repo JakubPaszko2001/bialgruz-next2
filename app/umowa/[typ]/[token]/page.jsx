@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/components/supabaseClient";
-import { UMOWA_TYPES, buildUmowaHtml, downloadUmowaPdf } from "@/components/umowaPdf";
+import { UMOWA_TYPES, buildUmowaHtml, downloadUmowaPdf, isLinkExpired, LINK_VALID_HOURS } from "@/components/umowaPdf";
 
 export default function UmowaSignPage() {
-  const { typ, id } = useParams();
+  const { typ, token } = useParams();
   const cfg = UMOWA_TYPES[typ] || UMOWA_TYPES.toaleta;
   const table = cfg.table;
 
@@ -17,13 +17,26 @@ export default function UmowaSignPage() {
   const [accepted, setAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [expired, setExpired] = useState(false);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { data, error: err } = await supabase.from(table).select("*").eq("id", id).single();
+      // Szukamy zamówienia po losowym tokenie (a nie po surowym ID).
+      // Dzięki temu nikt nie może enumerować / przeglądać cudzych umów.
+      const { data, error: err } = await supabase
+        .from(table)
+        .select("*")
+        .eq("link_token", token)
+        .single();
       if (err || !data) {
-        setError("Nie znaleziono zamówienia.");
+        setError("Nie znaleziono zamówienia. Możliwe, że link wygasł lub jest nieprawidłowy.");
+        setLoading(false);
+        return;
+      }
+      // Kontrola ważności: po upływie LINK_VALID_HOURS ogólny link przestaje działać.
+      if (isLinkExpired(data.link_expires_at)) {
+        setExpired(true);
         setLoading(false);
         return;
       }
@@ -35,7 +48,7 @@ export default function UmowaSignPage() {
       }
       setLoading(false);
     })();
-  }, [table, id]);
+  }, [table, token, cfg]);
 
   const data = useMemo(() => (order ? cfg.map(order) : null), [order, cfg]);
 
@@ -48,12 +61,12 @@ export default function UmowaSignPage() {
       const signedAt = new Date().toLocaleString("pl-PL");
       await downloadUmowaPdf(
         { ...data, _signature: name.trim(), _signedAt: signedAt },
-        `umowa_${order.numerZlecenia || id}.pdf`,
+        `umowa_${order.numerZlecenia || token}.pdf`,
         cfg.template
       );
       // Zapis podpisu (imię + data/godzina) do zamówienia
       const message = `${order.message ? order.message + "\n" : ""}Podpisano elektronicznie przez: ${name.trim()} — ${signedAt}`;
-      await supabase.from(table).update({ message }).eq("id", id);
+      await supabase.from(table).update({ message }).eq("id", order.id);
       setDone(true);
     } catch (err) {
       console.error(err);
@@ -67,6 +80,22 @@ export default function UmowaSignPage() {
     return <div className="flex min-h-screen items-center justify-center bg-[#e9edf1] text-[#34495e]">Wczytywanie umowy…</div>;
   }
 
+  // Link wygasł — komunikat bez ujawniania danych
+  if (expired) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#e9edf1] px-4 text-center">
+        <div className="w-full max-w-md rounded-lg border border-red-300 bg-white p-10 shadow-lg">
+          <h1 className="text-2xl font-bold text-[#c0392b]">Link do umowy wygasł</h1>
+          <p className="mt-4 text-[#34495e]">
+            Dostęp do tej umowy jest tymczasowy ({LINK_VALID_HOURS} godz.) i już się zakończył.
+            Umowa pozostaje w pełni dostępna dla BIALGRUZ — jeśli potrzebujesz jej ponownie,
+            skontaktuj się z nami, a prześlemy nowy link lub kopię umowy.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (error && !order) {
     return <div className="flex min-h-screen items-center justify-center bg-[#e9edf1] text-[#c0392b]">{error}</div>;
   }
@@ -78,6 +107,11 @@ export default function UmowaSignPage() {
         <div className="overflow-hidden rounded-lg border border-black/10 bg-white shadow-lg">
           <iframe title="Umowa" srcDoc={html} className="h-[70vh] w-full border-0" />
         </div>
+
+        {/* Informacja o ważności linku */}
+        <p className="mt-3 text-center text-[12px] text-[#7f8c8d]">
+          Ten link do podpisania umowy jest ważny przez {LINK_VALID_HOURS} godz. od złożenia zamówienia.
+        </p>
 
         {done ? (
           <div className="mt-6 rounded-lg border border-green-600/40 bg-white p-8 text-center">

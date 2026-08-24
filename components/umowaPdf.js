@@ -2,6 +2,30 @@ const plDate = (v) => (v ? new Date(v).toLocaleDateString("pl-PL") : "");
 const platnoscLabel = (v) =>
   ({ online: "Płatność online (PayU)", "gotówka": "Gotówką", gotowka: "Gotówką" }[v] || v || "—");
 
+/* ── Bezpieczeństwo linków do umów ──
+   Link do umowy do podpisu jest TYMCZASOWY: działa przez LINK_VALID_HOURS od utworzenia.
+   Umowę rozpoznajemy po losowym tokenie (link_token), a nie po surowym ID,
+   dzięki czemu nikt nie może "przeczesać" wszystkich umów po ID. */
+export const LINK_VALID_HOURS = 1; // po ilu godzinach link do umowy wygasa
+
+// Losowy, bezpieczny token (32 znaki hex)
+export function generateLinkToken() {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// Data wygaśnięcia linku (używana przy tworzeniu zamówienia)
+export function linkExpiryDate(hours = LINK_VALID_HOURS) {
+  return new Date(Date.now() + hours * 3600 * 1000).toISOString();
+}
+
+// Kontrola, czy link już wygasł
+export function isLinkExpired(expiresAt) {
+  if (!expiresAt) return true; // brak daty ważności = wygasły (bezpieczna domyślna)
+  return new Date(expiresAt).getTime() < Date.now();
+}
+
 // Mapuje rekord zamówienia z bazy na dane szablonu umowy
 export function orderToUmowaData(order) {
   const ru = order.rodzajuslugi || "";
