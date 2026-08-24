@@ -120,8 +120,11 @@ const TOILET_ADDONS_UMYWALKA = [
   { key: "reczniki", label: "Podajnik z ręcznikami papierowymi", price: 59 },
 ];
 
-// Limit dojazdu dla toalet: do 100 km cena z listy, powyżej — wycena indywidualna
+// Toalety: do 100 km cena z listy, powyżej 100 km +5 zł za każdy dodatkowy km
 const TOILET_FREE_RADIUS_KM = 100;
+const KONTAINER_FREE_KM = 30;  // kontenery/pakiety: do 30 km dojazd wliczony w cene
+const EXTRA_KM_RATE = 5;       // doplata (zł) za kazdy dodatkowy km powyzej limitu
+
 
 // Metadane do umowy: czas trwania i liczba serwisów/mies.
 const CONTRACT_META = {
@@ -342,19 +345,14 @@ export default function OrderForm({ mode = "kontenery" }) {
       const distance = calculateDistance(DEPOT.lat, DEPOT.lon, coords.lat, coords.lon);
       const qty = Math.max(1, parseInt(fields.quantity, 10) || 1);
 
-      if (svc?.isPackage) {
-        // pakiet: cena pakietu + dojazd
-        setEstimatedPrice(Math.round((basePrice + distance * TRANSPORT_RATE) * qty));
-      } else if (isToilet) {
-        // do 100 km cena z listy, powyżej — wycena indywidualna
-        if (distance > TOILET_FREE_RADIUS_KM) {
-          setEstimatedPrice(null);
-          setIndividualQuote(true);
-        } else {
-          setEstimatedPrice(basePrice * qty + orderAddonsTotal);
-        }
+      if (svc?.isPackage || !isToilet) { 
+        // KONTENERY / PAKIETY: do 30 km dojazd wliczony w cenę, powyżej 30 km +5 zł za każdy dodatkowy km
+        const deliveryExtra = Math.max(0, distance - KONTAINER_FREE_KM) * EXTRA_KM_RATE;
+        setEstimatedPrice(Math.round((basePrice + deliveryExtra) * qty));
       } else {
-        setEstimatedPrice(Math.round((basePrice + distance * TRANSPORT_RATE) * qty));
+        // TOALETY: do 100 km cena z listy, powyżej 100 km +5 zł za każdy dodatkowy km
+        const toiletExtra = distance > TOILET_FREE_RADIUS_KM ? Math.max(0, distance - TOILET_FREE_RADIUS_KM) * EXTRA_KM_RATE : 0;
+        setEstimatedPrice(Math.round(basePrice * qty + orderAddonsTotal + toiletExtra));
       }
     } catch {
       setEstimatedPrice(null);
