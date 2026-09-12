@@ -2,15 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
 /* Strona główna — scroll-snap: przewinięcie od razu przeskakuje do kolejnej sekcji (100vh).
    scroll-snap-stop: always wymusza zatrzymanie na każdej sekcji (bez przeskakiwania kilku naraz). */
 .snap-home {
   scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
 }
@@ -55,9 +50,6 @@ body {
 
 /* Uszanuj preferencje użytkownika (WCAG 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {

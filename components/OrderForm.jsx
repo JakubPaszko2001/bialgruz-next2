@@ -264,7 +264,7 @@ export default function OrderForm({ mode = "kontenery" }) {
   // Po wysłaniu przewiń do góry potwierdzenia (po ustaniu animacji), żeby scroll nie skakał na dół
   useEffect(() => {
     if (!submitted) return;
-    const t = setTimeout(() => rootRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 350);
+    const t = setTimeout(() => rootRef.current?.scrollIntoView({ behavior: "auto", block: "start" }), 350);
     return () => clearTimeout(t);
   }, [submitted]);
   const [fields, setFields] = useState({
