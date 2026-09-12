@@ -10,27 +10,29 @@ const SOCIALS = [
 
 export default function Footer({ copy }) {
   return (
-    <footer className="flex flex-wrap items-center justify-between gap-5 border-t border-white/[0.06] bg-ink-800 px-6 py-10 sm:px-[60px]">
-      <Link href="/">
-        <Image src="/logo.png" alt="BIOLGRUZ" width={140} height={38} className="h-[38px] w-auto" />
-      </Link>
-      <p className="text-[13px] text-[#888]">
-        {copy || "© 2025 BIOLGRUZ. Toalety przenośne i kontenery na odpady budowlane."}
-      </p>
-      <div className="flex flex-wrap items-center gap-6">
-        <div className="flex items-center gap-3">
-          {SOCIALS.map(({ icon: Icon, label, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[15px] text-[#888] transition-all hover:border-brand-yellow hover:bg-brand-yellow hover:text-ink-black"
-            >
-              <Icon />
-            </a>
-          ))}
+        <footer className="border-t border-white/[0.06] bg-ink-800 px-6 py-10 sm:px-[60px]">
+      <div className="mx-auto flex w-full max-w-[1300px] flex-wrap items-center justify-between gap-5">
+        <Link href="/">
+          <Image src="/logo.png" alt="BIALGRUZ" width={140} height={38} className="h-[38px] w-auto" />
+        </Link>
+        <p className="text-[13px] text-[#888]">
+          {copy || "© 2026 BIALGRUZ. Toalety przenośne i kontenery na odpady budowlane."}
+        </p>
+        <div className="flex flex-wrap items-center gap-6">
+          <div className="flex items-center gap-3">
+            {SOCIALS.map(({ icon: Icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-[15px] text-[#888] transition-all hover:border-brand-yellow hover:bg-brand-yellow hover:text-ink-black"
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

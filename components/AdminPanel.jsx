@@ -482,8 +482,10 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
 
       {/* Potwierdzenie usunięcia */}
       {deleteTarget != null && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-          <div className="w-full max-w-sm rounded-2xl border border-[#f04a4a]/60 bg-[#18191d] p-7 text-center">
+
+
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          <div role="dialog" aria-modal="true" aria-label="Potwierdź usunięcie" className="w-full max-w-sm rounded-2xl border border-[#f04a4a]/60 bg-[#18191d] p-7 text-center">
             <h2 className="mb-3 font-display text-[22px] font-extrabold text-[#f04a4a]">Potwierdź usunięcie</h2>
             <p className="mb-6 text-[14px] font-light text-[#7a7a82]">Czy na pewno chcesz usunąć to zamówienie?</p>
             <div className="flex justify-center gap-3">

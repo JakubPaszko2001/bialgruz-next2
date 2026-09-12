@@ -6,10 +6,65 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Strona główna — scroll-snap: przewinięcie od razu przeskakuje do kolejnej sekcji (100vh).
+   scroll-snap-stop: always wymusza zatrzymanie na każdej sekcji (bez przeskakiwania kilku naraz). */
+.snap-home {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+.snap-home .snap-start {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
 body {
   background: #0d0d0d;
   color: #ffffff;
   overflow-x: hidden;
+}
+
+/* Widoczny focus dla klawiatury (WCAG 2.4.7) */
+:focus-visible {
+  outline: 2px solid #eab308;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link — niewidoczny, widoczny przy focusie (WCAG 2.4.1) */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 10000;
+  transform: translate(-50%, -120%);
+  border-radius: 0 0 8px 8px;
+  background: #eab308;
+  color: #0d0d0d;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}
+
+/* Uszanuj preferencje użytkownika (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* Diagonal dark texture used on hero panels / hero backgrounds */
@@ -31,3 +86,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0.7);
   cursor: pointer;
 }
+

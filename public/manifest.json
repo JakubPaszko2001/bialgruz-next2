@@ -1,5 +1,13 @@
 {
- "name": "App",
+ "name": "BIALGRUZ — wynajem kontenerów, big-bagów i toalet przenośnych",
+ "short_name": "BIALGRUZ",
+ "description": "Wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie Białegostoku.",
+ "start_url": "/",
+ "scope": "/",
+ "display": "standalone",
+ "background_color": "#0d0d0d",
+ "theme_color": "#0d0d0d",
+ "lang": "pl",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { cloneElement, useEffect, useId, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "./supabaseClient";
 import LegalModal from "./LegalModal";
@@ -149,8 +149,8 @@ const plDate = (d) => (d ? d.toLocaleDateString("pl-PL") : "");
 
 
 // Tabele Supabase per tryb
-const TABLE_BY_MODE = { kontenery: "Zamówienia", toalety: "ToaletyZamowienia" };
-const PREFIX_BY_MODE = { kontenery: "BIAL", toalety: "TOA" };
+const TABLE_BY_MODE = { kontenery: "Zamówienia", bigbag: "Zamówienia", toalety: "ToaletyZamowienia" };
+const PREFIX_BY_MODE = { kontenery: "BIAL", bigbag: "BIAL", toalety: "TOA" };
 
 // Pakiety (kontener + toaleta). Cena bazowa stała, dojazd doliczany jak przy kontenerze.
 const PACKAGES = [
@@ -193,6 +193,9 @@ const SERVICE_LISTS = {
     { key: "bigbag", label: "Big-Bag 1m³", sub: "od 299 zł brutto" },
     { key: "kontener", label: "Kontener", sub: "od 390 zł brutto" },
   ],
+  bigbag: [
+    { key: "bigbag", label: "Big-Bag 1m³", sub: "od 299 zł brutto" },
+  ],
   toalety: [
     { key: "t7dni", label: "7 dni · 1 serwis", price: "199 zł", sub: "184,26 zł netto" },
     { key: "t1m1s", label: "1 miesiąc · 1 serwis", price: "249 zł", sub: "230,56 zł netto" },
@@ -207,6 +210,7 @@ function OptCard({ item, selected, onClick, error }) {
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={selected}
       className={`relative min-w-[140px] flex-1 select-none rounded-xl border bg-[#0f1012] p-4 px-5 text-left transition-all duration-200 ${error ? "border-[#f04a4a]" : selected ? "border-gold ring-1 ring-gold-dark" : "border-[#2a2b30]"
         } ${selected ? "-translate-y-0.5 bg-[rgba(245,200,66,0.06)]" : "hover:-translate-y-0.5 hover:border-gold-dark"}`}
     >
@@ -727,7 +731,8 @@ export default function OrderForm({ mode = "kontenery" }) {
 
                 <hr className={dividerCls} />
                 <Field label={svc ? svc.quantityLabel : "Ilość *"}>
-                  <input className={inputCls} type="number" min="1" max="20" value={fields.quantity} onChange={(e) => { setField("quantity", e.target.value); clearEstimate(); }} />
+
+                  <input className={inputCls} type="number" inputMode="numeric" min="1" max="20" value={fields.quantity} onChange={(e) => { setField("quantity", e.target.value); clearEstimate(); }} />
                 </Field>
 
                 <div className={sectionLabelCls}>Rodzaj usługi *</div>
@@ -839,17 +844,17 @@ export default function OrderForm({ mode = "kontenery" }) {
                 <hr className={dividerCls} />
                 <div className={sectionLabelCls}>Dane kontaktowe</div>
 
-                <Field label="Imię i nazwisko *" error={errors.name}>
+                                <Field label="Imię i nazwisko *" error={errors.name}>
                   <input className={inputCls} placeholder="Jan Kowalski" value={fields.name} onChange={(e) => setField("name", e.target.value)} />
                 </Field>
                 <Field label="Telefon *" error={errors.phone}>
-                  <input className={inputCls} placeholder="+48 500 000 000" value={fields.phone} onChange={(e) => setField("phone", e.target.value)} />
+                  <input className={inputCls} type="tel" inputMode="tel" autoComplete="tel" placeholder="+48 500 000 000" value={fields.phone} onChange={(e) => setField("phone", e.target.value)} />
                 </Field>
                 <Field label="E-mail">
-                  <input className={inputCls} type="email" placeholder="jan@firma.pl" value={fields.email} onChange={(e) => setField("email", e.target.value)} />
+                  <input className={inputCls} type="email" inputMode="email" autoComplete="email" placeholder="jan@firma.pl" value={fields.email} onChange={(e) => setField("email", e.target.value)} />
                 </Field>
-                <Field label="NIP / PESEL *" error={errors.company}>
-                  <input className={inputCls} placeholder="1234567890" value={fields.company} onChange={(e) => setField("company", e.target.value)} />
+                                <Field label="NIP / PESEL *" error={errors.company}>
+                  <input className={inputCls} inputMode="numeric" placeholder="1234567890" value={fields.company} onChange={(e) => setField("company", e.target.value)} />
                 </Field>
 
                 <hr className={dividerCls} />
@@ -940,7 +945,12 @@ export default function OrderForm({ mode = "kontenery" }) {
                         Adres powyżej 100 km od bazy — <span className="font-semibold text-gold">wycena indywidualna</span>. Wyślij zamówienie, oddzwonimy z ceną.
                       </div>
                     )}
-                    {priceError && <p className="text-[13px] text-[#f04a4a]">{priceError}</p>}
+
+                    {priceError && (
+                      <p role="alert" aria-live="polite" className="text-[13px] text-[#f04a4a]">
+                        {priceError}
+                      </p>
+                    )}
                   </div>
                 )}
 
@@ -1007,17 +1017,21 @@ export default function OrderForm({ mode = "kontenery" }) {
                     checked={consents.odstapienie}
                     onChange={() => { setConsents((c) => ({ ...c, odstapienie: !c.odstapienie })); setErrors((e) => ({ ...e, consents: false })); }}
                   >
-                    Wyrażam zgodę na rozpoczęcie realizacji usługi przed upływem 14 dni od zawarcia umowy oraz przyjmuję
+                                                            Wyrażam zgodę na rozpoczęcie realizacji usługi przed upływem 14 dni od zawarcia umowy oraz przyjmuję
                     do wiadomości, że po jej wykonaniu utracę prawo odstąpienia od umowy.
                   </Consent>
                   {errors.consents && (
-                    <p className="text-[13px] text-[#f04a4a]">Zaznacz wszystkie wymagane zgody.</p>
+                    <p role="alert" className="text-[13px] text-[#f04a4a]">
+                      Zaznacz wszystkie wymagane zgody.
+                    </p>
                   )}
                 </div>
               </div>
 
               {submitError && (
-                <p className="mt-5 text-[14px] text-[#f04a4a]">{submitError}</p>
+                <p role="alert" aria-live="assertive" className="mt-5 text-[14px] text-[#f04a4a]">
+                  {submitError}
+                </p>
               )}
               <div className="mt-7 flex flex-wrap items-center justify-between gap-4">
                 <div className="flex flex-wrap gap-3">
@@ -1111,10 +1125,23 @@ function Step({ active, done, num, label }) {
 }
 
 function Field({ label, error, children }) {
+  const id = useId();
   return (
     <div className="flex flex-col gap-2">
-      <label className={labelCls}>{label}</label>
-      <div className={error ? "[&_input]:border-[#f04a4a]" : ""}>{children}</div>
+      <label htmlFor={id} className={labelCls}>
+        {label}
+      </label>
+      <div className={error ? "[&_input]:border-[#f04a4a]" : ""}>
+        {cloneElement(children, {
+          id,
+          "aria-invalid": error ? true : undefined,
+        })}
+      </div>
+      {error && (
+        <span role="alert" className="text-[12px] text-[#f04a4a]">
+          To pole jest wymagane.
+        </span>
+      )}
     </div>
   );
 }
@@ -1122,16 +1149,23 @@ function Field({ label, error, children }) {
 function Consent({ checked, onChange, children }) {
   return (
     <label className="flex cursor-pointer items-start gap-3 text-[14px] leading-snug text-[#d6d3ce]">
-      <button
-        type="button"
-        onClick={onChange}
-        aria-pressed={checked}
-        className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border text-[11px] transition-all ${checked ? "border-gold bg-gold font-bold text-[#0f1012]" : "border-[#2a2b30]"
+      <span className="relative mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={onChange}
+          className="peer absolute h-5 w-5 cursor-pointer opacity-0"
+        />
+        <span
+          aria-hidden
+          className={`grid h-5 w-5 place-items-center rounded-md border text-[11px] transition-all peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand-yellow ${
+            checked ? "border-gold bg-gold font-bold text-[#0f1012]" : "border-[#2a2b30]"
           }`}
-      >
-        {checked ? "✓" : ""}
-      </button>
-      <span onClick={onChange}>{children}</span>
+        >
+          {checked ? "✓" : ""}
+        </span>
+      </span>
+      <span>{children}</span>
     </label>
   );
 }

@@ -21,7 +21,10 @@ export default function LegalModal({ title, onClose, children }) {
       className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto bg-black/70 px-4 py-8 backdrop-blur-sm"
       onClick={onClose}
     >
-      <div
+            <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
         className="relative flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-[#2a2b30] bg-[#18191d] shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >

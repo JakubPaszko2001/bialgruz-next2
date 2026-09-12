@@ -9,63 +9,39 @@ const bigbagIcon = (
   </svg>
 );
 
-const boxIcon = (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
-    <path d="M3 8h18l-2 10H5z" />
-    <path d="M2 6h20v2H2z" />
-  </svg>
-);
-
-const bigBoxIcon = (
-  <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
-    <path d="M2 8h20l-2 11H4z" />
-    <path d="M1 6h22v2H1z" />
-  </svg>
-);
-
 const CARDS = [
   {
-    name: "Big-Bag", size: "1 m³", icon: bigbagIcon,
+    name: "Big-Bag",
+    size: "1 m³",
+    icon: bigbagIcon,
+    featured: true,
     rows: [
       { label: "Gruz", num: "299" },
       { label: "Zmieszane", num: "390" },
     ],
     features: ["Worek Big-Bag 1 m³", "Podstawienie i odbiór", "Wywóz i utylizacja"],
   },
-  {
-    name: "Kontener", size: "5 m³", icon: boxIcon, featured: true,
-    rows: [
-      { label: "Gruz", num: "390" },
-      { label: "Zmieszane", num: "1190" },
-    ],
-    features: ["Kontener 5 m³", "Podstawienie i odbiór", "Wywóz i utylizacja"],
-  },
-  {
-    name: "Kontener", size: "7 m³", icon: bigBoxIcon,
-    rows: [{ label: "Zmieszane", num: "1390" }],
-    features: ["Kontener 7 m³", "Podstawienie i odbiór", "Wywóz i utylizacja"],
-  },
 ];
 
-export default function OfferKontenery() {
+export default function OfferBigbag() {
   return (
-    <section id="oferta" className="bg-ink-800 py-20">
+    <section id="oferta" className="bg-ink-800 px-6 py-20 sm:px-[60px]">
       <div className="mx-auto w-full max-w-[1300px]">
         <Reveal className="mb-13 flex flex-wrap items-end justify-between gap-10">
           <div>
             <Eyebrow>Nasza oferta</Eyebrow>
             <SectionTitle>
-              Kontenery na <em className="not-italic text-brand-yellow">każdą</em>
+              Big Bag na <em className="not-italic text-brand-yellow">każdą</em>
               <br />
-              ilość odpadów
+              potrzebę
             </SectionTitle>
           </div>
           <p className="max-w-[500px] text-[16px] leading-[1.7] text-[#cccccc]">
-            Oferujemy big bagi i kontenery różnej pojemności dopasowane do skali prac — od drobnych remontów po duże budowy i wyburzenia.
+            Worek Big-Bag 1 m³ to elastyczne rozwiązanie na mniejsze remonty i sprzątanie — dowozimy, wypełniasz we własnym tempie, a my odbieramy po zgłoszeniu.
           </p>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {CARDS.map((c, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div
@@ -75,7 +51,7 @@ export default function OfferKontenery() {
               >
                 {c.featured && (
                   <span className="absolute left-1/2 top-[-13px] -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-yellow px-3.5 py-1 font-display text-[11px] font-bold uppercase tracking-[2px] text-ink-black">
-                    Popularny
+                    Popularne
                   </span>
                 )}
                 <div className="mb-5 flex items-center gap-3">

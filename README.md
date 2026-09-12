@@ -1,41 +1,7 @@
-# BIOLGRUZ — Next.js
+# BIALGRUZ — Next.js
 
-Strona firmowa BIOLGRUZ przepisana z plików HTML/CSS na **Next.js (App Router) + Tailwind CSS + Framer Motion**.
+Strona firmowa BIALGRUZ przepisana z plików HTML/CSS na **Next.js (App Router) + Tailwind CSS + Framer Motion**.
 
 ## Uruchomienie
 
-```bash
-cd next-app
-npm install
-npm run dev      # tryb deweloperski → http://localhost:3000
-npm run build    # build produkcyjny
-npm run start    # uruchomienie builda
-```
 
-## Struktura
-
-- `app/page.jsx` — strona główna (z `main.html`): dwa panele „Toalety przenośne" / „Kontenery na odpady".
-- `app/toalety-przenosne/page.jsx` — podstrona toalet (z `kible.html`).
-- `app/kontenery/page.jsx` — podstrona kontenerów i big bagów (z `kontenery.html`).
-- `components/`
-  - `SiteNav.jsx` — nawigacja strony głównej (linki do podstron + dropdown telefonów).
-  - `PageNav.jsx` — nawigacja podstron (kotwice #oferta / #dlaczego / #jak / #kontakt).
-  - `Footer.jsx`, `Reveal.jsx` (animacja scroll), `subUI.jsx` (Hero, Strip, Why, Steps, Contact).
-  - `OfferToilets.jsx`, `OfferKontenery.jsx` — cenniki.
-  - `OrderForm.jsx` — interaktywny formularz zamówienia (tryb `toalety` lub `kontenery`).
-- `public/` — obrazy (logo, toaleta, kontener, big bag).
-
-## Nawigacja (podłączone linki)
-
-- Logo → `/`
-- „Toalety przenośne" → `/toalety-przenosne`
-- „Kontenery na gruz" → `/kontenery`
-- Na podstronach: Oferta/Dlaczego My/Jak To Działa/Zamów Teraz → kotwice sekcji.
-
-Cała stylizacja jest w Tailwind, responsywność (mobile → desktop) w utility-klasach,
-a animacje wejścia sekcji/kart realizuje Framer Motion (`Reveal` + `motion`).
-
-## Deploy na Vercel
-
-Zaimportuj repozytorium w [vercel.com/new](https://vercel.com/new) — Vercel automatycznie wykryje Next.js.
-Root katalog projektu to katalog tego repozytorium (bez dodatkowej konfiguracji).

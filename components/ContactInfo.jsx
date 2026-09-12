@@ -1,4 +1,4 @@
-import Reveal from "@/components/Reveal";
+﻿import Reveal from "@/components/Reveal";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa";
 
 const SOCIALS = [
@@ -51,10 +51,15 @@ const items = [
   },
 ];
 
-export default function ContactInfo() {
+export default function ContactInfo({ full = false }) {
   return (
-    <section id="kontakt" className="bg-ink-800 px-6 py-20 sm:px-[60px]">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section
+      id="kontakt"
+      className={`bg-ink-800 px-6 sm:px-[60px] ${
+        full ? "flex w-full flex-1 flex-col justify-center py-12 sm:py-14" : "py-20"
+      }`}
+    >
+      <div className="mx-auto w-full max-w-[1300px]">
         <Reveal className="mb-12 text-center">
           <div className="mb-3 font-display text-[12px] font-bold uppercase tracking-[4px] text-brand-yellow">Kontakt</div>
           <h2 className="font-display text-[clamp(36px,5vw,56px)] font-black uppercase leading-[1.05] text-white">
@@ -89,7 +94,8 @@ export default function ContactInfo() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-[16px] text-ink-black transition-all hover:-translate-y-0.5 hover:bg-brand-yellowDark"
+
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-yellow text-[16px] text-ink-black transition-all hover:-translate-y-0.5 hover:bg-brand-yellowDk"
                 >
                   <Icon />
                 </a>

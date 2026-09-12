@@ -1,85 +1,101 @@
-import PageNav from "@/components/PageNav";
+import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
-import { Hero, WhySection, StepsSection, Contact } from "@/components/subUI";
+import { Hero, Strip, WhySection, StepsSection, Contact } from "@/components/subUI";
 import OfferToilets from "@/components/OfferToilets";
+import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
 
 export const metadata = {
-  title: "Toalety przenośne – BIALGRUZ",
-  description: "Wynajem toalet przenośnych na budowy, imprezy i eventy. Szybka dostawa, regularny serwis, ekologiczne rozwiązania.",
+  title: "Toalety przenośne – wynajem i serwis | BIALGRUZ",
+  description:
+    "Wynajem toalet przenośnych na budowy, eventy i imprezy plenerowe. Transport, serwis i opróżnianie w regionie Białegostoku.",
 };
 
 const phoneBlock = (
-  <a href="tel:799093000" className="group mt-6 flex items-center gap-3.5 border-t border-white/[0.08] pt-6">
+  <div className="mt-6 flex items-center gap-3.5 border-t border-white/[0.08] pt-6">
     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-yellow text-[18px] text-ink-black">📞</span>
-    <span>
-      <span className="block text-[12px] uppercase tracking-[1px] text-[#888]">Zadzwoń do nas</span>
-      <span className="block font-display text-[26px] font-bold tracking-[1px] text-white transition-colors group-hover:text-brand-yellow">
+    <div>
+      <div className="text-[12px] uppercase tracking-[1px] text-[#888]">Toalety przenośne</div>
+      <a href="tel:799093000" className="block font-display text-[26px] font-bold leading-[1.25] tracking-[1px] text-white transition-colors hover:text-brand-yellow">
         799 093 000
-      </span>
-    </span>
-  </a>
+      </a>
+    </div>
+  </div>
 );
 
 export default function ToaletyPage() {
   return (
     <>
-      <PageNav />
+      <SiteNav
+        orderHref="#zamow"
+        links={[
+          { label: "Oferta", href: "#oferta" },
+          { label: "Dlaczego my", href: "#dlaczego" },
+          { label: "Jak to działa", href: "#jak" },
+          { label: "Zamów", href: "#zamow" },
+          { label: "Lokalizacje", href: "#lokalizacje" },
+          { label: "Kontakt", href: "#kontakt" },
+        ]}
+      />
       <OfferTransition from="right">
         <Hero
           activePage="toalety"
           titleTop="Toalety"
-          titleBottom="Przenośne"
-          desc="Nowoczesne toalety przenośne na każdą budowę, imprezę i inwestycję. Kompleksowa obsługa, terminowość i pełne zaplecze sanitarne w całym regionie."
+          titleBottom="przenośne"
+          desc="Wynajem toalet przenośnych na budowy, eventy i imprezy plenerowe. Transport, serwis i opróżnianie — wszystko w jednej cenie, w całym regionie."
           badges={[
-            { icon: "✓", label: <>Natychmiastowa<br />dostawa</> },
-            { icon: "↺", label: <>Regularny<br />serwis</> },
-            { icon: "◉", label: <>Ekologiczne<br />rozwiązania</> },
+            { icon: "✓", label: <>Transport<br />w cenie</> },
+            { icon: "↺", label: <>Serwis<br />i opróżnianie</> },
+            { icon: "◉", label: <>Mycie<br />kabin</> },
           ]}
           primary={{ label: "Wybierz toaletę →", href: "#oferta" }}
           secondary={{ label: "Jak to działa", href: "#jak" }}
           phone={phoneBlock}
-          image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ", w: 440, h: 600 }}
+          image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ", w: 500, h: 520 }}
           stats={[
-            { num: "500+", label: "Zadowolonych klientów", pos: "a" },
-            { num: "12h", label: "Czas dostawy", pos: "b" },
+            { num: "2000+", label: "Obsłużonych eventów", pos: "a" },
+            { num: "24h", label: "Czas dostawy", pos: "b" },
           ]}
         />
 
-        <OfferToilets />
+        <Strip items={["Place budowy", "Eventy", "Imprezy plenerowe", "Wesela", "Festyny"]} />
+
+                <OfferToilets />
+
+        <Packages />
 
         <WhySection
           title={
             <>
-              Doświadczenie
-              <br />i <em className="not-italic text-brand-yellow">rzetelność</em>
+              Czysto, terminowo
+              <br />i <em className="not-italic text-brand-yellow">bez zmartwień</em>
             </>
           }
           features={[
-            { title: "Szybka dostawa", text: "Dostarczamy toaletę w uzgodnionym terminie na terenie całego regionu. Weekendy i święta nie stanowią przeszkody." },
-            { title: "Regularny serwis", text: "Zapewniamy czyszczenie, dezynfekcję i uzupełnianie środków według ustalonego harmonogramu — bez niespodzianek." },
-            { title: "Ekologiczne środki", text: "Używamy certyfikowanych biologicznych środków rozkładających odpady, bezpiecznych dla środowiska." },
-            { title: "Pełna obsługa", text: "Dostawa, montaż, serwis i odbiór — wszystko w jednej cenie. Nie musisz się o nic martwić." },
+            { title: "Transport w cenie", text: "Dowozimy i odbieramy toalety w umówionym terminie na terenie całego regionu — również w weekendy." },
+            { title: "Serwis i opróżnianie", text: "Regularnie opróżniamy zbiorniki i uzupełniamy środki higieniczne — kabiny są zawsze gotowe do użycia." },
+            { title: "Czystość i higiena", text: "Każda kabina jest myta i dezynfekowana przed wynajmem. Dbamy o komfort Twoich pracowników i gości." },
+            { title: "Elastyczne pakiety", text: "Wynajmiesz toaletę na 7 dni lub na dłuższy okres — z wyposażeniem dopasowanym do Twoich potrzeb." },
           ]}
-          image={{ src: "/toaleta-bialgruz.png", hoverSrc: "/kibel-otwarty.png", alt: "Toaleta BIALGRUZ" }}
+          image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ" }}
         />
 
         <StepsSection
-          sub="Prosty proces online — od formularza do gotowej toalety na miejscu."
+          sub="Prosty proces online — od formularza do dostarczonej toalety."
           steps={[
-            { title: "Formularz online", text: "Wypełnij krótki formularz na stronie — wybierz model toalety, czas wynajmu i termin." },
-            { title: "Automatyczna wycena", text: "Cenę zobaczysz od razu na stronie — wyliczana automatycznie, bez czekania na kontakt." },
-            { title: "Dostawa", text: "Dostarczamy i montujemy toaletę we wskazanym miejscu w ustalonym terminie." },
-            { title: "Serwis", text: "Regularnie serwisujemy i na koniec odbieramy sprzęt — bez Twojego zaangażowania." },
+            { title: "Formularz online", text: "Wypełnij krótki formularz — wybierz typ toalety, okres wynajmu i termin." },
+            { title: "Automatyczna wycena", text: "Cenę zobaczysz od razu na stronie — bez czekania na kontakt." },
+            { title: "Dostawa", text: "Dowozimy toaletę we wskazane miejsce w uzgodnionym terminie." },
+            { title: "Serwis i odbiór", text: "W trakcie wynajmu serwisujemy kabinę, a po zakończeniu odbieramy ją z miejsca." },
           ]}
         />
 
         <Contact mode="toalety" />
         <Locations />
         <ContactInfo />
-        <Footer copy="© 2025 BIALGRUZ. Wynajem toalet przenośnych." />
+        <Footer copy="© 2026 BIALGRUZ. Wynajem toalet przenośnych w regionie Białegostoku." />
       </OfferTransition>
     </>
   );

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -15,20 +15,37 @@ const INTERVAL = 4000;
 
 export default function Locations() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-  // Auto-zmiana co kilka sekund; timer resetuje się przy każdej zmianie (też po najechaniu)
+  // Auto-zmiana co kilka sekund; wstrzymana po kliknięciu pauzy lub przy prefers-reduced-motion (WCAG 2.2.2).
   useEffect(() => {
+    if (paused) return;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
     const id = setInterval(() => setActive((i) => (i + 1) % LOCATIONS.length), INTERVAL);
     return () => clearInterval(id);
-  }, [active]);
+  }, [active, paused]);
 
   return (
     <section id="lokalizacje" className="flex items-center overflow-hidden bg-ink-black px-6 py-16 sm:px-[60px] md:min-h-screen">
-      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-2">
+      <div className="mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-10 md:grid-cols-2">
         {/* Lewa strona — napisy */}
         <div>
-          <div className="mb-8 font-display text-[12px] font-bold uppercase tracking-[4px] text-brand-yellow">
-            Lokalizacje
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <span className="font-display text-[12px] font-bold uppercase tracking-[4px] text-brand-yellow">
+              Lokalizacje
+            </span>
+            <button
+              type="button"
+              onClick={() => setPaused((p) => !p)}
+              aria-label={paused ? "Wznów automatyczne przewijanie" : "Wstrzymaj automatyczne przewijanie"}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-[14px] text-white/60 transition-colors hover:border-brand-yellow hover:text-brand-yellow"
+            >
+              {paused ? "▶" : "❚❚"}
+            </button>
           </div>
           <ul className="flex flex-col gap-2">
             {LOCATIONS.map((loc, i) => {
@@ -39,8 +56,7 @@ export default function Locations() {
                     type="button"
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
-                    className={`text-left font-display text-[clamp(34px,6vw,68px)] font-black uppercase leading-[1.02] tracking-[-1px] transition-colors duration-300 ${isActive ? "text-brand-yellow" : "text-white/25 hover:text-white/60"
-                      }`}
+                    className={`text-left font-display text-[clamp(34px,6vw,68px)] font-black uppercase leading-[1.02] tracking-[-1px] transition-colors duration-300 ${isActive ? "text-brand-yellow" : "text-white/40 hover:text-white/70"}`}
                   >
                     {loc.name}
                   </button>
@@ -54,7 +70,11 @@ export default function Locations() {
         </div>
 
         {/* Prawa strona — plakat lokalizacji */}
-        <div className="relative mx-auto aspect-[3/4] w-full max-w-[440px]">
+        <div
+          className="relative mx-auto aspect-[3/4] w-full max-w-[440px]"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           <AnimatePresence>
             <motion.div
               key={active}
@@ -70,7 +90,6 @@ export default function Locations() {
                 fill
                 sizes="(max-width: 768px) 100vw, 440px"
                 className="object-cover"
-                priority={active === 0}
               />
             </motion.div>
           </AnimatePresence>

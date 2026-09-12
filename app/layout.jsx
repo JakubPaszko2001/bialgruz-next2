@@ -17,10 +17,28 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://bialgruz.pl"),
   title: "BIALGRUZ - wynajem kontenerów - big-bagów - przenośnych toalet",
   description:
     "Białgruz — wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
   manifest: "/manifest.json",
+  openGraph: {
+    type: "website",
+    locale: "pl_PL",
+    url: "https://bialgruz.pl/",
+    siteName: "BIALGRUZ",
+    title: "BIALGRUZ - wynajem kontenerów, big-bagów i przenośnych toalet",
+    description:
+      "Wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
+    images: [{ url: "/logo.png", width: 140, height: 40, alt: "BIALGRUZ" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BIALGRUZ - wynajem kontenerów, big-bagów i przenośnych toalet",
+    description:
+      "Wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
+    images: ["/logo.png"],
+  },
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -42,13 +60,13 @@ export const metadata = {
     ],
   },
   other: {
-    "msapplication-TileColor": "#ffffff",
+    "msapplication-TileColor": "#0d0d0d",
     "msapplication-TileImage": "/ms-icon-144x144.png",
   },
 };
 
 export const viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#0d0d0d",
 };
 
 export default function RootLayout({ children }) {
@@ -70,9 +88,6 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
 
         {/* Google Tag Manager */}
         <script dangerouslySetInnerHTML={{ __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-NDCT6FF2');` }} />
@@ -91,10 +106,13 @@ export default function RootLayout({ children }) {
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDCT6FF2" height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe>
         </noscript>
         {/* End Google Tag Manager (noscript) */}
-        {children}
+
+        <a href="#main" className="skip-link">
+          Przejdź do treści
+        </a>
+        <div id="main">{children}</div>
         <ServiceWorkerRegister />
       </body>
     </html>
   );
 }
-

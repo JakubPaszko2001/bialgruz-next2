@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import OrderForm from "@/components/OrderForm";
 import HeroSwitch from "@/components/HeroSwitch";
@@ -30,9 +30,9 @@ const check = (
 export function Hero({ titleTop, titleBottom, desc, badges, primary, secondary, phone, image, stats = [], activePage }) {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-diagonal pt-[72px]">
-      <div className="relative z-[1] mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-12 px-6 py-16 sm:px-[60px] md:grid-cols-2">
+      <div className="relative z-[1] mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-12 py-16 md:grid-cols-2">
         <Reveal>
-          <h1 className="mb-5 font-display text-[clamp(48px,6vw,80px)] font-black uppercase leading-[0.95] tracking-[-1px]">
+          <h1 className="mb-5 font-display text-[clamp(52px,7vw,112px)] font-black uppercase leading-[0.85] tracking-[-1.5px]">
             <span className="block">{titleTop}</span>
             <span className="block text-brand-yellow">{titleBottom}</span>
           </h1>
@@ -52,7 +52,7 @@ export function Hero({ titleTop, titleBottom, desc, badges, primary, secondary, 
           <div className="flex flex-wrap items-center gap-4">
             <a
               href={primary.href}
-              className="inline-flex items-center gap-2.5 rounded bg-brand-yellow px-[26px] py-3 font-display text-[15px] font-bold uppercase tracking-[2px] text-ink-black transition-all hover:-translate-y-px hover:bg-brand-yellowDark"
+              className="inline-flex items-center gap-2.5 rounded bg-brand-yellow px-[26px] py-3 font-display text-[15px] font-bold uppercase tracking-[2px] text-white transition-all hover:-translate-y-px hover:bg-brand-yellowDk"
             >
               {primary.label}
             </a>
@@ -99,15 +99,17 @@ export function Hero({ titleTop, titleBottom, desc, badges, primary, secondary, 
 /* ── STRIP ── */
 export function Strip({ items }) {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-x-[60px] gap-y-3 overflow-hidden bg-brand-yellow px-6 py-4 sm:px-[60px]">
-      {items.map((it, i) => (
-        <span key={i} className="flex items-center gap-2.5">
-          <span className="whitespace-nowrap font-display text-[14px] font-bold uppercase tracking-[2px] text-ink-black">
-            ▸ {it}
+    <div className="bg-brand-yellow py-4">
+      <div className="mx-auto flex w-full max-w-[1300px] flex-wrap items-center justify-center gap-x-[60px] gap-y-3 overflow-hidden">
+        {items.map((it, i) => (
+          <span key={i} className="flex items-center gap-2.5">
+            <span className="whitespace-nowrap font-display text-[14px] font-bold uppercase tracking-[2px] text-white">
+              ▸ {it}
+            </span>
+            {i < items.length - 1 && <span className="hidden h-1.5 w-1.5 rounded-full bg-white/50 sm:block" />}
           </span>
-          {i < items.length - 1 && <span className="hidden h-1.5 w-1.5 rounded-full bg-ink-black/40 sm:block" />}
-        </span>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -116,7 +118,7 @@ export function Strip({ items }) {
 export function WhySection({ title, features, image }) {
   return (
     <section id="dlaczego" className="flex flex-col justify-center bg-ink-black px-6 py-16 sm:px-[60px]">
-      <div className="mx-auto w-full max-w-[1200px]">
+      <div className="mx-auto w-full max-w-[1300px]">
         <Reveal>
           <Eyebrow className="mb-8">Dlaczego my</Eyebrow>
           <SectionTitle>{title}</SectionTitle>
@@ -170,7 +172,7 @@ export function WhySection({ title, features, image }) {
 export function StepsSection({ sub, steps }) {
   return (
     <section id="jak" className="bg-ink-800 px-6 py-20 sm:px-[60px]">
-      <div className="mx-auto w-full max-w-[1200px]">
+      <div className="mx-auto w-full max-w-[1300px]">
         <Reveal className="mb-14 text-center">
           <Eyebrow>Jak to działa</Eyebrow>
           <SectionTitle>
@@ -197,8 +199,8 @@ export function StepsSection({ sub, steps }) {
 /* ── CONTACT + FORM ── */
 export function Contact({ mode }) {
   return (
-    <section id="kontakt" className="bg-ink-black px-6 py-20 text-center sm:px-[60px]">
-      <div className="mx-auto w-full max-w-[1200px]">
+    <section id="zamow" className="bg-ink-black px-6 py-20 text-center sm:px-[60px]">
+      <div className="mx-auto w-full max-w-[1300px]">
         <Reveal>
           <Eyebrow>Kontakt</Eyebrow>
           <SectionTitle>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const PhoneIcon = (props) => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" {...props}>
@@ -16,21 +16,32 @@ const PhoneIcon = (props) => (
 const NAV_LINKS = [
   { label: "Toalety przenośne", href: "/toalety-przenosne" },
   { label: "Kontenery na gruz", href: "/kontenery" },
-  { label: "O firmie", href: "/#o-firmie" },
-  { label: "Kontakt", href: "tel:799093000" },
+  { label: "Big Bagi 1m³", href: "/bigbag" },
+  { label: "Kontakt", href: "/kontakt" },
 ];
 
-export default function SiteNav() {
+export default function SiteNav({ orderHref, links }) {
   const [open, setOpen] = useState(false);
+  const navLinks = links ?? NAV_LINKS;
+
+  // Zamknij menu mobilne klawiszem Escape (WCAG 2.1.2)
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <nav className="fixed inset-x-0 top-0 z-[300] flex h-16 items-center justify-between border-b border-white/10 bg-[rgba(10,10,10,0.97)] px-5 backdrop-blur-md sm:px-10">
       <Link href="/" className="flex items-center gap-2.5">
-        <Image src="/logo.png" alt="BIOLGRUZ" width={140} height={40} className="h-10 w-auto" priority />
+        <Image src="/logo.png" alt="BIALGRUZ" width={140} height={40} className="h-10 w-auto" priority />
       </Link>
 
       <ul className="hidden items-center gap-7 md:flex">
-        {NAV_LINKS.map((l) => (
+        {navLinks.map((l) => (
           <li key={l.label}>
             <Link
               href={l.href}
@@ -43,41 +54,54 @@ export default function SiteNav() {
       </ul>
 
       <div className="flex items-center gap-4">
-        <div className="group relative">
-          <a
-            href="tel:799093000"
-            className="flex items-center gap-2 rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
+        {orderHref ? (
+          <Link
+            href={orderHref}
+            onClick={() => setOpen(false)}
+            className="hidden items-center rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk md:inline-flex"
           >
-            <PhoneIcon />
-            Zadzwoń
-          </a>
-          <div className="pointer-events-none absolute right-0 top-full z-[200] translate-y-[-4px] pt-2.5 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-            <div className="min-w-[230px] overflow-hidden rounded border border-white/10 bg-ink-600">
-              <div className="border-b border-white/10 px-[18px] pb-3.5 pt-3">
-                <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
-                  Kontenery na gruz
-                </span>
-                <a href="tel:799091000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
-                  799 091 000
-                </a>
-                <a href="tel:799092000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
-                  799 092 000
-                </a>
-              </div>
-              <div className="px-[18px] pb-3.5 pt-3">
-                <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
-                  Toalety przenośne
-                </span>
-                <a href="tel:799093000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
-                  799 093 000
-                </a>
+            Zamów teraz
+          </Link>
+        ) : (
+          <div className="group relative">
+            <a
+              href="tel:799093000"
+              className="flex items-center gap-2 rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
+            >
+              <PhoneIcon />
+              Zadzwoń
+            </a>
+            <div className="pointer-events-none absolute right-0 top-full z-[200] translate-y-[-4px] pt-2.5 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="min-w-[230px] overflow-hidden rounded border border-white/10 bg-ink-600">
+                <div className="border-b border-white/10 px-[18px] pb-3.5 pt-3">
+                  <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
+                    Kontenery na gruz
+                  </span>
+                  <a href="tel:799091000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                    799 091 000
+                  </a>
+                  <a href="tel:799092000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                    799 092 000
+                  </a>
+                </div>
+                <div className="px-[18px] pb-3.5 pt-3">
+                  <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
+                    Toalety przenośne
+                  </span>
+                  <a href="tel:799093000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                    799 093 000
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         <button
-          aria-label="Menu"
+          type="button"
+          aria-label={open ? "Zamknij menu" : "Otwórz menu"}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
           className="flex h-9 w-9 items-center justify-center rounded border border-white/15 text-white md:hidden"
         >
@@ -88,9 +112,12 @@ export default function SiteNav() {
       </div>
 
       {open && (
-        <div className="absolute inset-x-0 top-16 border-b border-white/10 bg-ink-950 px-5 py-4 md:hidden">
+        <div
+          id="mobile-menu"
+          className="absolute inset-x-0 top-16 border-b border-white/10 bg-ink-950 px-5 py-4 md:hidden"
+        >
           <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map((l) => (
+            {navLinks.map((l) => (
               <li key={l.label}>
                 <Link
                   href={l.href}
@@ -101,6 +128,17 @@ export default function SiteNav() {
                 </Link>
               </li>
             ))}
+            {orderHref && (
+              <li className="mt-2">
+                <Link
+                  href={orderHref}
+                  onClick={() => setOpen(false)}
+                  className="block rounded bg-brand-yellow py-2.5 text-center text-sm font-bold uppercase tracking-wider text-white transition-colors hover:bg-brand-yellowDk"
+                >
+                  Zamów teraz
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       )}

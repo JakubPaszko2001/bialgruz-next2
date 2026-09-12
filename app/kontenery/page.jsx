@@ -1,7 +1,8 @@
-import PageNav from "@/components/PageNav";
+import SiteNav from "@/components/SiteNav";
 import Footer from "@/components/Footer";
 import { Hero, Strip, WhySection, StepsSection, Contact } from "@/components/subUI";
 import OfferKontenery from "@/components/OfferKontenery";
+import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
@@ -28,13 +29,23 @@ const phoneBlock = (
 
 export default function KonteneryPage() {
   return (
-    <>
-      <PageNav />
+        <>
+      <SiteNav
+        orderHref="#zamow"
+        links={[
+          { label: "Oferta", href: "#oferta" },
+          { label: "Dlaczego my", href: "#dlaczego" },
+          { label: "Jak to działa", href: "#jak" },
+          { label: "Zamów", href: "#zamow" },
+          { label: "Lokalizacje", href: "#lokalizacje" },
+          { label: "Kontakt", href: "#kontakt" },
+        ]}
+      />
       <OfferTransition from="left">
         <Hero
-          activePage="kontenery"
-          titleTop="Kontenery i"
-          titleBottom="Big Bagi"
+                    activePage="kontenery"
+          titleTop="Kontenery"
+          titleBottom="na odpady"
           desc="Wynajem kontenerów i big bagów na gruz oraz odpady budowlane — na każdą budowę, remont i inwestycję. Szybkie podstawienie, wywóz i legalna utylizacja w całym regionie."
           badges={[
             { icon: "✓", label: <>Szybkie<br />podstawienie</> },
@@ -53,7 +64,9 @@ export default function KonteneryPage() {
 
         <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
 
-        <OfferKontenery />
+                <OfferKontenery />
+
+        <Packages />
 
         <WhySection
           title={
