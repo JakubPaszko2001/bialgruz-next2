@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -249,7 +249,7 @@ export default function HomePanels() {
             { value: "0 zł", label: "Dowóz na miejsce" },
                     ]}
           href="/bigbag"
-          img="/bigbag.png"
+          img="/bigbag3.png"
           imgAlt="Big Bag na gruz Bialgruz"
           imgWidthClass="w-[60%] max-w-[400px] lg:w-[32%] lg:max-w-[440px]"
         />
