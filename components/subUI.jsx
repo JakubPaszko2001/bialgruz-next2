@@ -174,9 +174,9 @@ export function StepsSection({ sub, steps }) {
     <section id="jak" className="bg-ink-800 px-6 py-20 sm:px-[60px]">
       <div className="mx-auto w-full max-w-[1300px]">
         <Reveal className="mb-14 text-center">
-          <Eyebrow>Jak to działa</Eyebrow>
+          <Eyebrow>Proces wynajmu</Eyebrow>
           <SectionTitle>
-            Zamów w <em className="not-italic text-brand-yellow">4 krokach</em>
+            Jak wygląda <em className="not-italic text-brand-yellow">wynajem</em>
           </SectionTitle>
           <p className="mx-auto max-w-[500px] text-[16px] leading-[1.7] text-[#cccccc]">{sub}</p>
         </Reveal>
