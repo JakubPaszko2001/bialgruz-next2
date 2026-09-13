@@ -34,7 +34,7 @@ function Stat({ value, label }) {
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
   return (
         <motion.div
-      className="bg-diagonal group relative flex h-[calc(100vh-4rem)] w-full snap-start items-center overflow-hidden"
+      className="bg-diagonal group relative flex min-h-[calc(100vh-4rem)] w-full items-center overflow-hidden"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -119,7 +119,7 @@ function SocialIcon({ href, path, label }) {
 
 function Footer() {
   return (
-    <footer className="snap-start border-t border-white/10 bg-black/40 px-6 py-16 sm:px-[52px]">
+    <footer className="border-t border-white/10 bg-black/40 px-6 py-16 sm:px-[52px]">
       <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-4">
           <span className="font-display text-3xl font-black uppercase tracking-[-1px] text-white">

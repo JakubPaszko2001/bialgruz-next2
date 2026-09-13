@@ -5,9 +5,10 @@ export default function HomePage() {
   return (
     <>
             <SiteNav />
-      <div className="snap-home mt-16 flex h-[calc(100vh-4rem)] flex-col snap-y snap-mandatory overflow-y-scroll">
+      <main className="mt-16 flex flex-col">
         <HomePanels />
-      </div>
+      </main>
     </>
   );
 }
+
