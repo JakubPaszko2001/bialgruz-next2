@@ -33,7 +33,7 @@ export default function ToaletyPage() {
         links={[
           { label: "Oferta", href: "#oferta" },
           { label: "Dlaczego my", href: "#dlaczego" },
-          { label: "Jak to działa", href: "#jak" },
+          { label: "Proces wynajmu", href: "#jak" },
           { label: "Zamów", href: "#zamow" },
           { label: "Lokalizacje", href: "#lokalizacje" },
           { label: "Kontakt", href: "#kontakt" },
@@ -51,7 +51,7 @@ export default function ToaletyPage() {
             { icon: "◉", label: <>Mycie<br />kabin</> },
           ]}
           primary={{ label: "Wybierz toaletę →", href: "#oferta" }}
-          secondary={{ label: "Jak to działa", href: "#jak" }}
+          secondary={{ label: "Proces wynajmu", href: "#jak" }}
           phone={phoneBlock}
           image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ", w: 500, h: 520 }}
           stats={[
