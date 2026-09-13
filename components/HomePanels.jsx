@@ -39,9 +39,22 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
     >
-            <span
+                        {/* Trójkąty w 4 rogach sekcji */}
+      <span
         aria-hidden
         className="pointer-events-none absolute left-0 top-0 h-0 w-0 border-solid border-t-[80px] border-r-[80px] border-r-transparent border-t-white/[0.03] lg:border-t-[150px] lg:border-r-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 h-0 w-0 border-solid border-t-[80px] border-l-[80px] border-l-transparent border-t-white/[0.03] lg:border-t-[150px] lg:border-l-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-0 w-0 border-solid border-b-[80px] border-r-[80px] border-r-transparent border-b-white/[0.03] lg:border-b-[150px] lg:border-r-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] lg:border-b-[150px] lg:border-l-[150px]"
       />
 
             <div className="relative z-[2] mx-auto flex w-full max-w-[1300px] flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
