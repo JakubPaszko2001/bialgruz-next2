@@ -15,8 +15,8 @@ const PhoneIcon = (props) => (
 
 const NAV_LINKS = [
   { label: "Toalety przenośne", href: "/toalety-przenosne" },
-  { label: "Kontenery na gruz", href: "/kontenery" },
   { label: "Big Bagi 1m³", href: "/bigbag" },
+  { label: "Kontenery na gruz", href: "/kontenery" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
