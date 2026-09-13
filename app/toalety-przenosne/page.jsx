@@ -79,7 +79,7 @@ export default function ToaletyPage() {
             { title: "Czystość i higiena", text: "Każda kabina jest myta i dezynfekowana przed wynajmem. Dbamy o komfort Twoich pracowników i gości." },
             { title: "Elastyczne pakiety", text: "Wynajmiesz toaletę na 7 dni lub na dłuższy okres — z wyposażeniem dopasowanym do Twoich potrzeb." },
           ]}
-          image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ" }}
+          image={{ src: "/toaleta-bialgruz.png", alt: "Toaleta przenośna BIALGRUZ", hoverSrc: "/kibel-otwarty.png" }}
         />
 
         <StepsSection
