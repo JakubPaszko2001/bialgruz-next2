@@ -40,7 +40,8 @@ export default function SiteNav({ orderHref, links }) {
         <Image src="/logo.png" alt="BIALGRUZ" width={140} height={40} className="h-10 w-auto" priority />
       </Link>
 
-      <ul className="hidden items-center gap-7 md:flex">
+      {/* Desktop navigation – widoczne od lg (1024px) */}
+      <ul className="hidden items-center gap-7 lg:flex">
         {navLinks.map((l) => (
           <li key={l.label}>
             <Link
@@ -58,7 +59,7 @@ export default function SiteNav({ orderHref, links }) {
           <Link
             href={orderHref}
             onClick={() => setOpen(false)}
-            className="hidden items-center rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk md:inline-flex"
+            className="hidden items-center rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk lg:inline-flex"
           >
             Zamów teraz
           </Link>
@@ -97,13 +98,14 @@ export default function SiteNav({ orderHref, links }) {
           </div>
         )}
 
+        {/* Przycisk hamburgera – ukryty od lg (1024px) */}
         <button
           type="button"
           aria-label={open ? "Zamknij menu" : "Otwórz menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-9 w-9 items-center justify-center rounded border border-white/15 text-white md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded border border-white/15 text-white lg:hidden"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M3 6h18M3 12h18M3 18h18" />}
@@ -111,10 +113,11 @@ export default function SiteNav({ orderHref, links }) {
         </button>
       </div>
 
+      {/* Rozwijane menu mobilne – widoczne poniżej lg (1024px) */}
       {open && (
         <div
           id="mobile-menu"
-          className="absolute inset-x-0 top-16 border-b border-white/10 bg-ink-950 px-5 py-4 md:hidden"
+          className="absolute inset-x-0 top-16 border-b border-white/10 bg-ink-950 px-5 py-4 lg:hidden"
         >
           <ul className="flex flex-col gap-1">
             {navLinks.map((l) => (

@@ -5,14 +5,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 const ArrowIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 16 16" fill="none" className="transition-transform duration-200 group-hover/cta:translate-x-1.5">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 transition-transform duration-200 group-hover/cta:translate-x-1.5 sm:h-[18px] sm:w-[18px]">
     <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 function Chip({ children }) {
   return (
-    <span className="rounded-[3px] border border-brand-yellow px-4 py-1.5 font-display text-[15px] font-bold tracking-[1px] text-brand-yellow">
+    <span className="rounded-[3px] border border-brand-yellow px-3 py-1 font-display text-[13px] font-bold tracking-[1px] text-brand-yellow sm:px-4 sm:py-1.5 sm:text-[15px]">
       {children}
     </span>
   );
@@ -20,11 +20,11 @@ function Chip({ children }) {
 
 function Stat({ value, label }) {
   return (
-    <div className="flex flex-1 flex-col items-center border-r border-white/10 px-4 text-center last:border-r-0 lg:items-start lg:text-left lg:first:pl-0">
-      <span className="font-display text-[28px] font-black leading-none text-brand-yellow sm:text-[32px]">
+    <div className="flex flex-1 flex-col items-center border-r border-white/10 px-2 text-center last:border-r-0 sm:px-4 lg:items-start lg:text-left lg:first:pl-0">
+      <span className="font-display text-[22px] font-black leading-none text-brand-yellow sm:text-[28px] lg:text-[32px]">
         {value}
       </span>
-      <span className="mt-1.5 text-[11px] font-bold uppercase leading-[1.4] tracking-[1.2px] text-white/60">
+      <span className="mt-1 text-[9px] font-bold uppercase leading-[1.3] tracking-[1px] text-white/60 sm:mt-1.5 sm:text-[11px] sm:tracking-[1.2px]">
         {label}
       </span>
     </div>
@@ -33,47 +33,53 @@ function Stat({ value, label }) {
 
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
   return (
-        <motion.div
-      className="bg-diagonal group relative flex min-h-[calc(100vh-4rem)] w-full items-center overflow-hidden"
+    <motion.div
+      className="bg-diagonal group relative flex min-h-[calc(100svh-4rem)] w-full items-center overflow-hidden px-5 py-12 sm:px-[52px] sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:py-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
     >
-                        {/* Trójkąty w 4 rogach sekcji */}
+      {/* Trójkąty w 4 rogach sekcji */}
       <span
         aria-hidden
-        className="pointer-events-none absolute left-0 top-0 h-0 w-0 border-solid border-t-[80px] border-r-[80px] border-r-transparent border-t-white/[0.03] lg:border-t-[150px] lg:border-r-[150px]"
+        className="pointer-events-none absolute left-0 top-0 hidden h-0 w-0 border-solid border-t-[80px] border-r-[80px] border-r-transparent border-t-white/[0.03] sm:block lg:border-t-[150px] lg:border-r-[150px]"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-0 w-0 border-solid border-t-[80px] border-l-[80px] border-l-transparent border-t-white/[0.03] lg:border-t-[150px] lg:border-l-[150px]"
+        className="pointer-events-none absolute right-0 top-0 hidden h-0 w-0 border-solid border-t-[80px] border-l-[80px] border-l-transparent border-t-white/[0.03] sm:block lg:border-t-[150px] lg:border-l-[150px]"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-0 h-0 w-0 border-solid border-b-[80px] border-r-[80px] border-r-transparent border-b-white/[0.03] lg:border-b-[150px] lg:border-r-[150px]"
+        className="pointer-events-none absolute bottom-0 left-0 hidden h-0 w-0 border-solid border-b-[80px] border-r-[80px] border-r-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-r-[150px]"
       />
       <span
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] lg:border-b-[150px] lg:border-l-[150px]"
+        className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
       />
 
-            <div className="relative z-[2] mx-auto flex w-full max-w-[1300px] flex-col items-center gap-10 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center gap-8 lg:flex-row lg:justify-between lg:gap-4">
         {/* Tekst */}
-        <div className="flex w-full max-w-[640px] flex-col items-center text-center lg:items-start lg:text-left">
-          <h2 className="mb-7 font-display font-black uppercase leading-[0.85] tracking-[-1.5px]">
-            <span className="block text-[clamp(52px,7vw,112px)] text-white">{title1}</span>
-            <span className="block text-[clamp(52px,7vw,112px)] text-brand-yellow">{title2}</span>
+        <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
+          <h2 className="mb-4 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-5 sm:leading-[0.9] lg:mb-7 lg:leading-[0.85] lg:tracking-[-1.5px]">
+            <span className="block text-[36px] text-white sm:text-[44px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+              {title1}
+            </span>
+            <span className="block text-[36px] text-brand-yellow sm:text-[44px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+              {title2}
+            </span>
           </h2>
 
-          <div className="mb-7 flex flex-wrap justify-center gap-3 lg:justify-start">
+          <div className="mb-4 flex flex-wrap justify-center gap-2.5 sm:mb-5 sm:gap-3 lg:mb-7 lg:justify-start">
             {chips.map((c) => (
               <Chip key={c}>{c}</Chip>
             ))}
           </div>
 
-          <p className="mb-8 max-w-[480px] text-[15px] leading-[1.7] text-white/55">{desc}</p>
+          <p className="mb-5 max-w-[480px] text-[14px] leading-[1.6] text-white/55 sm:mb-6 sm:text-[15px] sm:leading-[1.7] lg:mb-8">
+            {desc}
+          </p>
 
-          <div className="mb-8 flex w-full border-y border-white/10 py-5">
+          <div className="mb-6 flex w-full border-y border-white/10 py-4 sm:py-5 lg:mb-8">
             {stats.map((s) => (
               <Stat key={s.label} value={s.value} label={s.label} />
             ))}
@@ -81,24 +87,24 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
 
           <Link
             href={href}
-            className="group/cta inline-flex w-fit items-center gap-3 rounded-[3px] bg-brand-yellow px-9 py-[16px] font-display text-[14px] font-bold uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-yellowDk"
+            className="group/cta inline-flex w-fit items-center gap-3 rounded-[3px] bg-brand-yellow px-7 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-yellowDk sm:px-9 sm:py-4 sm:text-[14px]"
           >
             Zamów teraz
             <ArrowIcon />
           </Link>
         </div>
 
-                {/* Obrazek */}
-        <div className={`relative ${imgWidthClass}`}>
+        {/* Obrazek */}
+        <div className={`relative flex w-full items-center justify-center lg:h-auto lg:flex-none lg:justify-start ${imgWidthClass}`}>
           <Image
             src={img}
             alt={imgAlt}
             width={800}
             height={1067}
-            sizes="(max-width: 1024px) 80vw, 42vw"
+            sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
             priority={index === 0}
             loading={index === 0 ? "eager" : "lazy"}
-            className="mx-auto h-auto max-h-[70vh] w-full object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105"
+            className="mx-auto h-auto max-h-[350px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[450px] lg:max-h-[70vh] lg:w-full"
           />
         </div>
       </div>
@@ -132,8 +138,8 @@ function SocialIcon({ href, path, label }) {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/40 px-6 py-16 sm:px-[52px]">
-      <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-white/10 bg-black/40 px-6 py-12 sm:px-[52px] sm:py-16">
+      <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-4">
           <span className="font-display text-3xl font-black uppercase tracking-[-1px] text-white">
             Bial<span className="text-brand-yellow">gruz</span>
@@ -141,7 +147,7 @@ function Footer() {
           <p className="text-[14px] leading-[1.7] text-white/50">
             Wynajem toalet przenośnych, kontenerów i big bagów na odpady. Uczciwość, terminowość i doświadczenie na każdym etapie współpracy.
           </p>
-                    <div className="mt-2 flex gap-3">
+          <div className="mt-2 flex gap-3">
             <SocialIcon
               href="https://www.facebook.com/BIALGRUZ/?rdid=TMAzvx1avPIeaqaF"
               label="Facebook"
@@ -161,25 +167,16 @@ function Footer() {
         </div>
 
         <div className="flex flex-col gap-3">
-
-
-
-
-
-
-
-
-                    <span className="mb-1 font-display text-[14px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
+          <span className="mb-1 font-display text-[14px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
             Oferta
           </span>
-                    <FooterLink href="/toalety-przenosne">Toalety przenośne</FooterLink>
+          <FooterLink href="/toalety-przenosne">Toalety przenośne</FooterLink>
           <FooterLink href="/kontenery">Kontenery na gruz</FooterLink>
           <FooterLink href="/bigbag">Big Bagi 1m³</FooterLink>
-          {/* <FooterLink href="/kontenery#oferta">Cennik</FooterLink> */}
           <FooterLink href="/kontakt">Kontakt</FooterLink>
         </div>
 
-                <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
           <span className="mb-1 font-display text-[14px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
             Kontakt
           </span>
@@ -217,7 +214,7 @@ function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-14 flex max-w-[1300px] flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-[13px] text-white/35 sm:flex-row">
+      <div className="mx-auto mt-10 flex max-w-[1300px] flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-[13px] text-white/35 sm:mt-14 sm:flex-row">
         <span>© {new Date().getFullYear()} Bialgruz. Wszelkie prawa zastrzeżone.</span>
         <span>NIP: 9662143186</span>
         <div className="flex gap-5">
@@ -244,13 +241,13 @@ export default function HomePanels() {
             { value: "500+", label: "Zadowolonych klientów" },
             { value: "24h", label: "Czas reakcji" },
           ]}
-                    href="/toalety-przenosne"
+          href="/toalety-przenosne"
           img="/toaleta-bialgruz.png"
-                                        imgAlt="Toaleta przenośna Bialgruz"
-          imgWidthClass="w-[75%] max-w-[420px] lg:w-[38%] lg:max-w-[500px]"
+          imgAlt="Toaleta przenośna Bialgruz"
+          imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px]"
         />
 
-                        <Panel
+        <Panel
           index={1}
           title1="Big Bagi"
           title2="Na Odpady"
@@ -260,11 +257,11 @@ export default function HomePanels() {
             { value: "1 m³", label: "Pojemność worka" },
             { value: "48h", label: "Odbiór po zgłoszeniu" },
             { value: "0 zł", label: "Dowóz na miejsce" },
-                    ]}
+          ]}
           href="/bigbag"
           img="/bigbag3.png"
           imgAlt="Big Bag na gruz Bialgruz"
-          imgWidthClass="w-[60%] max-w-[400px] lg:w-[32%] lg:max-w-[440px]"
+          imgWidthClass="w-[65%] max-w-[300px] sm:max-w-[400px] lg:w-[32%] lg:max-w-[440px]"
         />
 
         <Panel
@@ -281,9 +278,9 @@ export default function HomePanels() {
           href="/kontenery"
           img="/kontener-bialgruz.png"
           imgAlt="Kontener na gruz Bialgruz"
-                    imgWidthClass="w-[75%] max-w-[520px] lg:w-[42%] lg:max-w-[620px]"
+          imgWidthClass="w-[75%] max-w-[360px] sm:max-w-[520px] lg:w-[42%] lg:max-w-[620px]"
         />
-            </div>
+      </div>
 
       <Footer />
     </div>
