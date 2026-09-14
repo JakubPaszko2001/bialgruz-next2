@@ -34,7 +34,7 @@ function Stat({ value, label }) {
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
   return (
     <motion.div
-      className="bg-diagonal group relative flex min-h-[calc(100svh-4rem)] w-full items-center overflow-hidden px-5 py-12 sm:px-[52px] sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:py-0"
+      className="group relative flex min-h-[calc(100svh-4rem)] w-full items-center justify-center overflow-hidden px-5 py-8 sm:px-[52px] sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:py-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -57,14 +57,14 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
       />
 
-      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center gap-8 lg:flex-row lg:justify-between lg:gap-4">
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-8 lg:flex-row lg:justify-between lg:gap-4">
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h2 className="mb-4 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-5 sm:leading-[0.9] lg:mb-7 lg:leading-[0.85] lg:tracking-[-1.5px]">
-            <span className="block text-[36px] text-white sm:text-[44px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+            <span className="block text-[50px] text-white sm:text-[50px] md:text-[72px] lg:text-[96px] xl:text-[112px]">
               {title1}
             </span>
-            <span className="block text-[36px] text-brand-yellow sm:text-[44px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+            <span className="block text-[50px] text-brand-yellow sm:text-[50px] md:text-[72px] lg:text-[96px] xl:text-[112px]">
               {title2}
             </span>
           </h2>
@@ -104,7 +104,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
             sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
             priority={index === 0}
             loading={index === 0 ? "eager" : "lazy"}
-            className="mx-auto h-auto max-h-[350px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[450px] lg:max-h-[70vh] lg:w-full"
+            className="mx-auto h-auto max-h-[300px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[450px] lg:max-h-[70vh] lg:w-full"
           />
         </div>
       </div>
@@ -229,7 +229,7 @@ function Footer() {
 export default function HomePanels() {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="grid grid-cols-1">
+      <div className="bg-diagonal grid grid-cols-1">
         <Panel
           index={0}
           title1="Toalety"

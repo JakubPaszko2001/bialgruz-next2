@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const PhoneIcon = (props) => (
   <svg width="14" height="14" viewBox="0 0 16 16" fill="none" {...props}>
@@ -22,17 +22,32 @@ const NAV_LINKS = [
 
 export default function SiteNav({ orderHref, links }) {
   const [open, setOpen] = useState(false);
+  const [showPhones, setShowPhones] = useState(false);
+  const phoneRef = useRef(null);
+
   const navLinks = links ?? NAV_LINKS;
 
-  // Zamknij menu mobilne klawiszem Escape (WCAG 2.1.2)
+  // Zamknij menu mobilne i popover klawiszem Escape oraz po kliknięciu poza niego
   useEffect(() => {
-    if (!open) return;
     const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        setShowPhones(false);
+      }
     };
+    const onClickOutside = (e) => {
+      if (phoneRef.current && !phoneRef.current.contains(e.target)) {
+        setShowPhones(false);
+      }
+    };
+
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+    window.addEventListener("click", onClickOutside);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("click", onClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="fixed inset-x-0 top-0 z-[300] flex h-16 items-center justify-between border-b border-white/10 bg-[rgba(10,10,10,0.97)] px-5 backdrop-blur-md sm:px-10">
@@ -64,24 +79,40 @@ export default function SiteNav({ orderHref, links }) {
             Zamów teraz
           </Link>
         ) : (
-          <div className="group relative">
-            <a
-              href="tel:799093000"
+          <div className="group relative" ref={phoneRef}>
+            <button
+              type="button"
+              onClick={() => setShowPhones((v) => !v)}
               className="flex items-center gap-2 rounded-[3px] bg-brand-yellow px-5 py-2.5 font-display text-xs font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
             >
               <PhoneIcon />
               Zadzwoń
-            </a>
-            <div className="pointer-events-none absolute right-0 top-full z-[200] translate-y-[-4px] pt-2.5 opacity-0 transition-all duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-              <div className="min-w-[230px] overflow-hidden rounded border border-white/10 bg-ink-600">
+            </button>
+
+            <div
+              className={`absolute right-0 top-full z-[200] pt-2.5 transition-all duration-200 ${
+                showPhones
+                  ? "pointer-events-auto translate-y-0 opacity-100"
+                  : "pointer-events-none translate-y-[-4px] opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:translate-y-0 lg:group-hover:opacity-100"
+              }`}
+            >
+              <div className="min-w-[230px] overflow-hidden rounded border border-white/10 bg-ink-600 shadow-xl">
                 <div className="border-b border-white/10 px-[18px] pb-3.5 pt-3">
                   <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
                     Kontenery na gruz
                   </span>
-                  <a href="tel:799091000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                  <a
+                    href="tel:799091000"
+                    onClick={() => setShowPhones(false)}
+                    className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow"
+                  >
                     799 091 000
                   </a>
-                  <a href="tel:799092000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                  <a
+                    href="tel:799092000"
+                    onClick={() => setShowPhones(false)}
+                    className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow"
+                  >
                     799 092 000
                   </a>
                 </div>
@@ -89,7 +120,11 @@ export default function SiteNav({ orderHref, links }) {
                   <span className="mb-2 block text-[9px] font-bold uppercase tracking-[1.5px] text-brand-yellow">
                     Toalety przenośne
                   </span>
-                  <a href="tel:799093000" className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow">
+                  <a
+                    href="tel:799093000"
+                    onClick={() => setShowPhones(false)}
+                    className="block py-[5px] text-[15px] font-semibold text-white transition-colors hover:text-brand-yellow"
+                  >
                     799 093 000
                   </a>
                 </div>

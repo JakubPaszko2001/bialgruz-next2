@@ -25,7 +25,7 @@ const CARDS = [
 
 export default function OfferBigbag() {
   return (
-    <section id="oferta" className="bg-ink-800 px-6 py-20 sm:px-[60px]">
+    <section id="oferta" className="bg-ink-800 px-6 py-16 sm:px-[60px] sm:py-20">
       <div className="mx-auto w-full max-w-[1300px]">
         <Reveal className="mb-13 flex flex-wrap items-end justify-between gap-10">
           <div>
