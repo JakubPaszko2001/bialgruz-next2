@@ -12,7 +12,7 @@ const ArrowIcon = () => (
 
 function Chip({ children }) {
   return (
-    <span className="rounded-[3px] border border-brand-yellow px-3 py-1 font-display text-[13px] font-bold tracking-[1px] text-brand-yellow sm:px-4 sm:py-1.5 sm:text-[15px]">
+    <span className="rounded-[3px] border border-brand-yellow px-4 py-2 font-display text-[14px] font-bold tracking-[1px] text-brand-yellow sm:px-4 sm:py-1.5 sm:text-[15px]">
       {children}
     </span>
   );
@@ -20,11 +20,11 @@ function Chip({ children }) {
 
 function Stat({ value, label }) {
   return (
-    <div className="flex flex-1 flex-col items-center border-r border-white/10 px-2 text-center last:border-r-0 sm:px-4 lg:items-start lg:text-left lg:first:pl-0">
-      <span className="font-display text-[22px] font-black leading-none text-brand-yellow sm:text-[28px] lg:text-[32px]">
+    <div className="flex flex-1 flex-col items-center border-r border-white/10 px-2.5 text-center last:border-r-0 sm:px-4 lg:items-start lg:text-left lg:first:pl-0">
+      <span className="font-display text-[24px] font-black leading-none text-brand-yellow sm:text-[28px] lg:text-[32px]">
         {value}
       </span>
-      <span className="mt-1 text-[9px] font-bold uppercase leading-[1.3] tracking-[1px] text-white/60 sm:mt-1.5 sm:text-[11px] sm:tracking-[1.2px]">
+      <span className="mt-2 text-[10px] font-bold uppercase leading-[1.3] tracking-[1px] text-white/60 sm:mt-1.5 sm:text-[11px] sm:tracking-[1.2px]">
         {label}
       </span>
     </div>
@@ -34,7 +34,7 @@ function Stat({ value, label }) {
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
   return (
     <motion.div
-      className="group relative flex min-h-[calc(100svh-4rem)] w-full items-center justify-center overflow-hidden px-5 py-8 sm:px-[52px] sm:py-16 md:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-4rem)] lg:py-0"
+      className="group relative flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100vh-4rem)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-[52px] sm:py-12 md:py-12 lg:py-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -57,29 +57,29 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
       />
 
-      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-8 lg:flex-row lg:justify-between lg:gap-4">
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-8 sm:gap-8 lg:flex-row lg:justify-between lg:gap-6">
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
-          <h2 className="mb-4 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-5 sm:leading-[0.9] lg:mb-7 lg:leading-[0.85] lg:tracking-[-1.5px]">
-            <span className="block text-[50px] text-white sm:text-[50px] md:text-[72px] lg:text-[96px] xl:text-[112px]">
+          <h2 className="mb-5 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-6 sm:leading-[0.9] lg:mb-8 lg:leading-[0.85] lg:tracking-[-1.5px]">
+            <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
               {title1}
             </span>
-            <span className="block text-[50px] text-brand-yellow sm:text-[50px] md:text-[72px] lg:text-[96px] xl:text-[112px]">
+            <span className="block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
               {title2}
             </span>
           </h2>
 
-          <div className="mb-4 flex flex-wrap justify-center gap-2.5 sm:mb-5 sm:gap-3 lg:mb-7 lg:justify-start">
+          <div className="mb-6 flex flex-wrap justify-center gap-3 sm:mb-6 lg:mb-8 lg:justify-start">
             {chips.map((c) => (
               <Chip key={c}>{c}</Chip>
             ))}
           </div>
 
-          <p className="mb-5 max-w-[480px] text-[14px] leading-[1.6] text-white/55 sm:mb-6 sm:text-[15px] sm:leading-[1.7] lg:mb-8">
+          <p className="mb-6 max-w-[520px] text-[14px] leading-[1.6] text-white/60 sm:mb-7 sm:text-[15px] sm:leading-[1.7] lg:mb-9">
             {desc}
           </p>
 
-          <div className="mb-6 flex w-full border-y border-white/10 py-4 sm:py-5 lg:mb-8">
+          <div className="mb-7 flex w-full border-y border-white/10 py-5 sm:py-5 lg:mb-9">
             {stats.map((s) => (
               <Stat key={s.label} value={s.value} label={s.label} />
             ))}
@@ -87,7 +87,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
 
           <Link
             href={href}
-            className="group/cta inline-flex w-fit items-center gap-3 rounded-[3px] bg-brand-yellow px-7 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-yellowDk sm:px-9 sm:py-4 sm:text-[14px]"
+            className="group/cta inline-flex w-fit items-center gap-3 rounded-[3px] bg-brand-yellow px-8 py-4 font-display text-[14px] font-bold uppercase tracking-[2px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-brand-yellowDk sm:px-9 sm:py-4"
           >
             Zamów teraz
             <ArrowIcon />
@@ -95,18 +95,18 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         </div>
 
         {/* Obrazek */}
-                <div className={`relative flex w-full items-center justify-center lg:flex-none lg:justify-end lg:h-auto ${imgWidthClass}`}>
-  <Image
-    src={img}
-    alt={imgAlt}
-    width={800}
-    height={1067}
-    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
-    priority={index === 0}
-    loading={index === 0 ? "eager" : "lazy"}
-    className="mx-auto h-auto max-h-[270px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[410px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full"
-  />
-</div>
+        <div className={`relative flex w-full items-center justify-center lg:flex-none lg:justify-end lg:h-auto ${imgWidthClass}`}>
+          <Image
+            src={img}
+            alt={imgAlt}
+            width={800}
+            height={1067}
+            sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
+            priority={index === 0}
+            loading={index === 0 ? "eager" : "lazy"}
+            className="mx-auto h-auto max-h-[240px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[300px] md:max-h-[340px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full"
+          />
+        </div>
       </div>
     </motion.div>
   );
@@ -138,7 +138,7 @@ function SocialIcon({ href, path, label }) {
 
 function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-black/40 px-6 py-12 sm:px-[52px] sm:py-16">
+    <footer className="border-t border-white/10 bg-black/40 px-7 py-14 sm:px-[52px] sm:py-16">
       <div className="mx-auto grid max-w-[1300px] grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
         <div className="flex flex-col gap-4">
           <span className="font-display text-3xl font-black uppercase tracking-[-1px] text-white">
@@ -241,10 +241,10 @@ export default function HomePanels() {
             { value: "500+", label: "Zadowolonych klientów" },
             { value: "24h", label: "Czas reakcji" },
           ]}
-                    href="/toalety-przenosne"
-                    img="/toaleta-bialgruz3.png"
-                    imgAlt="Toaleta przenośna Bialgruz"
-                    imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px] translate-x-[-18px] lg:translate-x-[0px]"
+          href="/toalety-przenosne"
+          img="/toaleta-bialgruz3.png"
+          imgAlt="Toaleta przenośna Bialgruz"
+          imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px] translate-x-[-18px] lg:translate-x-[0px]"
         />
 
         <Panel
