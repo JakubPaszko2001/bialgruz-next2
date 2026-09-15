@@ -104,7 +104,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
     priority={index === 0}
     loading={index === 0 ? "eager" : "lazy"}
-    className="ml-auto h-auto max-h-[300px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[450px] lg:max-h-[70vh] lg:w-full"
+    className="ml-auto h-auto max-h-[270px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[410px] lg:max-h-[55vh] lg:w-full"
   />
 </div>
       </div>
@@ -241,8 +241,8 @@ export default function HomePanels() {
             { value: "500+", label: "Zadowolonych klientów" },
             { value: "24h", label: "Czas reakcji" },
           ]}
-          href="/toalety-przenosne"
-          img="/toaleta-bialgruz.png"
+                    href="/toalety-przenosne"
+          img="/toaleta-bialgruz3.png"
           imgAlt="Toaleta przenośna Bialgruz"
           imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px]"
         />

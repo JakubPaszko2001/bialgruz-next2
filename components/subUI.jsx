@@ -189,7 +189,7 @@ export function WhySection({ title, features, image }) {
                   alt={image.alt}
                   width={400}
                   height={520}
-                  className="absolute inset-0 block w-full object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100"
+                  className="absolute inset-0 block w-full translate-x-[77px] object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100"
                 />
               )}
             </div>
