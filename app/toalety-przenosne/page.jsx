@@ -16,8 +16,8 @@ export const metadata = {
 
 const phoneBlock = (
   <div className="flex flex-col gap-4 border-t border-white/[0.08] pt-6 md:flex-row md:items-stretch md:justify-center md:gap-6 lg:justify-start">
-    {/* Sekcja telefonu */}
-    <div className="flex items-center gap-3.5">
+        {/* Sekcja telefonu */}
+    <div className="flex items-center justify-center gap-3.5 md:justify-start">
       <a
         href="tel:799093000"
         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-yellow text-[18px] text-ink-black shadow-lg transition-transform hover:scale-105"
@@ -100,8 +100,9 @@ export default function ToaletyPage() {
         ]}
       />
       <OfferTransition from="right">
-        <Hero
+                <Hero
           activePage="toalety"
+          titleGap
           titleTop="Toalety"
           titleBottom="przenośne"
           desc="Wynajem toalet przenośnych na budowy, eventy i imprezy plenerowe. Transport, serwis i opróżnianie — wszystko w jednej cenie, w całym regionie."

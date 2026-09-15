@@ -9,13 +9,13 @@ import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
 
 export const metadata = {
-  title: "Big Bagi 1 m³ na gruz i odpady budowlane – BIALGRUZ",
+    title: "Big Bagi 1 m³ na gruz i odpady budowlane – BIALGRUZ",
   description: "Wynajem worków Big-Bag 1 m³ na gruz oraz odpady budowlane. Dowóz, podstawienie, wywóz i legalna utylizacja w regionie.",
 };
 
 const phoneBlock = (
   <div className="flex flex-col gap-4 border-t border-white/[0.08] pt-6 md:flex-row md:items-stretch md:justify-center md:gap-6 lg:justify-start">
-    <div className="flex items-center gap-3.5">
+    <div className="flex items-center justify-center gap-3.5 md:justify-start">
       <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-yellow text-[18px] text-ink-black">📞</span>
       <div>
         <div className="text-[12px] uppercase tracking-[1px] text-[#888]">Big Bagi na odpady</div>
@@ -76,7 +76,7 @@ const phoneBlock = (
 
 export default function BigbagPage() {
   return (
-    <>
+        <>
       <SiteNav
         orderHref="#zamow"
         links={[
@@ -111,7 +111,7 @@ export default function BigbagPage() {
 
         <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
 
-        <OfferBigbag />
+                                <OfferBigbag />
 
         <Packages />
 

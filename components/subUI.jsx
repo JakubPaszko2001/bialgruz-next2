@@ -1,7 +1,6 @@
 ﻿import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import OrderForm from "@/components/OrderForm";
-import HeroSwitch from "@/components/HeroSwitch";
 
 /* ── Small helpers ── */
 export function Eyebrow({ children, className = "" }) {
@@ -35,9 +34,10 @@ export function Hero({
   primary,
   secondary,
   phone,
-  image,
+    image,
   stats = [],
   activePage,
+  titleGap = false,
 }) {
   return (
     <section className="relative mt-[2rem] flex h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden bg-diagonal px-6 pt-12 pb-4 sm:px-[60px] lg:h-[calc(100vh-2rem)] lg:py-8">
@@ -64,10 +64,10 @@ export function Hero({
         {/* Treść / Tekst */}
         <Reveal className="flex w-full max-w-[760px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h1 className="mb-3 font-display font-black uppercase leading-[0.88] tracking-[-1px] sm:mb-4 lg:mb-6 lg:leading-[0.82] lg:tracking-[-2px]">
-            <span className="block text-[40px] text-white xs:text-[52px] sm:text-[64px] md:text-[74px] lg:text-[104px] xl:text-[124px]">
+                        <span className="block text-[40px] text-white xs:text-[52px] sm:text-[64px] md:text-[74px] lg:text-[104px] xl:text-[124px]">
               {titleTop}
             </span>
-            <span className="block text-[40px] text-brand-yellow xs:text-[52px] sm:text-[64px] md:text-[74px] lg:text-[104px] xl:text-[124px]">
+                        <span className={`block text-[40px] text-brand-yellow xs:text-[52px] sm:text-[64px] md:text-[74px] lg:text-[104px] xl:text-[124px] ${titleGap ? "mt-[20px]" : ""}`}>
               {titleBottom}
             </span>
           </h1>
@@ -93,8 +93,8 @@ export function Hero({
             </div>
           )}
 
-                    {/* Przyciski Akcji */}
-          <div className="flex w-full max-w-[460px] flex-col gap-3 xs:flex-row sm:w-auto md:max-w-[420px] lg:max-w-[460px] lg:justify-start">
+                                        {/* Przyciski Akcji */}
+          <div className="relative flex w-full max-w-[460px] flex-col gap-3 xs:flex-row sm:w-auto md:max-w-[420px] lg:max-w-[460px] lg:justify-start">
             {primary && (
               <a
                 href={primary.href}
@@ -108,9 +108,10 @@ export function Hero({
                 href={secondary.href}
                 className="inline-flex min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded border-2 border-white/25 px-6 py-3 text-center font-display text-[14px] font-bold uppercase tracking-[2px] text-white transition-all hover:border-brand-yellow hover:text-brand-yellow sm:py-3.5 sm:text-[14px] lg:text-[15px]"
               >
-                {secondary.label}
+                                {secondary.label}
               </a>
             )}
+
           </div>
 
           {phone && <div className="mt-4 w-full sm:mt-6">{phone}</div>}
@@ -146,9 +147,7 @@ export function Hero({
             </div>
           </Reveal>
         )}
-      </div>
-
-      {activePage && <HeroSwitch active={activePage} />}
+            </div>
     </section>
   );
 }

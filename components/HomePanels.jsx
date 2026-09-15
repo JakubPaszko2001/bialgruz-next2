@@ -31,7 +31,7 @@ function Stat({ value, label }) {
   );
 }
 
-function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
+function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false }) {
   return (
     <motion.div
       className="group relative flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100vh-4rem)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-[52px] sm:py-12 md:py-12 lg:py-0"
@@ -61,10 +61,10 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h2 className="mb-5 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-6 sm:leading-[0.9] lg:mb-8 lg:leading-[0.85] lg:tracking-[-1.5px]">
-            <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+                        <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
               {title1}
             </span>
-            <span className="block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+                        <span className={`block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px] ${titleGap ? "mt-[20px]" : ""}`}>
               {title2}
             </span>
           </h2>
@@ -230,8 +230,9 @@ export default function HomePanels() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="bg-diagonal grid grid-cols-1">
-        <Panel
+                <Panel
           index={0}
+          titleGap
           title1="Toalety"
           title2="przenośne"
           chips={["Plac budowy", "Eventy", "Serwis"]}
