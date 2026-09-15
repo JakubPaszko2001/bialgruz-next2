@@ -200,7 +200,7 @@ export function WhySection({ title, features, image }) {
           </div>
           <Reveal delay={0.2} className="group relative">
             <div className="absolute inset-[-40px] bg-[radial-gradient(ellipse,rgba(207,220,0,0.06)_0%,transparent_70%)]" />
-                        <div className="relative mx-auto w-full max-w-[400px] -translate-x-[8vw] lg:translate-x-0">
+                        <div className={`relative mx-auto w-full max-w-[400px] ${image.hoverSrc ? "-translate-x-[8vw] lg:translate-x-0" : ""}`}>
                           <Image
                             src={image.src}
                             alt={image.alt}
