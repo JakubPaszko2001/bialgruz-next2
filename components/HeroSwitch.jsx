@@ -15,9 +15,9 @@ export default function HeroSwitch({ active }) {
     <Link
       href={other.href}
       aria-label={`Przejdź do oferty: ${other.label}`}
-      className="group absolute right-0 top-1/2 z-20 flex -translate-y-1/2 items-center gap-2 rounded-l-full border border-r-0 border-white/15 bg-white/[0.07] py-2.5 pl-3 pr-2.5 backdrop-blur transition-all duration-300 hover:gap-3 hover:bg-brand-yellow sm:gap-2.5 sm:py-3 sm:pl-5 sm:pr-4"
+      className="group absolute right-0 top-1/2 z-20 flex -translate-y-[0%] items-center gap-2 rounded-l-full border border-r-0 border-white/15 bg-white/[0.07] py-2.5 pl-3 pr-2.5 backdrop-blur transition-all duration-300 hover:gap-3 hover:bg-brand-yellow sm:gap-2.5 sm:py-3 sm:pl-5 sm:pr-4 lg:hidden"
     >
-      <span className="text-right leading-tight">
+      <span className="ml-auto text-right leading-tight">
         <span className="hidden text-[9px] font-semibold uppercase tracking-[2px] text-white/50 transition-colors group-hover:text-ink-black/70 sm:block">
           Zobacz też
         </span>
@@ -32,3 +32,5 @@ export default function HeroSwitch({ active }) {
     </Link>
   );
 }
+
+

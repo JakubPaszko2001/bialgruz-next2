@@ -26,7 +26,7 @@ const check = (
   </svg>
 );
 
-/* ── HERO (Design mobilny rozszerzony na Tablety < lg) ── */
+/* ── HERO (Pełne 100vh ze zwiększonym wypełnieniem) ── */
 export function Hero({
   titleTop,
   titleBottom,
@@ -40,39 +40,65 @@ export function Hero({
   activePage,
 }) {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-diagonal px-6 pt-[110px] pb-16 sm:px-[60px] sm:pt-[120px] sm:pb-20">
-      <div className="relative z-[1] mx-auto grid w-full max-w-[1300px] grid-cols-1 items-center gap-12 text-center lg:grid-cols-2 lg:text-left">
-        <Reveal className="mx-auto flex w-full max-w-[800px] flex-col items-center lg:mx-0 lg:max-w-none lg:items-start">
-          <h1 className="mb-5 font-display text-[clamp(52px,7vw,112px)] font-black uppercase leading-[0.85] tracking-[-1.5px]">
-            <span className="block">{titleTop}</span>
-            <span className="block text-brand-yellow">{titleBottom}</span>
+    <section className="relative mt-[2rem] flex h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden bg-diagonal px-6 pt-12 pb-4 sm:px-[60px] lg:h-[calc(100vh-2rem)] lg:py-8">
+      {/* Trójkąty w 4 rogach sekcji */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute left-0 top-0 hidden h-0 w-0 border-solid border-t-[80px] border-r-[80px] border-r-transparent border-t-white/[0.03] sm:block lg:border-t-[150px] lg:border-r-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute right-0 top-0 hidden h-0 w-0 border-solid border-t-[80px] border-l-[80px] border-l-transparent border-t-white/[0.03] sm:block lg:border-t-[150px] lg:border-l-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 hidden h-0 w-0 border-solid border-b-[80px] border-r-[80px] border-r-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-r-[150px]"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
+      />
+
+      {/* Kontener zajmuje całą dostępną przestrzeń w pionie */}
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1600px] flex-1 flex-col items-center justify-evenly gap-6 lg:flex-row lg:justify-between lg:gap-8">
+        {/* Treść / Tekst */}
+        <Reveal className="flex w-full max-w-[760px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
+          <h1 className="mb-3 font-display font-black uppercase leading-[0.88] tracking-[-1px] sm:mb-4 lg:mb-6 lg:leading-[0.82] lg:tracking-[-2px]">
+            <span className="block text-[40px] text-white xs:text-[52px] sm:text-[68px] md:text-[84px] lg:text-[104px] xl:text-[124px]">
+              {titleTop}
+            </span>
+            <span className="block text-[40px] text-brand-yellow xs:text-[52px] sm:text-[68px] md:text-[84px] lg:text-[104px] xl:text-[124px]">
+              {titleBottom}
+            </span>
           </h1>
 
-          <p className="mb-7 max-w-[600px] text-[15px] leading-[1.65] text-[#cccccc] lg:max-w-[440px]">
+          <p className="mb-6 max-w-[560px] text-[14px] leading-[1.6] text-white/75 sm:text-[16px] sm:leading-[1.7] lg:mb-8 lg:text-[17px]">
             {desc}
           </p>
 
-          {/* Badges widoczne dopiero od ekranów desktopowych (lg:) */}
-          <div className="mb-7 hidden flex-wrap justify-center gap-6 lg:flex lg:justify-start">
-            {badges.map((b, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[1.5px] text-[#cccccc]"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-[1.5px] border-brand-yellow text-[14px] text-brand-yellow">
-                  {b.icon}
-                </span>
-                <span className="text-center lg:text-left">{b.label}</span>
-              </div>
-            ))}
-          </div>
+          {/* Badges widoczne na dużych ekranach */}
+          {badges.length > 0 && (
+            <div className="mb-7 hidden flex-wrap justify-center gap-6 lg:flex lg:justify-start">
+              {badges.map((b, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2.5 text-[13px] font-semibold uppercase tracking-[1.5px] text-[#cccccc]"
+                >
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-[1.5px] border-brand-yellow text-[15px] text-brand-yellow">
+                    {b.icon}
+                  </span>
+                  <span className="text-center lg:text-left">{b.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
-          {/* Przyciski jednakowej wielkości, wyśrodkowane na mobile/tablecie */}
-          <div className="flex w-full max-w-[420px] flex-wrap items-center justify-center gap-4 sm:w-auto lg:justify-start">
+          {/* Przyciski Akcji */}
+          <div className="flex w-full max-w-[460px] flex-col gap-3 xs:flex-row sm:w-auto lg:justify-start">
             {primary && (
               <a
                 href={primary.href}
-                className="inline-flex min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded border-2 border-brand-yellow bg-brand-yellow px-[26px] py-3 text-center font-display text-[15px] font-bold uppercase tracking-[2px] text-white transition-all hover:-translate-y-px hover:bg-brand-yellowDk hover:border-brand-yellowDk sm:flex-none"
+                className="inline-flex min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded border-2 border-brand-yellow bg-brand-yellow px-6 py-3 text-center font-display text-[14px] font-bold uppercase tracking-[2px] text-white transition-all hover:-translate-y-px hover:bg-brand-yellowDk sm:py-3.5 sm:text-[15px]"
               >
                 {primary.label}
               </a>
@@ -80,38 +106,39 @@ export function Hero({
             {secondary && (
               <a
                 href={secondary.href}
-                className="inline-flex min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded border-2 border-white/25 px-[26px] py-3 text-center font-display text-[15px] font-bold uppercase tracking-[2px] text-white transition-all hover:border-brand-yellow hover:text-brand-yellow sm:flex-none"
+                className="inline-flex min-w-[200px] flex-1 items-center justify-center gap-2.5 rounded border-2 border-white/25 px-6 py-3 text-center font-display text-[14px] font-bold uppercase tracking-[2px] text-white transition-all hover:border-brand-yellow hover:text-brand-yellow sm:py-3.5 sm:text-[15px]"
               >
                 {secondary.label}
               </a>
             )}
           </div>
 
-          {phone && <div className="mt-6 w-full">{phone}</div>}
+          {phone && <div className="mt-4 w-full sm:mt-6">{phone}</div>}
         </Reveal>
 
+        {/* Obrazek oraz Statystyki */}
         {image && (
-          <Reveal delay={0.15} className="relative flex items-center justify-center">
-            <div className="relative w-full max-w-[500px] lg:max-w-none" style={{ width: image.w }}>
+          <Reveal delay={0.15} className="relative flex h-full max-h-[60vh] w-full shrink items-center justify-center lg:max-h-[75vh] lg:w-auto lg:flex-1 lg:justify-end">
+            <div className="relative flex h-full w-full items-center justify-center max-w-[340px] xs:max-w-[420px] sm:max-w-[500px] lg:max-w-none" style={{ width: image.w }}>
               <Image
                 src={image.src}
                 alt={image.alt}
                 width={image.w}
                 height={image.h}
                 priority
-                className="mx-auto h-auto max-h-[50vh] w-full object-contain lg:max-h-[75vh]"
+                className="mx-auto h-auto max-h-[30vh] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 hover:scale-105 xs:max-h-[36vh] sm:max-h-[44vh] lg:max-h-[68vh] lg:ml-auto lg:mr-0 lg:w-full"
               />
               {stats.map((s, i) => (
                 <div
                   key={i}
-                  className={`absolute z-[2] hidden rounded-lg border border-[rgba(207,220,0,0.2)] bg-ink-600 px-5 py-3.5 lg:block ${
-                    s.pos === "a" ? "right-[-10px] top-10" : "bottom-14 left-[-20px]"
+                  className={`absolute z-[2] hidden rounded-lg border border-[rgba(207,220,0,0.2)] bg-ink-600 px-6 py-4 lg:block ${
+                    s.pos === "a" ? "right-[0px] top-12" : "bottom-16 left-[-10px]"
                   }`}
                 >
-                  <div className="font-display text-[28px] font-black leading-none text-brand-yellow">
+                  <div className="font-display text-[32px] font-black leading-none text-brand-yellow">
                     {s.num}
                   </div>
-                  <div className="mt-0.5 text-[11px] uppercase tracking-[1px] text-[#888]">
+                  <div className="mt-1 text-[12px] uppercase tracking-[1px] text-[#888]">
                     {s.label}
                   </div>
                 </div>

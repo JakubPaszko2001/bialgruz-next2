@@ -13,8 +13,28 @@ const nextConfig = {
           },
         ],
       },
+      {
+        // Chrome DevTools odpytuje ten endpoint (.well-known/appspecific).
+        // Zwracamy pustą odpowiedź 200, żeby nie zaśmiecać logów błędem 404.
+        source: "/.well-known/appspecific/com.chrome.devtools.json",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/.well-known/appspecific/com.chrome.devtools.json",
+        destination: "/api/devtools-probe",
+      },
     ];
   },
 };
 
 export default nextConfig;
+
