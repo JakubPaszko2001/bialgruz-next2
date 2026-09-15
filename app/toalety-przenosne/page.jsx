@@ -15,9 +15,9 @@ export const metadata = {
 };
 
 const phoneBlock = (
-  <div className="flex flex-col gap-4">
+  <div className="flex flex-col gap-4 border-t border-white/[0.08] pt-6 md:flex-row md:items-stretch md:justify-center md:gap-6 lg:justify-start">
     {/* Sekcja telefonu */}
-    <div className="flex items-center gap-3.5 border-t border-white/[0.08] pt-6">
+    <div className="flex items-center gap-3.5">
       <a
         href="tel:799093000"
         className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-yellow text-[18px] text-ink-black shadow-lg transition-transform hover:scale-105"
@@ -38,39 +38,45 @@ const phoneBlock = (
       </div>
     </div>
 
-                {/* Kanciasty DIV (bez zaokrągleń) z przejściem do kontenerów */}
-    <div className="hidden lg:block">
+    {/* Kanciasty DIV (bez zaokrągleń) z przejściem do kontenerów */}
+        <div className="hidden md:flex">
       <Link
         href="/kontenery"
-        className="group inline-flex items-center gap-3 border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow"
+        className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
       >
-        <div className="text-right leading-tight">
-          <span className="block text-[9px] font-semibold uppercase tracking-[2px] text-white/50 transition-colors group-hover:text-ink-black/70">
-            Zobacz też
+        <span className="flex min-w-0 items-center gap-2.5">
+          <span className="shrink-0 text-[16px] leading-none text-brand-yellow transition-colors group-hover:text-ink-black">📦</span>
+          <span className="text-left leading-tight">
+            <span className="block text-[9px] font-semibold uppercase tracking-[2px] text-white/50 transition-colors group-hover:text-ink-black/70">
+              Zobacz też
+            </span>
+            <span className="font-display text-[13px] font-bold uppercase tracking-[1px] text-white transition-colors group-hover:text-ink-black sm:text-[14px]">
+              KONTENERY
+            </span>
           </span>
-          <span className="font-display text-[13px] font-bold uppercase tracking-[1px] text-white transition-colors group-hover:text-ink-black sm:text-[14px]">
-            KONTENERY
-          </span>
-        </div>
-        <span className="text-[16px] text-brand-yellow transition-transform group-hover:translate-x-1 group-hover:text-ink-black">
+        </span>
+        <span className="shrink-0 text-[16px] text-brand-yellow transition-transform group-hover:translate-x-1 group-hover:text-ink-black">
           →
         </span>
       </Link>
     </div>
-                <div className="hidden lg:block">
+        <div className="hidden md:flex">
       <Link
         href="/bigbag"
-        className="group inline-flex items-center gap-3 border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow"
+        className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
       >
-        <div className="text-right leading-tight">
-          <span className="block text-[9px] font-semibold uppercase tracking-[2px] text-white/50 transition-colors group-hover:text-ink-black/70">
-            Zobacz też
+        <span className="flex min-w-0 items-center gap-2.5">
+          <span className="shrink-0 text-[16px] leading-none text-brand-yellow transition-colors group-hover:text-ink-black">🛍️</span>
+          <span className="text-left leading-tight">
+            <span className="block text-[9px] font-semibold uppercase tracking-[2px] text-white/50 transition-colors group-hover:text-ink-black/70">
+              Zobacz też
+            </span>
+            <span className="font-display text-[13px] font-bold uppercase tracking-[1px] text-white transition-colors group-hover:text-ink-black sm:text-[14px]">
+              BIG BAGI
+            </span>
           </span>
-          <span className="font-display text-[13px] font-bold uppercase tracking-[1px] text-white transition-colors group-hover:text-ink-black sm:text-[14px]">
-            BIG BAGI
-          </span>
-        </div>
-        <span className="text-[16px] text-brand-yellow transition-transform group-hover:translate-x-1 group-hover:text-ink-black">
+        </span>
+        <span className="shrink-0 text-[16px] text-brand-yellow transition-transform group-hover:translate-x-1 group-hover:text-ink-black">
           →
         </span>
       </Link>

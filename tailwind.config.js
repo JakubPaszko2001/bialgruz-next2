@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        md2: "800px",
+      },
       colors: {
         brand: {
           yellow: "#eab308",
@@ -44,3 +47,4 @@ module.exports = {
   },
   plugins: [],
 };
+

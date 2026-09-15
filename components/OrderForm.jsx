@@ -704,7 +704,7 @@ export default function OrderForm({ mode = "kontenery" }) {
                         type="button"
                         key={p.key}
                         onClick={() => pickService(p.key)}
-                        className={`relative flex flex-col overflow-hidden rounded-xl border p-5 text-left transition-all ${selected ? "border-gold bg-[rgba(245,200,66,0.06)] ring-1 ring-gold-dark" : "border-[#2a2b30] bg-[#0f1012] hover:border-gold-dark"
+                                                className={`relative flex flex-col overflow-hidden rounded-xl border p-5 pt-11 text-left transition-all lg:pt-5 ${selected ? "border-gold bg-[rgba(245,200,66,0.06)] ring-1 ring-gold-dark" : "border-[#2a2b30] bg-[#0f1012] hover:border-gold-dark"
                           }`}
                       >
                         <span className="absolute right-3 top-3 rounded bg-brand-yellow/15 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.5px] text-brand-yellow">

@@ -86,7 +86,7 @@ export default function Packages() {
           {PACKAGES.map((p, i) => (
             <Reveal key={p.label} delay={i * 0.1}>
               <div
-                className={`relative flex h-full flex-col rounded-[10px] border bg-ink-600 px-[22px] pb-[22px] pt-7 transition-all hover:-translate-y-1 hover:border-brand-yellow ${
+                className={`relative flex h-full flex-col rounded-[10px] border bg-ink-600 px-[22px] pb-[22px] pt-12 transition-all hover:-translate-y-1 hover:border-brand-yellow lg:pt-7 ${
                   p.featured ? "border-brand-yellow" : "border-white/[0.07]"
                 }`}
               >
@@ -95,7 +95,7 @@ export default function Packages() {
                     Popularny
                   </span>
                 )}
-                <span className="absolute right-3 top-3 rounded bg-brand-yellow/15 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.5px] text-brand-yellow">
+                <span className="absolute right-3 top-[15px] rounded bg-brand-yellow/15 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.5px] text-brand-yellow">
                   −{p.save} zł
                 </span>
 
@@ -132,7 +132,7 @@ export default function Packages() {
 
                 <a
                   href="#zamow"
-                  className="flex items-center justify-center gap-2.5 rounded-md bg-brand-yellow px-5 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
+                  className="flex items-center justify-center gap-2.5 rounded-md bg-brand-yellow px-5 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk md:text-[11px] md2:text-[13px]"
                 >
                   Wybierz pakiet →
                 </a>
