@@ -34,7 +34,7 @@ function Stat({ value, label }) {
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index }) {
   return (
     <motion.div
-      className="group relative flex min-h-[calc(100svh-4rem)] w-full items-center justify-center overflow-hidden px-5 py-8 sm:px-[52px] sm:py-16 lg:min-h-[calc(100vh-4rem)] lg:py-0"
+      className="group relative flex min-h-[calc(100svh-4rem)] w-full items-center justify-center overflow-hidden px-5 py-8 sm:px-[52px] sm:py-16 md:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-4rem)] lg:py-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -95,7 +95,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         </div>
 
         {/* Obrazek */}
-        <div className={`relative flex w-full items-center justify-end lg:h-auto lg:flex-none ${imgWidthClass}`}>
+                <div className={`relative flex w-full items-center justify-center lg:flex-none lg:justify-end lg:h-auto ${imgWidthClass}`}>
   <Image
     src={img}
     alt={imgAlt}
@@ -104,7 +104,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
     sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
     priority={index === 0}
     loading={index === 0 ? "eager" : "lazy"}
-    className="ml-auto h-auto max-h-[270px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[410px] lg:max-h-[55vh] lg:w-full"
+    className="mx-auto h-auto max-h-[270px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[410px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full"
   />
 </div>
       </div>
@@ -242,9 +242,9 @@ export default function HomePanels() {
             { value: "24h", label: "Czas reakcji" },
           ]}
                     href="/toalety-przenosne"
-          img="/toaleta-bialgruz3.png"
-          imgAlt="Toaleta przenośna Bialgruz"
-          imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px]"
+                    img="/toaleta-bialgruz3.png"
+                    imgAlt="Toaleta przenośna Bialgruz"
+                    imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px] translate-x-[-18px] lg:translate-x-[0px]"
         />
 
         <Panel
