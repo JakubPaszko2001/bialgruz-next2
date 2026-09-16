@@ -104,7 +104,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
             sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
             priority={index === 0}
             loading={index === 0 ? "eager" : "lazy"}
-            className="mx-auto h-auto max-h-[240px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:-translate-y-2.5 group-hover:scale-105 sm:max-h-[300px] md:max-h-[340px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full"
+            className="mx-auto h-auto max-h-[240px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 sm:max-h-[300px] md:max-h-[340px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full lg:group-hover:-translate-y-2.5 lg:group-hover:scale-105"
           />
         </div>
       </div>
