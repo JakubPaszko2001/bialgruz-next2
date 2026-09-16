@@ -198,7 +198,7 @@ export function WhySection({ title, features, image }) {
           </div>
           <Reveal delay={0.2} className="group relative">
             <div className="absolute inset-[-40px] bg-[radial-gradient(ellipse,rgba(207,220,0,0.06)_0%,transparent_70%)]" />
-            <div className={`relative mx-auto w-full max-w-[400px] ${image.hoverSrc ? "-translate-x-[8vw] lg:translate-x-0" : ""}`}>
+            <div className={`relative mx-auto w-full max-w-[280px] sm:max-w-[400px] ${image.hoverSrc ? "-translate-x-[8vw] lg:translate-x-0" : ""}`}>
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -214,7 +214,7 @@ export function WhySection({ title, features, image }) {
                   alt={image.alt}
                   width={400}
                   height={520}
-                  className="absolute inset-0 block w-full translate-x-[18vw] object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100 sm:translate-x-[14vw] md:translate-x-[10vw] lg:translate-x-[77px]"
+                  className="absolute inset-0 block w-full translate-x-[calc(18vw-17px)] object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100 sm:translate-x-[14vw] md:translate-x-[10vw] lg:translate-x-[77px]"
                 />
               )}
             </div>
