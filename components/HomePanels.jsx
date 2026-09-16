@@ -34,7 +34,7 @@ function Stat({ value, label }) {
 function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false }) {
   return (
     <motion.div
-      className="group relative flex min-h-[calc(100svh-4rem)] md:min-h-[calc(100vh-4rem)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-[52px] sm:py-12 md:py-12 lg:py-0"
+      className="group relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-[52px] sm:py-12 md:py-12 lg:py-0"
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
