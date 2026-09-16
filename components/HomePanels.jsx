@@ -279,7 +279,7 @@ export default function HomePanels() {
           href="/kontenery"
           img="/kontener-bialgruz.png"
           imgAlt="Kontener na gruz Bialgruz"
-          imgWidthClass="w-[75%] max-w-[360px] sm:max-w-[520px] lg:w-[42%] lg:max-w-[620px]"
+          imgWidthClass="w-[65%] max-w-[320px] sm:max-w-[520px] lg:w-[42%] lg:max-w-[620px]"
         />
       </div>
 
