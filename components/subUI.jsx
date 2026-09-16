@@ -214,7 +214,7 @@ export function WhySection({ title, features, image }) {
                   alt={image.alt}
                   width={400}
                   height={520}
-                  className="absolute inset-0 block w-full translate-x-[calc(18vw-20px)] object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100 sm:translate-x-[14vw] md:translate-x-[10vw] lg:translate-x-[77px]"
+                  className="absolute inset-0 block w-full translate-x-[calc(18vw-21px)] object-contain opacity-0 drop-shadow-[0_30px_80px_rgba(0,0,0,0.5)] transition-opacity duration-300 group-hover:opacity-100 sm:translate-x-[14vw] md:translate-x-[10vw] lg:translate-x-[77px]"
                 />
               )}
             </div>
