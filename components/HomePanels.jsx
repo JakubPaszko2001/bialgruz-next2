@@ -57,14 +57,14 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
       />
 
-      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-8 sm:gap-8 lg:flex-row lg:justify-between lg:gap-6">
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-12 sm:gap-14 lg:flex-row lg:justify-between lg:gap-14">
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h2 className="mb-5 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-6 sm:leading-[0.9] lg:mb-8 lg:leading-[0.85] lg:tracking-[-1.5px]">
-                        <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+                                    <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
               {title1}
             </span>
-                        <span className={`block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px] ${titleGap ? "mt-[20px]" : ""}`}>
+            <span className={`block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px] ${titleGap ? "mt-[3px] md:mt-[20px]" : ""}`}>
               {title2}
             </span>
           </h2>
