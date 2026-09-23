@@ -1,6 +1,8 @@
 import "./globals.css";
 import { Barlow, Barlow_Condensed } from "next/font/google";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";
+import JsonLd from "@/components/JsonLd";
+import { localBusinessSchema, websiteSchema, SITE_URL } from "@/components/seoSite";
 
 const barlow = Barlow({
   subsets: ["latin", "latin-ext"],
@@ -17,15 +19,46 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://bialgruz.pl"),
-  title: "BIALGRUZ - wynajem kontenerów - big-bagów - przenośnych toalet",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "BIALGRUZ - wynajem kontenerów, big-bagów i przenośnych toalet",
+    template: "%s | BIALGRUZ",
+  },
   description:
-    "Białgruz — wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
+    "Białgruz — wynajem toalet przenośnych oraz kontenerów i big bagów na odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie Białegostoku.",
+  keywords: [
+    "wynajem toalet przenośnych",
+    "wynajem kontenerów",
+    "kontener na gruz",
+    "big bag na gruz",
+    "wywóz gruzu Białystok",
+    "utylizacja odpadów budowlanych",
+    "toalety przenośne Białystok",
+    "kontenery na odpady Podlasie",
+  ],
+  authors: [{ name: "BIALGRUZ", url: SITE_URL }],
+  creator: "BIALGRUZ",
+  publisher: "BIALGRUZ",
+  category: "Budownictwo i usługi",
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.json",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "pl_PL",
-    url: "https://bialgruz.pl/",
+    url: SITE_URL,
     siteName: "BIALGRUZ",
     title: "BIALGRUZ - wynajem kontenerów, big-bagów i przenośnych toalet",
     description:
@@ -101,6 +134,9 @@ export default function RootLayout({ children }) {
         {/* End Meta Pixel Code */}
       </head>
       <body className="font-sans antialiased bg-ink-black text-white">
+        {/* Globalne dane strukturalne: LocalBusiness + WebSite (Google czyta je na każdej podstronie) */}
+        <JsonLd data={[localBusinessSchema(), websiteSchema()]} />
+
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NDCT6FF2" height="0" width="0" style={{ display: "none", visibility: "hidden" }}></iframe>

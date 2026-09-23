@@ -31,10 +31,10 @@ function Stat({ value, label }) {
   );
 }
 
-function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false }) {
+function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false, hasTopPadding = true }) {
   return (
     <motion.div
-      className="group relative flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center overflow-hidden px-6 py-12 sm:px-[52px] sm:py-12 md:py-12 lg:py-0"
+      className={`group relative mt-[2rem] flex h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden bg-diagonal px-6 ${hasTopPadding ? "pt-12" : "pt-0"} pb-4 sm:px-[60px] lg:h-[calc(100vh-2rem)] lg:py-8 items-stretch lg:items-center lg:justify-center lg:min-h-[calc(100dvh-4rem)] lg:mt-0 lg:h-auto`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -57,7 +57,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         className="pointer-events-none absolute bottom-0 right-0 hidden h-0 w-0 border-solid border-b-[80px] border-l-[80px] border-l-transparent border-b-white/[0.03] sm:block lg:border-b-[150px] lg:border-l-[150px]"
       />
 
-      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-col items-center justify-center gap-12 sm:gap-14 lg:flex-row lg:justify-between lg:gap-14">
+      <div className="relative z-[2] mx-auto flex h-full w-full max-w-[1300px] flex-1 flex-col items-center justify-evenly gap-6 lg:flex-row lg:justify-between lg:gap-14">
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h2 className="mb-5 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-6 sm:leading-[0.9] lg:mb-8 lg:leading-[0.85] lg:tracking-[-1.5px]">
@@ -95,7 +95,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         </div>
 
         {/* Obrazek */}
-        <div className={`relative flex w-full items-center justify-center lg:flex-none lg:justify-end lg:h-auto ${imgWidthClass}`}>
+        <div className={`relative flex h-full max-h-[60vh] w-full shrink items-center justify-center lg:max-h-[75vh] lg:flex-none lg:justify-end lg:h-auto ${imgWidthClass}`}>
           <Image
             src={img}
             alt={imgAlt}
@@ -104,7 +104,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
             sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 42vw"
             priority={index === 0}
             loading={index === 0 ? "eager" : "lazy"}
-            className="mx-auto h-auto max-h-[240px] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 sm:max-h-[300px] md:max-h-[340px] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full lg:group-hover:-translate-y-2.5 lg:group-hover:scale-105"
+            className="mx-auto h-auto max-h-[30vh] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 xs:max-h-[36vh] sm:max-h-[38vh] md:max-h-[34vh] lg:max-h-[55vh] lg:ml-auto lg:mr-0 lg:w-full lg:group-hover:-translate-y-2.5 lg:group-hover:scale-105"
           />
         </div>
       </div>
@@ -248,8 +248,9 @@ export default function HomePanels() {
           imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px] translate-x-[-18px] lg:translate-x-[0px]"
         />
 
-        <Panel
+                <Panel
           index={1}
+          hasTopPadding={false}
           title1="Big Bagi"
           title2="Na Odpady"
           chips={["Odpady budowlane", "Gruz", "Odbiór na telefon"]}

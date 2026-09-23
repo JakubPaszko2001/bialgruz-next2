@@ -7,11 +7,69 @@ import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Faq from "@/components/Faq";
+import JsonLd from "@/components/JsonLd";
+import { serviceSchema, faqSchema, breadcrumbSchema, abs } from "@/components/seoSite";
 
 export const metadata = {
-  title: "Kontenery i Big Bagi na odpady budowlane – BIALGRUZ",
-  description: "Wynajem kontenerów i big bagów na gruz oraz odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
+  title: "Kontenery i Big Bagi na odpady budowlane",
+  description:
+    "Wynajem kontenerów 5 m³ i 7 m³ oraz big bagów na gruz i odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w Białymstoku i regionie.",
+  keywords: [
+    "kontenery na gruz",
+    "wynajem kontenerów",
+    "kontener na odpady budowlane",
+    "wywóz gruzu Białystok",
+    "kontener 5m3",
+    "kontener 7m3",
+    "utylizacja odpadów budowlanych",
+  ],
+  alternates: { canonical: "/kontenery" },
+  openGraph: {
+    type: "website",
+    locale: "pl_PL",
+    url: abs("/kontenery"),
+    siteName: "BIALGRUZ",
+    title: "Kontenery i Big Bagi na odpady budowlane",
+    description:
+      "Wynajem kontenerów i big bagów na gruz oraz odpady budowlane. Szybkie podstawienie, wywóz i legalna utylizacja w regionie.",
+    images: [{ url: "/kontener-bialgruz.png", alt: "Kontener na gruz BIALGRUZ" }],
+  },
 };
+
+const FAQ_ITEMS = [
+  {
+    question: "Jaką pojemność mają Wasze kontenery?",
+    answer:
+      "Oferujemy kontenery o pojemności 5 m³ i 7 m³. Mniejszy sprawdzi się przy drobnych remontach, większy przy większych budowach. Dobór doradzimy telefonicznie.",
+  },
+  {
+    question: "Jak szybko podstawiacie kontener?",
+    answer:
+      "Standardowy czas podstawienia to 24–48h od potwierdzenia zamówienia. W pilnych przypadkach realizujemy podstawienie tego samego dnia — zadzwoń pod 799 091 000.",
+  },
+  {
+    question: "Czy wywóz i utylizacja są w cenie?",
+    answer:
+      "Tak. W cenie wynajmu zawarte jest podstawienie, wywóz oraz legalna utylizacja odpadów. Otrzymujesz komplet dokumentów odbioru odpadów.",
+  },
+  {
+    question: "Jakie odpady przyjmujecie?",
+    answer:
+      "Przyjmujemy gruz, beton, ziemię, piasek oraz odpady budowlane zmieszane. W razie wątpliwości dotyczących rodzaju odpadów skontaktuj się z nami — doradzimy.",
+  },
+  {
+    question: "Na jak długo mogę wynająć kontener?",
+    answer:
+      "Standardowy wynajem kontenera to kilka dni, ale możesz go trzymać tak długo, jak potrzebujesz. Przy dłuższych wynajmach oferujemy korzystniejsze stawki.",
+  },
+];
+
+const BREADCRUMBS = [
+  { name: "Strona główna", path: "/" },
+  { name: "Kontenery", path: "/kontenery" },
+];
 
 const phoneBlock = (
   <div className="flex flex-col gap-4 border-t border-white/[0.08] pt-6 md:flex-row md:items-stretch md:justify-center md:gap-6 lg:justify-start">
@@ -28,8 +86,8 @@ const phoneBlock = (
       </div>
     </div>
 
-    {/* Przejścia do innych podstron (bez własnej podstrony kontenerów) */}
-        <div className="hidden md:flex">
+    {/* Przejścia do innych podstron */}
+    <div className="hidden md:flex">
       <Link
         href="/bigbag"
         className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
@@ -50,7 +108,7 @@ const phoneBlock = (
         </span>
       </Link>
     </div>
-        <div className="hidden md:flex">
+    <div className="hidden md:flex">
       <Link
         href="/toalety-przenosne"
         className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
@@ -77,6 +135,18 @@ const phoneBlock = (
 export default function KonteneryPage() {
   return (
         <>
+      <JsonLd
+        data={[
+          serviceSchema({
+            name: "Wynajem kontenerów na odpady budowlane",
+            description:
+              "Kontenery 5 m³ i 7 m³ na gruz oraz odpady budowlane. Podstawienie, wywóz i legalna utylizacja w Białymstoku i regionie.",
+            path: "/kontenery",
+          }),
+          faqSchema(FAQ_ITEMS),
+          breadcrumbSchema(BREADCRUMBS),
+        ]}
+      />
       <SiteNav
         orderHref="#zamow"
         links={[
@@ -90,7 +160,7 @@ export default function KonteneryPage() {
       />
       <OfferTransition from="left">
         <Hero
-                    activePage="kontenery"
+          activePage="kontenery"
           titleTop="Kontenery"
           titleBottom="na odpady"
           desc="Wynajem kontenerów i big bagów na gruz oraz odpady budowlane — na każdą budowę, remont i inwestycję. Szybkie podstawienie, wywóz i legalna utylizacja w całym regionie."
@@ -111,7 +181,9 @@ export default function KonteneryPage() {
 
         <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
 
-                <OfferKontenery />
+        <Breadcrumbs items={BREADCRUMBS} />
+
+        <OfferKontenery />
 
         <Packages />
 
@@ -142,6 +214,7 @@ export default function KonteneryPage() {
         />
 
         <Contact mode="kontenery" />
+        <Faq items={FAQ_ITEMS} sub="Najczęstsze pytania o wynajem kontenerów na gruz i odpady budowlane." />
         <Locations />
         <ContactInfo />
         <Footer copy="© 2025 BIALGRUZ. Wynajem kontenerów i big bagów na odpady budowlane." />

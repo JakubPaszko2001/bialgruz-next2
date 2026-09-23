@@ -7,11 +7,68 @@ import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Faq from "@/components/Faq";
+import JsonLd from "@/components/JsonLd";
+import { serviceSchema, faqSchema, breadcrumbSchema, abs } from "@/components/seoSite";
 
 export const metadata = {
-    title: "Big Bagi 1 m³ na gruz i odpady budowlane – BIALGRUZ",
-  description: "Wynajem worków Big-Bag 1 m³ na gruz oraz odpady budowlane. Dowóz, podstawienie, wywóz i legalna utylizacja w regionie.",
+  title: "Big Bagi 1 m³ na gruz i odpady budowlane",
+  description:
+    "Wynajem worków Big-Bag 1 m³ na gruz i odpady budowlane. Dowóz, podstawienie, wypełnianie we własnym tempie, wywóz i legalna utylizacja w regionie.",
+  keywords: [
+    "big bag",
+    "big bag na gruz",
+    "worek big bag 1m3",
+    "wynajem big bag",
+    "odpady budowlane",
+    "wywóz gruzu Białystok",
+  ],
+  alternates: { canonical: "/bigbag" },
+  openGraph: {
+    type: "website",
+    locale: "pl_PL",
+    url: abs("/bigbag"),
+    siteName: "BIALGRUZ",
+    title: "Big Bagi 1 m³ na gruz i odpady budowlane",
+    description:
+      "Wynajem worków Big-Bag 1 m³ na gruz oraz odpady budowlane. Dowóz, podstawienie, wywóz i legalna utylizacja w regionie.",
+    images: [{ url: "/bigbag3.png", alt: "Big Bag na gruz BIALGRUZ" }],
+  },
 };
+
+const FAQ_ITEMS = [
+  {
+    question: "Ile pomieści worek Big-Bag?",
+    answer:
+      "Nasze worki Big-Bag mają pojemność 1 m³, co odpowiada ok. 1,5 tony gruzu. Idealnie sprawdzają się przy mniejszych remontach i pracach porządkowych.",
+  },
+  {
+    question: "Jak długo mogę trzymać worek Big-Bag?",
+    answer:
+      "Worek zostaje na miejscu tak długo, jak potrzebujesz — wypełniasz go we własnym tempie, bez presji czasu i przestojów na budowie.",
+  },
+  {
+    question: "Jak szybko odbieracie pełny Big-Bag?",
+    answer:
+      "Po zgłoszeniu odbieramy pełny worek w ciągu 48h i przekazujemy odpady do legalnej utylizacji.",
+  },
+  {
+    question: "Czy dowóz jest płatny?",
+    answer:
+      "Dowóz worka na terenie naszego regionu działania jest wliczony w cenę wynajmu — dowozimy, podstawiamy i odbieramy w jednej cenie.",
+  },
+  {
+    question: "Big-Bag czy kontener — co wybrać?",
+    answer:
+      "Big-Bag sprawdzi się przy małych i średnich ilościach odpadów oraz na działkach z ograniczonym dojazdem. Przy większych budowach lepszy będzie kontener 5 m³ lub 7 m³.",
+  },
+];
+
+const BREADCRUMBS = [
+  { name: "Strona główna", path: "/" },
+  { name: "Big Bagi", path: "/bigbag" },
+];
 
 const phoneBlock = (
   <div className="flex flex-col gap-4 border-t border-white/[0.08] pt-6 md:flex-row md:items-stretch md:justify-center md:gap-6 lg:justify-start">
@@ -77,6 +134,18 @@ const phoneBlock = (
 export default function BigbagPage() {
   return (
         <>
+      <JsonLd
+        data={[
+          serviceSchema({
+            name: "Wynajem worków Big-Bag 1 m³",
+            description:
+              "Worek Big-Bag 1 m³ na gruz i odpady budowlane. Dowóz, długie użytkowanie, szybki odbiór i legalna utylizacja w Białymstoku i regionie.",
+            path: "/bigbag",
+          }),
+          faqSchema(FAQ_ITEMS),
+          breadcrumbSchema(BREADCRUMBS),
+        ]}
+      />
       <SiteNav
         orderHref="#zamow"
         links={[
@@ -109,7 +178,9 @@ export default function BigbagPage() {
           ]}
         />
 
-        <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
+                <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
+
+        <Breadcrumbs items={BREADCRUMBS} />
 
                                 <OfferBigbag />
 
@@ -142,6 +213,7 @@ export default function BigbagPage() {
         />
 
         <Contact mode="bigbag" />
+        <Faq items={FAQ_ITEMS} sub="Najczęstsze pytania o worki Big-Bag na gruz i odpady budowlane." />
         <Locations />
         <ContactInfo />
         <Footer copy="© 2025 BIALGRUZ. Wynajem worków Big-Bag 1 m³ na odpady budowlane." />
