@@ -31,10 +31,10 @@ function Stat({ value, label }) {
   );
 }
 
-function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false, hasTopPadding = true }) {
+function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidthClass, index, titleGap = false, hasTopPadding = true, className = "" }) {
   return (
     <motion.div
-      className={`group relative mt-[2rem] flex h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden bg-diagonal px-6 ${hasTopPadding ? "pt-12" : "pt-0"} pb-4 sm:px-[60px] lg:h-[calc(100vh-2rem)] lg:py-8 items-stretch lg:items-center lg:justify-center lg:min-h-[calc(100dvh-4rem)] lg:mt-0 lg:h-auto`}
+      className={`group relative flex h-[calc(100svh-2rem)] w-full flex-col justify-between overflow-hidden bg-diagonal px-6 ${hasTopPadding ? "pt-12" : "pt-0"} pb-4 sm:px-[60px] lg:h-[calc(100vh-2rem)] lg:py-8 items-stretch lg:items-center lg:justify-center lg:min-h-[calc(100dvh-4rem)] lg:mt-0 lg:h-auto ${className}`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.12 }}
@@ -61,7 +61,7 @@ function Panel({ title1, title2, chips, desc, stats, href, img, imgAlt, imgWidth
         {/* Tekst */}
         <div className="flex w-full max-w-[640px] shrink-0 flex-col items-center text-center lg:items-start lg:text-left">
           <h2 className="mb-5 font-display font-black uppercase leading-[0.95] tracking-[-0.5px] sm:mb-6 sm:leading-[0.9] lg:mb-8 lg:leading-[0.85] lg:tracking-[-1.5px]">
-                                    <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
+            <span className="block text-[46px] text-white sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px]">
               {title1}
             </span>
             <span className={`block text-[46px] text-brand-yellow sm:text-[50px] md:text-[64px] lg:text-[96px] xl:text-[112px] ${titleGap ? "mt-[3px] md:mt-[20px]" : ""}`}>
@@ -230,9 +230,11 @@ export default function HomePanels() {
   return (
     <div className="flex flex-1 flex-col">
       <div className="bg-diagonal grid grid-cols-1">
-                <Panel
+        <Panel
           index={0}
           titleGap
+          hasTopPadding={false}
+          className="md:mt-[2rem] lg:mt-[4rem]"
           title1="Toalety"
           title2="przenośne"
           chips={["Plac budowy", "Eventy", "Serwis"]}
@@ -248,7 +250,7 @@ export default function HomePanels() {
           imgWidthClass="w-[75%] max-w-[320px] sm:max-w-[420px] lg:w-[38%] lg:max-w-[500px] translate-x-[-18px] lg:translate-x-[0px]"
         />
 
-                <Panel
+        <Panel
           index={1}
           hasTopPadding={false}
           title1="Big Bagi"
