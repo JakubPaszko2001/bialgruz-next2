@@ -12,7 +12,7 @@ export default function Faq({ items = [], title = "Częste pytania", sub }) {
 
   return (
     <section id="faq" className="bg-ink-black px-6 py-20 sm:px-[60px]">
-      <div className="mx-auto w-full max-w-[900px]">
+      <div className="mx-auto w-full max-w-7xl">
         <Reveal className="mb-10 text-center">
           <div className="mb-3 font-display text-[12px] font-bold uppercase tracking-[4px] text-brand-yellow">
             FAQ

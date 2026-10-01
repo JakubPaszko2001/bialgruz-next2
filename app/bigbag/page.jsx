@@ -7,7 +7,6 @@ import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
 import { serviceSchema, faqSchema, breadcrumbSchema, abs } from "@/components/seoSite";
@@ -86,8 +85,8 @@ const phoneBlock = (
     </div>
 
     {/* Przejścia do innych podstron (bez własnej podstrony kontenerów) */}
-        <div className="hidden md:flex">
-            <Link
+    <div className="hidden md:flex">
+      <Link
         href="/kontenery"
         className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
       >
@@ -107,7 +106,7 @@ const phoneBlock = (
         </span>
       </Link>
     </div>
-        <div className="hidden md:flex">
+    <div className="hidden md:flex">
       <Link
         href="/toalety-przenosne"
         className="group inline-flex h-full items-center justify-between gap-3 rounded-lg border border-white/15 bg-white/[0.07] py-2.5 pl-5 pr-4 backdrop-blur-md transition-all duration-300 hover:bg-brand-yellow lg:w-[224px]"
@@ -133,7 +132,7 @@ const phoneBlock = (
 
 export default function BigbagPage() {
   return (
-        <>
+    <>
       <JsonLd
         data={[
           serviceSchema({
@@ -178,11 +177,9 @@ export default function BigbagPage() {
           ]}
         />
 
-                <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
+        <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
 
-        <Breadcrumbs items={BREADCRUMBS} />
-
-                                <OfferBigbag />
+        <OfferBigbag />
 
         <Packages />
 

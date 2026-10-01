@@ -7,7 +7,6 @@ import Packages from "@/components/Packages";
 import OfferTransition from "@/components/OfferTransition";
 import Locations from "@/components/Locations";
 import ContactInfo from "@/components/ContactInfo";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
 import { serviceSchema, faqSchema, breadcrumbSchema, abs } from "@/components/seoSite";
@@ -134,7 +133,7 @@ const phoneBlock = (
 
 export default function KonteneryPage() {
   return (
-        <>
+    <>
       <JsonLd
         data={[
           serviceSchema({
@@ -180,8 +179,6 @@ export default function KonteneryPage() {
         />
 
         <Strip items={["Gruz i Beton", "Odpady Budowlane", "Ziemia i Piasek", "Odpady Zmieszane", "Big Bagi"]} />
-
-        <Breadcrumbs items={BREADCRUMBS} />
 
         <OfferKontenery />
 

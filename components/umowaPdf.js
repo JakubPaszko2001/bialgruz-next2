@@ -214,7 +214,7 @@ export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf", te
       doc.setFontSize(10);
       doc.setTextColor(52, 73, 94);
       // Podpisy nad liniami: po lewej stały podpis firmy, po prawej podpis zamawiającego
-      doc.text("Jarosław Czerniawski", margin, y - 4);
+      doc.text("Bialgruz Sp. z o.o.", margin, y - 4);
       if (data._signature) doc.text(data._signature, margin + half, y - 4);
       doc.text("__________________________", margin, y);
       doc.text("__________________________", margin + half, y);
