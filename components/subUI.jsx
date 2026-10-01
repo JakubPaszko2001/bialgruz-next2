@@ -128,21 +128,35 @@ export function Hero({
                 priority
                 className="mx-auto h-auto max-h-[30vh] w-auto object-contain drop-shadow-[0_24px_56px_rgba(0,0,0,0.7)] transition-transform duration-500 hover:scale-105 xs:max-h-[36vh] sm:max-h-[38vh] md:max-h-[34vh] lg:max-h-[68vh] lg:ml-auto lg:mr-0 lg:w-full"
               />
-              {stats.map((s, i) => (
-                <div
-                  key={i}
-                  className={`absolute z-[2] hidden rounded-lg border border-[rgba(207,220,0,0.2)] bg-ink-600 px-6 py-4 lg:block ${
-                    s.pos === "a" ? "right-[0px] top-12" : "bottom-16 left-[-10px]"
-                  }`}
-                >
-                  <div className="font-display text-[32px] font-black leading-none text-brand-yellow">
-                    {s.num}
+              {stats.map((s, i) => {
+                const isKontenery = activePage === "kontenery";
+                
+                let positionClasses = "";
+                if (isKontenery) {
+                  // top-[25% dla górnego i bottom-[25% dla dolnego – wartości w % lub px możesz dostosować
+                  positionClasses = s.pos === "a" 
+                    ? "right-[20px] top-[14%]" 
+                    : "bottom-[14%] left-[10px]";
+                } else {
+                  positionClasses = s.pos === "a" 
+                    ? "right-[0px] top-12" 
+                    : "bottom-16 left-[-10px]";
+                }
+
+                return (
+                  <div
+                    key={i}
+                    className={`absolute z-[2] hidden rounded-lg border border-[rgba(207,220,0,0.2)] bg-ink-600 px-6 py-4 lg:block ${positionClasses}`}
+                  >
+                    <div className="font-display text-[32px] font-black leading-none text-brand-yellow">
+                      {s.num}
+                    </div>
+                    <div className="mt-1 text-[12px] uppercase tracking-[1px] text-[#888]">
+                      {s.label}
+                    </div>
                   </div>
-                  <div className="mt-1 text-[12px] uppercase tracking-[1px] text-[#888]">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </Reveal>
         )}
