@@ -234,7 +234,7 @@ export default function HomePanels() {
           index={0}
           titleGap
           hasTopPadding={false}
-          className="md:mt-[2rem] lg:mt-[4rem]"
+          className="mt-[4rem] lg:mt-[4rem] pt-8"
           title1="Toalety"
           title2="przenośne"
           chips={["Plac budowy", "Eventy", "Serwis"]}
