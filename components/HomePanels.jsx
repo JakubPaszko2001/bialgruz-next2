@@ -252,6 +252,7 @@ export default function HomePanels() {
 
         <Panel
           index={1}
+          className="!py-4 md:!py-12"
           hasTopPadding={false}
           title1="Big Bagi"
           title2="Na Odpady"
