@@ -150,6 +150,7 @@ export default function KonteneryPage() {
         orderHref="#zamow"
         links={[
           { label: "Oferta", href: "#oferta" },
+          { label: "Pakiety", href: "#pakiety" },
           { label: "Dlaczego my", href: "#dlaczego" },
           { label: "Proces wynajmu", href: "#jak" },
           { label: "Zamów", href: "#zamow" },

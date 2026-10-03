@@ -190,7 +190,6 @@ const PACKAGE_SERVICES = Object.fromEntries(
 
 const SERVICE_LISTS = {
   kontenery: [
-    { key: "bigbag", label: "Big-Bag 1m³", sub: "od 299 zł brutto" },
     { key: "kontener", label: "Kontener", sub: "od 390 zł brutto" },
   ],
   bigbag: [

@@ -1,14 +1,6 @@
 ﻿import Reveal from "@/components/Reveal";
 import { Eyebrow, SectionTitle, check } from "@/components/subUI";
 
-const bigbagIcon = (
-  <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7">
-    <path d="M8 7.5V5.2a1.6 1.6 0 0 1 3.2 0V7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    <path d="M12.8 7.5V5.2a1.6 1.6 0 0 1 3.2 0V7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
-    <path d="M5.5 8h13l-1.3 11.6a1.2 1.2 0 0 1-1.2 1.1H8a1.2 1.2 0 0 1-1.2-1.1z" fill="currentColor" />
-  </svg>
-);
-
 const boxIcon = (
   <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
     <path d="M3 8h18l-2 10H5z" />
@@ -24,14 +16,6 @@ const bigBoxIcon = (
 );
 
 const CARDS = [
-  {
-    name: "Big-Bag", size: "1 m³", icon: bigbagIcon,
-    rows: [
-      { label: "Gruz", num: "299" },
-      { label: "Zmieszane", num: "390" },
-    ],
-    features: ["Worek Big-Bag 1 m³", "Podstawienie i odbiór", "Wywóz i utylizacja"],
-  },
   {
     name: "Kontener", size: "5 m³", icon: boxIcon, featured: true,
     rows: [
@@ -61,11 +45,11 @@ export default function OfferKontenery() {
             </SectionTitle>
           </div>
           <p className="max-w-[500px] text-[16px] leading-[1.7] text-[#cccccc]">
-            Oferujemy big bagi i kontenery różnej pojemności dopasowane do skali prac — od drobnych remontów po duże budowy i wyburzenia.
+            Oferujemy kontenery różnej pojemności dopasowane do skali prac — od drobnych remontów po duże budowy i wyburzenia.
           </p>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {CARDS.map((c, i) => (
             <Reveal key={i} delay={i * 0.1}>
               <div
@@ -118,7 +102,7 @@ export default function OfferKontenery() {
                 </ul>
 
                 <a
-                  href="#kontakt"
+                  href="#zamow"
                   className="flex items-center justify-center gap-2.5 rounded-md bg-brand-yellow px-5 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
                 >
                   Zamów →

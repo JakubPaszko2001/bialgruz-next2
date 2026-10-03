@@ -273,7 +273,7 @@ export function Contact({ mode }) {
     <section id="zamow" className="bg-ink-black px-6 py-16 text-center sm:px-[60px] sm:py-20">
       <div className="mx-auto w-full max-w-[1300px]">
         <Reveal>
-          <Eyebrow>Kontakt</Eyebrow>
+          <Eyebrow>Zamów</Eyebrow>
           <SectionTitle>
             Gotowy do
             <br />

@@ -116,7 +116,7 @@ export default function OfferToilets() {
                 </ul>
 
                 <a
-                  href="#kontakt"
+                  href="#zamow"
                   className="flex items-center justify-center gap-2.5 rounded-md bg-brand-yellow px-5 py-3.5 font-display text-[13px] font-bold uppercase tracking-[2px] text-white transition-colors hover:bg-brand-yellowDk"
                 >
                   Wybierz pakiet →
