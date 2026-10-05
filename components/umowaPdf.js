@@ -103,15 +103,23 @@ export const UMOWA_TYPES = {
   kontener: { template: "/UmowaKontener.html", table: "Zamówienia", map: orderToUmowaDataKontener },
 };
 
+// Pobiera surowy szablon umowy Z POMINIĘCIEM cache (Service Worker i HTTP), żeby po zmianie
+// treści umowy (np. dane Zleceniobiorcy) użytkownicy zawsze dostawali aktualną wersję.
+async function fetchTemplate(template) {
+  const res = await fetch(template, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Nie udało się pobrać szablonu: ${template}`);
+  return res.text();
+}
+
 // Zwraca wypełniony HTML szablonu (do podglądu w iframe)
 export async function buildUmowaHtml(data, template = "/Umowa.html") {
-  const raw = await (await fetch(template)).text();
+  const raw = await fetchTemplate(template);
   return raw.replace(/\{\{(\w+)\}\}/g, (_, k) => (data[k] != null ? data[k] : ""));
 }
 
 // Wypełnia szablon danymi i generuje PDF przez jsPDF (font DejaVu — polskie znaki OK, tekst zaznaczalny).
 export async function downloadUmowaPdf(data, filename = "umowa-BIALGRUZ.pdf", template = "/Umowa.html") {
-  const raw = await (await fetch(template)).text();
+  const raw = await fetchTemplate(template);
   const filled = raw.replace(/\{\{(\w+)\}\}/g, (_, k) => (data[k] != null ? data[k] : ""));
   const parsed = new DOMParser().parseFromString(filled, "text/html");
   const container = parsed.querySelector(".page-container") || parsed.body;

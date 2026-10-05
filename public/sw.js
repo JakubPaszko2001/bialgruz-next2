@@ -1,6 +1,6 @@
 /* BIALGRUZ service worker — cache po stronie klienta dla szybszych powrotów na stronę */
 // Zmień wersję przy każdym deployu, aby unieważnić cache-first dla zasobów statycznych
-const CACHE = "bialgruz-v2";
+const CACHE = "bialgruz-v3";
 
 // Instalacja — od razu aktywuj nową wersję
 self.addEventListener("install", (event) => {

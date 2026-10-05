@@ -4,6 +4,27 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Szablony umów (HTML) — NIE cache'ujemy, żeby po zmianie treści umowy
+        // (np. danych Zleceniobiorcy) użytkownicy zawsze dostawali aktualną wersję.
+        source: "/:path(Umowa|UmowaKontener).html",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
+      {
+        // Strony podpisu umowy (/umowa/...) — też bez cache, bo zawierają dane zamówienia.
+        source: "/umowa/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, must-revalidate",
+          },
+        ],
+      },
+      {
         // Obrazki, ikony i czcionki z /public — długi cache w przeglądarce klienta
         source: "/:path*.(png|jpg|jpeg|gif|webp|avif|svg|ico|woff|woff2)",
         headers: [
