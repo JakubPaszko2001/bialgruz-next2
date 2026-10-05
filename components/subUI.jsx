@@ -283,7 +283,7 @@ export function Contact({ mode }) {
             Wypełnij formularz online — wybierz usługę, a wycenę zobaczysz od razu na stronie.
           </p>
         </Reveal>
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} amount={0}>
           <div className="rounded-[18px] bg-[#0f1012] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] sm:p-8">
             <OrderForm mode={mode} />
           </div>
