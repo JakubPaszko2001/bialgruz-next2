@@ -4,6 +4,17 @@ const nextConfig = {
   async headers() {
     return [
       {
+        // Service worker i plik wersji — ZAWSZE bez cache.
+        // Bez tego przeglądarka trzyma stary sw.js i reset cache nie zadziała.
+        source: "/:path(sw.js|sw-version.json)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store, no-cache, must-revalidate, max-age=0",
+          },
+        ],
+      },
+      {
         // Szablony umów (HTML) — NIE cache'ujemy, żeby po zmianie treści umowy
         // (np. danych Zleceniobiorcy) użytkownicy zawsze dostawali aktualną wersję.
         source: "/:path(Umowa|UmowaKontener).html",

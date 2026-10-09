@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# generowane przy buildzie — wersja service workera
+/public/sw-version.json
+

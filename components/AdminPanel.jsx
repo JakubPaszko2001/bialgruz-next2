@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "./supabaseClient";
-import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown, FaFilePdf, FaFileContract, FaSignOutAlt } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSort, FaSortUp, FaSortDown, FaFilePdf, FaFileContract, FaSignOutAlt, FaSyncAlt } from "react-icons/fa";
 import { downloadUmowaPdf, UMOWA_TYPES, generateLinkToken, linkExpiryDate } from "./umowaPdf";
+import { resetAppCache } from "./ServiceWorkerRegister";
 
 /* ── Style tokens (spójne z formularzem zamówień) ── */
 const inputCls =
@@ -292,6 +293,13 @@ export default function AdminPanel({ onLogout, table = "Zamówienia", title = "P
               }`}
           >
             {viewArchive ? "Pokaż aktywne" : "Archiwum"}
+          </button>
+                    <button
+            onClick={() => resetAppCache()}
+            title="Wyczyść cache i Service Workera, po czym przeładuj aplikację"
+            className="flex items-center gap-2 rounded-full border border-[#2a2b30] px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.3px] text-[#7a7a82] transition-all hover:border-gold hover:text-gold"
+          >
+            <FaSyncAlt /> Odśwież aplikację
           </button>
           <button
             onClick={onLogout}
